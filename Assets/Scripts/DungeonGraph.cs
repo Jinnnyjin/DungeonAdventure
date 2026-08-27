@@ -1,10 +1,11 @@
-
 using System;
 using System.Collections.Generic;
 
+/// <summary>Room 그래프 저장소</summary>
 public class DungeonGraph 
 {
     private Dictionary<int, Room> rooms = new Dictionary<int, Room>();
+    // 읽기 전용 순회용
     public IEnumerable<Room> AllRooms => rooms.Values;
 
 
