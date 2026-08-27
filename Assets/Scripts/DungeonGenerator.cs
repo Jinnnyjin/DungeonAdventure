@@ -85,7 +85,8 @@ public class DungeonGenerator
             currentPos = nextPos;
             attempts++;
         }
-        
+        Debug.Log($"목표: {targetCount}, 실제: {occupied.Count}, 사용한 시도: {attempts}");
+
         return graph;
     }
 
