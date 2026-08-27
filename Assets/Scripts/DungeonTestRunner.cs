@@ -6,11 +6,15 @@ public class DungeonTestRunner : MonoBehaviour
     [SerializeField] private int maxRooms;
     [SerializeField] private int maxAttempts;
 
+    [SerializeField] private DungeonRenderer dungeonRenderer;
+
     void Start()
     {
         DungeonGenerator generator = new DungeonGenerator(minRooms,maxRooms,maxAttempts);
 
         DungeonGraph graph = generator.Generate();
+
+        dungeonRenderer.RenderDungeon(graph);
 
         foreach (var rooms in graph.AllRooms)
         {
