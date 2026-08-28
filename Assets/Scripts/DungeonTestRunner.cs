@@ -17,6 +17,9 @@ public class DungeonTestRunner : MonoBehaviour
 
         DungeonGraph graph = generator.Generate();
 
+        DungeonTypeAssigner typeAssigner = new DungeonTypeAssigner();
+        typeAssigner.AssignBossRoom(graph);
+
         dungeonRenderer.RenderDungeon(graph);
 
         foreach (var rooms in graph.AllRooms)
