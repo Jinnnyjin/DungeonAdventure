@@ -9,11 +9,12 @@ public class DungeonGenerator
     private readonly int maxAttempts;
     private static readonly Vector2Int[] Direction = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
 
-    public DungeonGenerator(int minRooms, int maxRooms, int maxAttempts)
+    public DungeonGenerator(int minRooms, int maxRooms, int maxAttempts, bool useFixedSeed, int seed)
     {
         this.minRooms = minRooms;
         this.maxRooms = maxRooms;
         this.maxAttempts = maxAttempts;
+        if (useFixedSeed) Random.InitState(seed);
     }
 
     public DungeonGraph Generate()
