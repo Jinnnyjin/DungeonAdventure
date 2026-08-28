@@ -1,15 +1,26 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class DungeonTestRunner : MonoBehaviour
 {
+    [Header("던전 그리드")]
     [SerializeField] private  int minRooms;
     [SerializeField] private int maxRooms;
     [SerializeField] private int maxAttempts;
     [SerializeField] private bool useFixedSeed;
     [SerializeField] private int seed;
-
     [SerializeField] private DungeonRenderer dungeonRenderer;
+
+    [Header("방 타일")]
+    [SerializeField] private int width;
+    [SerializeField] private int height;
+    [SerializeField] private int tileMaxAttempts;
+    [SerializeField] private float wallRatio;
+    [SerializeField] private float roughRatio;
+
+
+
 
     void Start()
     {
@@ -34,6 +45,26 @@ public class DungeonTestRunner : MonoBehaviour
         foreach (var kvp in distances)
         {
             Debug.Log($"Room {kvp.Key} — 거리: {kvp.Value}");
+        }
+
+        //===============================================================================
+        TileGridGenerator tileGridGenerator = new TileGridGenerator(width,height, tileMaxAttempts, wallRatio,roughRatio);
+        RoomTileGrid roomTile = tileGridGenerator.Generate();
+
+        for (int y = 0; y < roomTile.Height; y++)
+        {
+            StringBuilder line = new StringBuilder();
+
+            for (int x = 0; x < roomTile.Width; x++)
+            {
+                Vector2Int pos = new Vector2Int(x, y);
+                TileType curType = roomTile.GetTile(pos);
+                if (curType == TileType.Normal) line.Append(". ");
+                else if (curType == TileType.Wall) line.Append("# ");
+                else line.Append("~ ");
+
+            }
+            Debug.Log(line.ToString());
         }
     }
 }

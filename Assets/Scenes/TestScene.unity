@@ -373,7 +373,14 @@ MonoBehaviour:
   minRooms: 5
   maxRooms: 10
   maxAttempts: 100
+  useFixedSeed: 0
+  seed: 10
   dungeonRenderer: {fileID: 1457122736}
+  width: 5
+  height: 5
+  tileMaxAttempts: 50
+  wallRatio: 0.2
+  roughRatio: 0.4
 --- !u!4 &1457122735
 Transform:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ public class DungeonGenerator
     private readonly int minRooms;
     private readonly int maxRooms;
     private readonly int maxAttempts;
-    private static readonly Vector2Int[] Direction = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
 
     public DungeonGenerator(int minRooms, int maxRooms, int maxAttempts, bool useFixedSeed, int seed)
     {
@@ -45,7 +44,7 @@ public class DungeonGenerator
         while(occupied.Count < targetCount && attempts < maxAttempts)
         {
             // 다음 방 위치
-            Vector2Int dir = Direction[Random.Range(0, Direction.Length)];
+            Vector2Int dir = GridDirections.Direction[Random.Range(0, GridDirections.Direction.Length)];
             Vector2Int nextPos = currentPos + dir;
 
             // 현재 방
