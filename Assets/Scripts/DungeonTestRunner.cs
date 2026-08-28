@@ -19,6 +19,7 @@ public class DungeonTestRunner : MonoBehaviour
 
         DungeonTypeAssigner typeAssigner = new DungeonTypeAssigner();
         typeAssigner.AssignBossRoom(graph);
+        typeAssigner.AssignTreasureRoom(graph);
 
         dungeonRenderer.RenderDungeon(graph);
 

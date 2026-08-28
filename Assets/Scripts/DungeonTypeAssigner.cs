@@ -1,9 +1,12 @@
 using System.Collections.Generic;
-using Unity.Android.Gradle;
+using System.Linq;
+using UnityEngine;
 
 public class DungeonTypeAssigner
 {
-    
+    private const int ROOMS_PER = 3;
+
+
     public void AssignBossRoom(DungeonGraph graph)
     {
         int farDistance = -1;
@@ -33,6 +36,38 @@ public class DungeonTypeAssigner
         // 보스 방으로 설정
         Room bossRoom = graph.GetRoom(roomId);
         bossRoom.Type = RoomType.Boss;
+
+    }
+
+    public void AssignTreasureRoom(DungeonGraph graph)
+    {
+        List<Room> normalRooms = new List<Room>();
+
+        foreach (var room in graph.AllRooms)
+        {
+            if(room.Type == RoomType.Normal)
+            {
+                normalRooms.Add(room);
+            }
+        }
+
+        for(int i = normalRooms.Count - 1 ; i > 0; i-- )
+        {
+            int randomIndex = Random.Range(0, i + 1);
+
+            Room tmp = normalRooms[randomIndex];
+            normalRooms[randomIndex] = normalRooms[i];
+            normalRooms[i] = tmp;
+
+        }
+
+        // 보물방의 수 방 개수 / 3 
+        int treasureCount = Mathf.CeilToInt((float) normalRooms.Count / ROOMS_PER);
+
+        for (int i = 0; i < treasureCount; i++)
+        {
+            normalRooms[i].Type = RoomType.Treasure;
+        }
 
     }
 }
