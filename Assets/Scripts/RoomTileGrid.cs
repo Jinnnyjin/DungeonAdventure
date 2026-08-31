@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum TileType { Normal, Wall, Rough}
@@ -31,39 +30,26 @@ public class RoomTileGrid
     }
 
 
-    public bool IsAllReachable()
+    public bool IsAllReachable(Vector2Int startPos)
     {
-        Vector2Int? startPos = null;
         int nonWallCount = 0; 
         
-        // Wall제외 아무 칸 1곳 뽑기 + Wall개수 구하기
+        // Wall개수 구하기
         for (int x = 0; x < Width; x++)
         {
             for (int y = 0; y < Height; y++)
             {
                 Vector2Int pos = new Vector2Int(x, y);
-                if(GetTile(pos) != TileType.Wall)
-                {
-                    nonWallCount++;
-                    if (startPos == null)
-                    {
-                        startPos = pos;
-                    }
-                }
+                if (GetTile(pos) != TileType.Wall) nonWallCount++;
             }
-        }
-
-        if (startPos == null)
-        {
-            throw new InvalidOperationException("Wall이 아닌 타일이 하나도 없습니다.");
         }
 
         // 시작점부터 BFS 돌리기, WALL 제외 모두 닿을 수 있는지
         HashSet<Vector2Int> visited = new HashSet<Vector2Int> ();
         Queue<Vector2Int> position = new Queue<Vector2Int>();
 
-        visited.Add(startPos.Value);
-        position.Enqueue(startPos.Value);
+        visited.Add(startPos);
+        position.Enqueue(startPos);
 
         while (position.Count > 0)
         {

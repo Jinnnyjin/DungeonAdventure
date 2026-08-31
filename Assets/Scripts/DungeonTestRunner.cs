@@ -48,8 +48,14 @@ public class DungeonTestRunner : MonoBehaviour
         }
 
         //===============================================================================
+        // 방 내부 타일
+
+        RoomDoorCalculator doorCalculator = new RoomDoorCalculator();
+        Room testRoom = graph.GetRoom(0);
+        List<Vector2Int> doorPositions = doorCalculator.ComputeDoorPositions(testRoom, graph, width, height);
+
         TileGridGenerator tileGridGenerator = new TileGridGenerator(width,height, tileMaxAttempts, wallRatio,roughRatio);
-        RoomTileGrid roomTile = tileGridGenerator.Generate();
+        RoomTileGrid roomTile = tileGridGenerator.Generate(doorPositions);
 
         for (int y = 0; y < roomTile.Height; y++)
         {
