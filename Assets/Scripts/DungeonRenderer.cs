@@ -1,38 +1,99 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class DungeonRenderer : MonoBehaviour
 {
-    [SerializeField] private GameObject roomPrefab;
-    [SerializeField] private float ratio;
+    [SerializeField] private Tilemap tilemap;
+
+    [SerializeField] private TileBase floorTile;
+    [SerializeField] private TileBase roughTile;
+    [SerializeField] private TileBase barrierTile;
+
+    [SerializeField] private TileBase wallUp;
+    [SerializeField] private TileBase wallDown;
+    [SerializeField] private TileBase wallLeft;
+    [SerializeField] private TileBase wallRight;
+    [SerializeField] private TileBase wallUpLeft;
+    [SerializeField] private TileBase wallUpRight;
+    [SerializeField] private TileBase wallDownLeft;
+    [SerializeField] private TileBase wallDownRight;
+
+    [SerializeField] private int tileWidth;
+    [SerializeField] private int tileHeight;
+    [SerializeField] private int maxAttempts;
+    [SerializeField] private float wallRatio;
+    [SerializeField] private float roughRatio;
 
     public void RenderDungeon(DungeonGraph graph)
     {
-        foreach (var rooms in graph.AllRooms)
+        RoomDoorCalculator doorCalculator = new RoomDoorCalculator();
+        TileGridGenerator gridGenerator = new TileGridGenerator(tileWidth, tileHeight, maxAttempts, wallRatio, roughRatio);
+        DungeonGridConverter converter = new DungeonGridConverter();
+        WallDirectionCalculator directionCalculator = new WallDirectionCalculator();
+
+        // 그래프 내 각 방 순회
+        foreach (Room room in graph.AllRooms)
         {
-            
-            Vector3 worldPos = new Vector3(rooms.GridPos.x * ratio, rooms.GridPos.y * ratio, 0f);
+            // 문 위치 계산
+            List<Vector2Int> doorPositions = doorCalculator.ComputeDoorPositions(room, graph, tileWidth, tileHeight);
 
-            GameObject room = Instantiate(roomPrefab, worldPos, Quaternion.identity);
-            SpriteRenderer roomColor = room.GetComponent<SpriteRenderer>();
+            // 타일 그리드 생성
+            RoomTileGrid roomTile = gridGenerator.Generate(doorPositions);
 
-            roomColor.color = GetRoomColor(rooms.Type);
-        }
-    }
+            // 오프셋 계산
+            Vector2Int offset = converter.GetRoomOffset(room, tileWidth, tileHeight);
+            Debug.Log($"Room {room.Id} offset: {offset}");
 
-    // 우선은 방 스프라이트 대신 색 변경
-    private Color GetRoomColor(RoomType type)
-    {
-        switch (type)
-        {
-            case RoomType.Start:
-                return Color.white;
-            case RoomType.Treasure:
-                return Color.yellow;
-            case RoomType.Boss:
-                return Color.black;
-            default:
-                return Color.blue;
+            // 방 칸 순회
+            for (int x = 0; x < tileWidth; x++)
+            {
+                for (int y = 0; y < tileHeight; y++)
+                {
+                    Vector2Int localPos = new Vector2Int(x, y);
+                    bool isBorder = localPos.x == 0 || localPos.x == tileWidth - 1
+                        || localPos.y == 0 || localPos.y == tileHeight - 1;
+                    TileType curType = roomTile.GetTile(localPos);
+
+                    TileBase tile = null;
+
+                    if (curType == TileType.Normal)
+                    {
+                        tile = floorTile;
+                    }
+                    else if (curType == TileType.Rough)
+                    {
+                        tile = roughTile;
+                    }
+                    else if (curType == TileType.Wall)
+                    {
+
+                        if (isBorder)
+                        {
+                            WallDirection dir = directionCalculator.GetWallDirection(localPos, tileWidth, tileHeight);
+                            switch (dir)
+                            {
+                                case WallDirection.Up: tile = wallUp; break;
+                                case WallDirection.Down: tile = wallDown; break;
+                                case WallDirection.Left: tile = wallLeft; break;
+                                case WallDirection.Right: tile = wallRight; break;
+                                case WallDirection.UpRight: tile = wallUpRight; break;
+                                case WallDirection.UpLeft: tile = wallUpLeft; break;
+                                case WallDirection.DownRight: tile = wallDownRight; break;
+                                case WallDirection.DownLeft: tile = wallDownLeft; break;
+                            }
+                        }
+                        else
+                        {
+                            tile = barrierTile;
+                        }
+                    }
+
+                    //분기 종료
+                    Vector2Int worldPos = offset + localPos;
+                    tilemap.SetTile(new Vector3Int(worldPos.x, worldPos.y, 0), tile);
+                }
+            }
         }
     }
 }

@@ -12,16 +12,6 @@ public class DungeonTestRunner : MonoBehaviour
     [SerializeField] private int seed;
     [SerializeField] private DungeonRenderer dungeonRenderer;
 
-    [Header("방 타일")]
-    [SerializeField] private int width;
-    [SerializeField] private int height;
-    [SerializeField] private int tileMaxAttempts;
-    [SerializeField] private float wallRatio;
-    [SerializeField] private float roughRatio;
-
-
-
-
     void Start()
     {
         DungeonGenerator generator = new DungeonGenerator(minRooms,maxRooms,maxAttempts,useFixedSeed,seed);
@@ -45,32 +35,6 @@ public class DungeonTestRunner : MonoBehaviour
         foreach (var kvp in distances)
         {
             Debug.Log($"Room {kvp.Key} — 거리: {kvp.Value}");
-        }
-
-        //===============================================================================
-        // 방 내부 타일
-
-        RoomDoorCalculator doorCalculator = new RoomDoorCalculator();
-        Room testRoom = graph.GetRoom(0);
-        List<Vector2Int> doorPositions = doorCalculator.ComputeDoorPositions(testRoom, graph, width, height);
-
-        TileGridGenerator tileGridGenerator = new TileGridGenerator(width,height, tileMaxAttempts, wallRatio,roughRatio);
-        RoomTileGrid roomTile = tileGridGenerator.Generate(doorPositions);
-
-        for (int y = 0; y < roomTile.Height; y++)
-        {
-            StringBuilder line = new StringBuilder();
-
-            for (int x = 0; x < roomTile.Width; x++)
-            {
-                Vector2Int pos = new Vector2Int(x, y);
-                TileType curType = roomTile.GetTile(pos);
-                if (curType == TileType.Normal) line.Append(". ");
-                else if (curType == TileType.Wall) line.Append("# ");
-                else line.Append("~ ");
-
-            }
-            Debug.Log(line.ToString());
         }
     }
 }
