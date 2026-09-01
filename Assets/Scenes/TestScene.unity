@@ -606,6 +606,7 @@ MonoBehaviour:
   maxAttempts: 50
   wallRatio: 0.15
   roughRatio: 0.1
+  roomEventChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
 --- !u!1 &1600295674
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +666,7 @@ GameObject:
   - component: {fileID: 1756469331}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

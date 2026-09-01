@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -25,6 +26,8 @@ public class DungeonRenderer : MonoBehaviour
     [SerializeField] private float wallRatio;
     [SerializeField] private float roughRatio;
 
+    public RoomEventChannel roomEventChannel;
+
     public void RenderDungeon(DungeonGraph graph)
     {
         RoomDoorCalculator doorCalculator = new RoomDoorCalculator();
@@ -44,6 +47,17 @@ public class DungeonRenderer : MonoBehaviour
             // 오프셋 계산
             Vector2Int offset = converter.GetRoomOffset(room, tileWidth, tileHeight);
             Debug.Log($"Room {room.Id} offset: {offset}");
+
+            GameObject roomMap = new GameObject("Room_" + room.Id);
+            roomMap.transform.position = GetRoomCenterWorldPos(room);
+
+            BoxCollider2D roomCollider = roomMap.AddComponent<BoxCollider2D>();
+            roomCollider.isTrigger = true;
+            roomCollider.size = new Vector2(tileWidth, tileHeight);
+
+            RoomTrigger roomTrigger = roomMap.AddComponent<RoomTrigger>();
+            roomTrigger.EnteringRoom = room;
+            roomTrigger.roomEventChannel = roomEventChannel;
 
             // 방 칸 순회
             for (int x = 0; x < tileWidth; x++)
