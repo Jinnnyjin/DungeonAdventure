@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using System.Text;
-using UnityEditor.Toolbars;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class DungeonTestRunner : MonoBehaviour
@@ -13,7 +12,13 @@ public class DungeonTestRunner : MonoBehaviour
     [SerializeField] private int seed;
     [SerializeField] private DungeonRenderer dungeonRenderer;
 
+    [Header("현재 상황")]
     [SerializeField] private GameObject player;
+    private Room currentRoom;
+
+    [Header("이벤트")]
+    public RoomEventChannel roomEnteredChannel;
+    public RoomEventChannel roomClearedChannel;
 
     void Start()
     {
@@ -40,6 +45,7 @@ public class DungeonTestRunner : MonoBehaviour
         // 시작방 센터 좌표
         Vector3 startPoint = dungeonRenderer.GetRoomCenterWorldPos(startRoom);
         player.transform.position = startPoint;
+        currentRoom = startRoom; 
 
         // 현재 기준, Start방 id는 0고정
         Dictionary<int, int> distances = graph.ComputeDistances(0);
@@ -47,6 +53,30 @@ public class DungeonTestRunner : MonoBehaviour
         foreach (var kvp in distances)
         {
             Debug.Log($"Room {kvp.Key} — 거리: {kvp.Value}");
+        }
+    }
+
+    private void OnEnable()
+    {
+        roomEnteredChannel.OnEventRaised += OnRoomEntered;
+    }
+
+    private void OnDisable()
+    {
+        roomEnteredChannel.OnEventRaised -= OnRoomEntered;
+    }
+
+    private void OnRoomEntered(Room room)
+    {
+        currentRoom = room;
+        Debug.Log(currentRoom);
+    }
+
+    private void Update()
+    {
+        if(Keyboard.current.fKey.wasPressedThisFrame)
+        {
+            roomClearedChannel.Raise(currentRoom);
         }
     }
 }

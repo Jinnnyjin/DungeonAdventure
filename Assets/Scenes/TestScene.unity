@@ -562,6 +562,8 @@ MonoBehaviour:
   seed: 10
   dungeonRenderer: {fileID: 1457122736}
   player: {fileID: 1756469330}
+  roomEnteredChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
+  roomClearedChannel: {fileID: 11400000, guid: 9cabf6c80dda3ca4cbf144a905576cff, type: 2}
 --- !u!4 &1457122735
 Transform:
   m_ObjectHideFlags: 0
@@ -606,7 +608,8 @@ MonoBehaviour:
   maxAttempts: 50
   wallRatio: 0.15
   roughRatio: 0.1
-  roomEventChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
+  roomEnterChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
+  roomClearChannel: {fileID: 11400000, guid: 9cabf6c80dda3ca4cbf144a905576cff, type: 2}
 --- !u!1 &1600295674
 GameObject:
   m_ObjectHideFlags: 0

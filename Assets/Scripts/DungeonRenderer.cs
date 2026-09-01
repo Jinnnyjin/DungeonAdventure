@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class DungeonRenderer : MonoBehaviour
 {
+    [Header("타일")]
     [SerializeField] private Tilemap tilemap;
-
     [SerializeField] private TileBase floorTile;
     [SerializeField] private TileBase roughTile;
     [SerializeField] private TileBase barrierTile;
@@ -26,7 +27,10 @@ public class DungeonRenderer : MonoBehaviour
     [SerializeField] private float wallRatio;
     [SerializeField] private float roughRatio;
 
-    public RoomEventChannel roomEventChannel;
+    [Header("그 외")]
+    public RoomEventChannel roomEnterChannel;
+    public RoomEventChannel roomClearChannel;
+    private Dictionary<int, RoomRuntimeData> runData = new Dictionary<int, RoomRuntimeData>();
 
     public void RenderDungeon(DungeonGraph graph)
     {
@@ -48,16 +52,43 @@ public class DungeonRenderer : MonoBehaviour
             Vector2Int offset = converter.GetRoomOffset(room, tileWidth, tileHeight);
             Debug.Log($"Room {room.Id} offset: {offset}");
 
+            // 방 콜라이더
             GameObject roomMap = new GameObject("Room_" + room.Id);
             roomMap.transform.position = GetRoomCenterWorldPos(room);
 
-            BoxCollider2D roomCollider = roomMap.AddComponent<BoxCollider2D>();
-            roomCollider.isTrigger = true;
-            roomCollider.size = new Vector2(tileWidth, tileHeight);
-
+            BoxCollider2D roomcollider = roomMap.AddComponent<BoxCollider2D>();
+            roomcollider.isTrigger = true;
+            roomcollider.size = new Vector2(tileWidth, tileHeight);
+            
+            // 방 트리거
             RoomTrigger roomTrigger = roomMap.AddComponent<RoomTrigger>();
             roomTrigger.EnteringRoom = room;
-            roomTrigger.roomEventChannel = roomEventChannel;
+            roomTrigger.roomEventChannel = roomEnterChannel;
+
+            // 방 RuntimeData 설정
+            RoomRuntimeData roomRuntimeData = new RoomRuntimeData();
+            roomRuntimeData.room = room;
+            roomRuntimeData.doors = new List<GameObject>();
+            runData[room.Id] = roomRuntimeData;
+
+            // RuntimeData -> doors
+            foreach(Vector2Int doorLocalPos in doorPositions)
+            {
+                Vector2Int worldPos = offset + doorLocalPos;
+                GameObject door = new GameObject();
+                door.transform.position = tilemap.GetCellCenterWorld(new Vector3Int(worldPos.x, worldPos.y, 0));
+
+                BoxCollider2D boxCollider = door.AddComponent<BoxCollider2D>();
+                boxCollider.isTrigger = false;
+                // 데이터 추가
+                roomRuntimeData.doors.Add(door);
+
+                // 문 이벤트 채널 연결
+                DoorGate doorGate = door.AddComponent<DoorGate>();
+                doorGate.room = room;
+                doorGate.roomClearChannel = roomClearChannel;
+                doorGate.roomEnterChannel = roomEnterChannel;
+            }
 
             // 방 칸 순회
             for (int x = 0; x < tileWidth; x++)
