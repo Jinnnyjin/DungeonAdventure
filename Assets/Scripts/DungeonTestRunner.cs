@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using UnityEditor.Toolbars;
 using UnityEngine;
 
 public class DungeonTestRunner : MonoBehaviour
@@ -11,6 +12,8 @@ public class DungeonTestRunner : MonoBehaviour
     [SerializeField] private bool useFixedSeed;
     [SerializeField] private int seed;
     [SerializeField] private DungeonRenderer dungeonRenderer;
+
+    [SerializeField] private GameObject player;
 
     void Start()
     {
@@ -24,10 +27,19 @@ public class DungeonTestRunner : MonoBehaviour
 
         dungeonRenderer.RenderDungeon(graph);
 
+        Room startRoom = null;
         foreach (var rooms in graph.AllRooms)
         {
-            Debug.Log($"Room {rooms.Id} ({rooms.Type}) at {rooms.GridPos}, 인접: {string.Join(",", rooms.ConnectedRoomIds)}");
+            if(rooms.Type == RoomType.Start)
+            {
+                startRoom = rooms;
+                break;
+            }
         }
+
+        // 시작방 센터 좌표
+        Vector3 startPoint = dungeonRenderer.GetRoomCenterWorldPos(startRoom);
+        player.transform.position = startPoint;
 
         // 현재 기준, Start방 id는 0고정
         Dictionary<int, int> distances = graph.ComputeDistances(0);

@@ -96,4 +96,19 @@ public class DungeonRenderer : MonoBehaviour
             }
         }
     }
+
+    // TODO : 장애물 / ROUGH 타일 위 스폰 방지 필요(RoomTileGrid 저장 구조 만들 때 같이 처리)
+    // 방의 중심 월드 좌표 구하는 함수(offset => 방 내 중앙 칸 => 월드좌표)
+    public Vector3 GetRoomCenterWorldPos(Room room)
+    {
+        DungeonGridConverter gridconverter = new DungeonGridConverter();
+        Vector2Int offset = gridconverter.GetRoomOffset(room, tileWidth, tileHeight);
+
+        int x = offset.x + (tileWidth / 2);
+        int y = offset.y + (tileHeight / 2);
+
+        Vector3Int centerPos = new Vector3Int(x, y, 0);
+
+        return tilemap.GetCellCenterWorld(centerPos);
+    }
 }
