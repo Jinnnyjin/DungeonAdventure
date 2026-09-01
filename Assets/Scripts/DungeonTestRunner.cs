@@ -15,6 +15,8 @@ public class DungeonTestRunner : MonoBehaviour
     [Header("현재 상황")]
     [SerializeField] private GameObject player;
     private Room currentRoom;
+    [SerializeField] private GameObject meleePrefab;
+    [SerializeField] private GameObject rangedPrefab;
 
     [Header("이벤트")]
     public RoomEventChannel roomEnteredChannel;
@@ -31,6 +33,9 @@ public class DungeonTestRunner : MonoBehaviour
         typeAssigner.AssignTreasureRoom(graph);
 
         dungeonRenderer.RenderDungeon(graph);
+
+        MonsterSpawnAssigner spawnAssigner = new MonsterSpawnAssigner(meleePrefab, rangedPrefab);
+        spawnAssigner.AssignMonsters(graph, dungeonRenderer);
 
         Room startRoom = null;
         foreach (var rooms in graph.AllRooms)

@@ -31,6 +31,7 @@ public class DungeonRenderer : MonoBehaviour
     public RoomEventChannel roomEnterChannel;
     public RoomEventChannel roomClearChannel;
     private Dictionary<int, RoomRuntimeData> runData = new Dictionary<int, RoomRuntimeData>();
+    [SerializeField] private MonsterSpawner monsterSpawner;
 
     public void RenderDungeon(DungeonGraph graph)
     {
@@ -58,17 +59,20 @@ public class DungeonRenderer : MonoBehaviour
 
             BoxCollider2D roomcollider = roomMap.AddComponent<BoxCollider2D>();
             roomcollider.isTrigger = true;
-            roomcollider.size = new Vector2(tileWidth, tileHeight);
+            roomcollider.size = new Vector2(tileWidth - 3, tileHeight - 3);
             
             // 방 트리거
             RoomTrigger roomTrigger = roomMap.AddComponent<RoomTrigger>();
             roomTrigger.EnteringRoom = room;
             roomTrigger.roomEventChannel = roomEnterChannel;
+            roomTrigger.dungeonRenderer = this;
+            roomTrigger.spawner = monsterSpawner;
 
             // 방 RuntimeData 설정
             RoomRuntimeData roomRuntimeData = new RoomRuntimeData();
             roomRuntimeData.room = room;
             roomRuntimeData.doors = new List<GameObject>();
+            roomRuntimeData.monsterPrefabs = new List<GameObject>();
             runData[room.Id] = roomRuntimeData;
 
             // RuntimeData -> doors
@@ -86,6 +90,7 @@ public class DungeonRenderer : MonoBehaviour
                 // 문 이벤트 채널 연결
                 DoorGate doorGate = door.AddComponent<DoorGate>();
                 doorGate.room = room;
+                doorGate.dungeonRenderer = this;
                 doorGate.roomClearChannel = roomClearChannel;
                 doorGate.roomEnterChannel = roomEnterChannel;
             }
@@ -154,6 +159,11 @@ public class DungeonRenderer : MonoBehaviour
 
         Vector3Int centerPos = new Vector3Int(x, y, 0);
 
-        return tilemap.GetCellCenterWorld(centerPos);
+        return tilemap.CellToWorld(centerPos);
+    }
+
+    public RoomRuntimeData GetRoomRuntimeData(int roomId)
+    {
+        return runData[roomId];
     }
 }

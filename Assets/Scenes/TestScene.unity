@@ -562,6 +562,8 @@ MonoBehaviour:
   seed: 10
   dungeonRenderer: {fileID: 1457122736}
   player: {fileID: 1756469330}
+  meleePrefab: {fileID: 6994163755847079111, guid: d22a0fd91399dbc49815841bce203adf, type: 3}
+  rangedPrefab: {fileID: 0}
   roomEnteredChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
   roomClearedChannel: {fileID: 11400000, guid: 9cabf6c80dda3ca4cbf144a905576cff, type: 2}
 --- !u!4 &1457122735
@@ -610,6 +612,7 @@ MonoBehaviour:
   roughRatio: 0.1
   roomEnterChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
   roomClearChannel: {fileID: 11400000, guid: 9cabf6c80dda3ca4cbf144a905576cff, type: 2}
+  monsterSpawner: {fileID: 0}
 --- !u!1 &1600295674
 GameObject:
   m_ObjectHideFlags: 0

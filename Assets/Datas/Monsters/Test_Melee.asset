@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd510006d872eeb4c8e580066644e945, type: 3}
+  m_Name: Test_Melee
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  MonsterName: "\uADFC\uC811"
+  Health: 10
+  MoveSpeed: 3
+  DetectionRange: 2
+  AttackBehavior: {fileID: 11400000, guid: 636efae62dab2474c8a87361feeb61a1, type: 2}
