@@ -73,6 +73,7 @@ public class DungeonRenderer : MonoBehaviour
             roomRuntimeData.room = room;
             roomRuntimeData.doors = new List<GameObject>();
             roomRuntimeData.monsterPrefabs = new List<GameObject>();
+            roomRuntimeData.tileGrid = roomTile;
             runData[room.Id] = roomRuntimeData;
 
             // RuntimeData -> doors
