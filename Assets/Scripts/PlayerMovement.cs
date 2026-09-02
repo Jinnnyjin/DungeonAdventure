@@ -3,11 +3,12 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    private Rigidbody2D playerRb;
-    private PlayerInputActions playerInput;
-
     // TODO : 추후 플레이어 스탯과 연동 예정
     [SerializeField] private float moveSpeed;
+    public Vector2 LastMoveDir {  get; private set; }
+
+    private Rigidbody2D playerRb;
+    private PlayerInputActions playerInput;
 
     void Awake()
     {
@@ -32,5 +33,10 @@ public class PlayerMovement : MonoBehaviour
         Vector2 velocity = moveInput * moveSpeed ;
 
         playerRb.linearVelocity = velocity;
+
+        if (velocity != Vector2.zero)
+        {
+            LastMoveDir = moveInput.normalized;
+        }
     }
 }

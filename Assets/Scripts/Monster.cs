@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Monster : MonoBehaviour, IDamageable
@@ -82,8 +81,9 @@ public class Monster : MonoBehaviour, IDamageable
     public void TakeDamage(int amount)
     {
         curHp -= amount;
+        Debug.Log($"플레이어 -> 몬스터 공격, 남은 HP: {curHp}");
 
-        if(curHp <= 0)
+        if (curHp <= 0)
         {
             Die();
         }
