@@ -9,5 +9,6 @@ public class RoomRuntimeData
     public RoomTileGrid tileGrid;
     public bool isSpawned = false;
     public bool isCleared = false;
+    public int[,] distanceField;
 }
 

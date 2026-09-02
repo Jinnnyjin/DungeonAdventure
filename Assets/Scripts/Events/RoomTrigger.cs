@@ -17,17 +17,20 @@ public class RoomTrigger : MonoBehaviour
 
             RoomRuntimeData runtimeData = dungeonRenderer.GetRoomRuntimeData(EnteringRoom.Id);
 
+            Vector2Int playerLocalPos = dungeonRenderer.GetLocalPos(EnteringRoom, collision.transform.position);
+            runtimeData.distanceField = runtimeData.tileGrid.ComputeDistanceField(playerLocalPos);
+
             if (!runtimeData.isSpawned)
             {
                 List<Vector2Int> spawnPositions = spawner.GetSpawnPositions(runtimeData.tileGrid, runtimeData.monsterPrefabs.Count);
 
-                // 그럼 for문으로?
-
                 for (int i = 0; i < runtimeData.monsterPrefabs.Count; i++)
                 {
                     Vector3 spawnPos = dungeonRenderer.GetWorldPos(EnteringRoom, spawnPositions[i]);
-                    Debug.Log(spawnPos);
-                    spawner.SpawnMonster(runtimeData.monsterPrefabs[i], spawnPos);
+                    Monster monster = spawner.SpawnMonster(runtimeData.monsterPrefabs[i], spawnPos);
+                    monster.runtimeData = runtimeData;
+                    monster.dungeonRenderer = dungeonRenderer;
+                    monster.playerTransform = collision.transform;
                 }
                 runtimeData.isSpawned = true;
             }
