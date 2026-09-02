@@ -558,7 +558,7 @@ MonoBehaviour:
   minRooms: 5
   maxRooms: 10
   maxAttempts: 100
-  useFixedSeed: 1
+  useFixedSeed: 0
   seed: 10
   dungeonRenderer: {fileID: 1457122736}
   player: {fileID: 1756469330}
