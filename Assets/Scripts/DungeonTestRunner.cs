@@ -83,5 +83,23 @@ public class DungeonTestRunner : MonoBehaviour
         {
             roomClearedChannel.Raise(currentRoom);
         }
+
+        if (Keyboard.current.gKey.wasPressedThisFrame)
+        {
+            RoomTileGrid tileGrid = dungeonRenderer.GetRoomRuntimeData(currentRoom.Id).tileGrid;
+            Vector2Int testPos = new Vector2Int(tileGrid.Width / 2, tileGrid.Height / 2);
+            int[,] distances = tileGrid.ComputeDistanceField(testPos);
+
+            for (int y = tileGrid.Height - 1; y >= 0; y--)
+            {
+                string row = "";
+                for (int x = 0; x < tileGrid.Width; x++)
+                {
+                    int d = distances[x, y];
+                    row += (d == int.MaxValue ? "#" : d.ToString()) + "\t";
+                }
+                Debug.Log(row);
+            }
+        }
     }
 }
