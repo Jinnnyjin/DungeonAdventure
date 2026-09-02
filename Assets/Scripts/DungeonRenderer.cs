@@ -178,6 +178,15 @@ public class DungeonRenderer : MonoBehaviour
         return tilemap.GetCellCenterWorld(worldCenterPos); 
     }
 
+    public Vector3 GetWorldPos(Room room, Vector2Int localPos)
+    {
+        DungeonGridConverter converter = new DungeonGridConverter();
+        Vector2Int offset = converter.GetRoomOffset(room, tileWidth, tileHeight);
+
+        Vector3Int worldPos = new Vector3Int(localPos.x + offset.x, localPos.y + offset.y, 0);
+
+        return tilemap.GetCellCenterWorld(worldPos);
+    }
 
     public RoomRuntimeData GetRoomRuntimeData(int roomId)
     {

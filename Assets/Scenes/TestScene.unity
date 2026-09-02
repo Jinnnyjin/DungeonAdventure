@@ -645,6 +645,7 @@ MonoBehaviour:
   monsterPrefabs:
   - {fileID: 6994163755847079111, guid: d22a0fd91399dbc49815841bce203adf, type: 3}
   - {fileID: 5856303156211705400, guid: e130f9b92c40725498d1c469ad6b3009, type: 3}
+  minDistance: 2
 --- !u!4 &1554110242
 Transform:
   m_ObjectHideFlags: 0

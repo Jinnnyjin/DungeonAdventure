@@ -6,6 +6,9 @@ public class MonsterSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] monsterPrefabs;
     private Dictionary<GameObject, ObjectPool<Monster>> monsterPool = new Dictionary<GameObject, ObjectPool<Monster>>();
+    [SerializeField] private int minDistance;
+
+
 
     private void Awake()
     {
@@ -23,10 +26,10 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    public Monster SpawnMonster(GameObject monsterPrefab)
+    public Monster SpawnMonster(GameObject monsterPrefab, Vector3 worldPos)
     {
         Monster monster = monsterPool[monsterPrefab].Get();
-
+        monster.transform.position = worldPos;
         return monster;
     }
 
@@ -34,5 +37,11 @@ public class MonsterSpawner : MonoBehaviour
     {
         monsterPool[monsterPrefab].Release(monster);
 
+    }
+
+    public List<Vector2Int> GetSpawnPositions(RoomTileGrid tileGrid, int count)
+    {
+        MonsterSpawnPositionCalclulator calclulator = new MonsterSpawnPositionCalclulator();
+        return calclulator.CalculateSpawnPositions(tileGrid, count, minDistance);
     }
 }
