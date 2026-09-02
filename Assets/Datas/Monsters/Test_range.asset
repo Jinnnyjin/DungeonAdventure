@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd510006d872eeb4c8e580066644e945, type: 3}
   m_Name: Test_range
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
-  MonsterName: "\uADFC\uC811"
+  MonsterName: "\uC6D0\uAC70\uB9AC"
   Health: 10
   MoveSpeed: 3
   DetectionRange: 2
-  AttackBehavior: {fileID: 11400000, guid: 636efae62dab2474c8a87361feeb61a1, type: 2}
+  AttackBehavior: {fileID: 11400000, guid: 6adb58885ad3802448968ce26d38d899, type: 2}

@@ -558,12 +558,12 @@ MonoBehaviour:
   minRooms: 5
   maxRooms: 10
   maxAttempts: 100
-  useFixedSeed: 0
-  seed: 10
+  useFixedSeed: 1
+  seed: 12
   dungeonRenderer: {fileID: 1457122736}
   player: {fileID: 1756469330}
   meleePrefab: {fileID: 6994163755847079111, guid: d22a0fd91399dbc49815841bce203adf, type: 3}
-  rangedPrefab: {fileID: 0}
+  rangedPrefab: {fileID: 5856303156211705400, guid: e130f9b92c40725498d1c469ad6b3009, type: 3}
   roomEnteredChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
   roomClearedChannel: {fileID: 11400000, guid: 9cabf6c80dda3ca4cbf144a905576cff, type: 2}
 --- !u!4 &1457122735
@@ -612,7 +612,54 @@ MonoBehaviour:
   roughRatio: 0.1
   roomEnterChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
   roomClearChannel: {fileID: 11400000, guid: 9cabf6c80dda3ca4cbf144a905576cff, type: 2}
-  monsterSpawner: {fileID: 0}
+  monsterSpawner: {fileID: 1554110241}
+--- !u!1 &1554110240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1554110242}
+  - component: {fileID: 1554110241}
+  m_Layer: 0
+  m_Name: Test_Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1554110241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554110240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7b8d215db6e834a90c6dc19c3dae72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSpawner
+  monsterPrefabs:
+  - {fileID: 6994163755847079111, guid: d22a0fd91399dbc49815841bce203adf, type: 3}
+  - {fileID: 5856303156211705400, guid: e130f9b92c40725498d1c469ad6b3009, type: 3}
+--- !u!4 &1554110242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554110240}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.55431, y: 1.22641, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1600295674
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,7 +848,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1425348939, guid: 1d3126755d1732248af7ce528cbcac8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1133,3 +1180,4 @@ SceneRoots:
   - {fileID: 175006450}
   - {fileID: 1756469335}
   - {fileID: 577981150}
+  - {fileID: 1554110242}
