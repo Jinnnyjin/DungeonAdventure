@@ -1,19 +1,18 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Monster : MonoBehaviour, IDamageable
 {
     [SerializeField] private MonsterData monsterData;
     public RoomRuntimeData runtimeData;
-
     public DungeonRenderer dungeonRenderer;
-
-    private Rigidbody2D rb;
-
-    public Transform playerTransform;
-
-    private int curHp;
     public MonsterSpawner spawner;
     public GameObject sourcePrefab;
+    public Transform playerTransform;
+    private Rigidbody2D rb;
+
+    private int curHp;
+    private float lastAttackTime;
 
     private void OnEnable()
     {
@@ -21,32 +20,11 @@ public class Monster : MonoBehaviour, IDamageable
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void TakeDamage(int amount)
-    {
-        curHp -= amount;
-
-        if(curHp <= 0)
-        {
-            Die();
-        }
-    }
-    private void Die()
-    {
-        // 방의 spawnedMonsters에서 자신 제거
-        runtimeData.spawnedMonsters.Remove(this);
-
-        // 제거 후 리스트가 비었으면 → 방 클리어 이벤트 발행
-        if (runtimeData.spawnedMonsters.Count == 0)
-        {
-            dungeonRenderer.roomClearChannel.Raise(runtimeData.room);
-        }
-
-        // 오브젝트 풀에 반납 (SetActive(false) + spawner.ReleaseMonster)
-        spawner.ReleaseMonster(sourcePrefab, this);
-    }
 
     private void FixedUpdate()
     {
+        TryAttack();
+
         if (runtimeData == null || runtimeData.distanceField == null) return;
 
         Vector2Int playerLocalPos = dungeonRenderer.GetLocalPos(runtimeData.room, playerTransform.position);
@@ -84,5 +62,45 @@ public class Monster : MonoBehaviour, IDamageable
 
         Vector2 velocity = new Vector2(bestDir.x, bestDir.y).normalized * monsterData.MoveSpeed;
         rb.linearVelocity = velocity;
+    }
+
+    private void TryAttack()
+    {
+        float distance = Vector3.Distance(transform.position, playerTransform.position);
+
+        if(distance <= monsterData.AttackBehavior.AttackRange)
+        {
+            if(Time.time - lastAttackTime >= monsterData.AttackBehavior.Cooldown)
+            {
+                monsterData.AttackBehavior.Attack(transform, playerTransform);
+                lastAttackTime = Time.time;
+            }
+        }
+
+    }
+
+    public void TakeDamage(int amount)
+    {
+        curHp -= amount;
+
+        if(curHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        // 방의 spawnedMonsters에서 자신 제거
+        runtimeData.spawnedMonsters.Remove(this);
+
+        // 제거 후 리스트가 비었으면 → 방 클리어 이벤트 발행
+        if (runtimeData.spawnedMonsters.Count == 0)
+        {
+            dungeonRenderer.roomClearChannel.Raise(runtimeData.room);
+        }
+
+        // 오브젝트 풀에 반납 (SetActive(false) + spawner.ReleaseMonster)
+        spawner.ReleaseMonster(sourcePrefab, this);
     }
 }

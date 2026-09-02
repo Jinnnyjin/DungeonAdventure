@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackSO
   AttackRange: 1
   Damage: 1
+  Cooldown: 3

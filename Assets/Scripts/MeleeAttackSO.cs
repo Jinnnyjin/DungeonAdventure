@@ -5,6 +5,11 @@ public class MeleeAttackSO : AttackBehaviorSO
 {
     public override void Attack(Transform attacker, Transform target)
     {
-        Debug.Log("근접 공격");
+        IDamageable damageable = target.GetComponent<IDamageable>();
+
+        if (damageable != null)
+        {
+            damageable.TakeDamage((int)Damage);
+        }
     }
 }
