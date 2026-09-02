@@ -31,6 +31,9 @@ public class RoomTrigger : MonoBehaviour
                     monster.runtimeData = runtimeData;
                     monster.dungeonRenderer = dungeonRenderer;
                     monster.playerTransform = collision.transform;
+                    monster.spawner = spawner;
+                    monster.sourcePrefab = runtimeData.monsterPrefabs[i];
+                    runtimeData.spawnedMonsters.Add(monster);
                 }
                 runtimeData.isSpawned = true;
             }

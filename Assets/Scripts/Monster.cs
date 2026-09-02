@@ -12,6 +12,8 @@ public class Monster : MonoBehaviour, IDamageable
     public Transform playerTransform;
 
     private int curHp;
+    public MonsterSpawner spawner;
+    public GameObject sourcePrefab;
 
     private void OnEnable()
     {
@@ -25,8 +27,22 @@ public class Monster : MonoBehaviour, IDamageable
 
         if(curHp <= 0)
         {
-            Debug.Log("Die");
+            Die();
         }
+    }
+    private void Die()
+    {
+        // 방의 spawnedMonsters에서 자신 제거
+        runtimeData.spawnedMonsters.Remove(this);
+
+        // 제거 후 리스트가 비었으면 → 방 클리어 이벤트 발행
+        if (runtimeData.spawnedMonsters.Count == 0)
+        {
+            dungeonRenderer.roomClearChannel.Raise(runtimeData.room);
+        }
+
+        // 오브젝트 풀에 반납 (SetActive(false) + spawner.ReleaseMonster)
+        spawner.ReleaseMonster(sourcePrefab, this);
     }
 
     private void FixedUpdate()

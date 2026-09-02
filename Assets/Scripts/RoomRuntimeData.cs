@@ -10,5 +10,6 @@ public class RoomRuntimeData
     public bool isSpawned = false;
     public bool isCleared = false;
     public int[,] distanceField;
+    public List<Monster> spawnedMonsters;
 }
 

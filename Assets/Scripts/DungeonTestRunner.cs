@@ -81,7 +81,14 @@ public class DungeonTestRunner : MonoBehaviour
     {
         if(Keyboard.current.fKey.wasPressedThisFrame)
         {
-            roomClearedChannel.Raise(currentRoom);
+            RoomRuntimeData runtimeData = dungeonRenderer.GetRoomRuntimeData(currentRoom.Id);
+
+            // 순회 중에 리스트에서 제거되니 역순으로 순회하거나 복사본을 만들어야 함
+            List<Monster> monstersCopy = new List<Monster>(runtimeData.spawnedMonsters);
+            foreach (Monster monster in monstersCopy)
+            {
+                monster.TakeDamage(9999);
+            }
         }
 
         if (Keyboard.current.gKey.wasPressedThisFrame)
