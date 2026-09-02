@@ -73,4 +73,40 @@ public class RoomTileGrid
 
         return visited.Count == nonWallCount;
     }
+
+    public Vector2Int FindNearestNormalTile(Vector2Int startPos)
+    {
+        if (GetTile(startPos) == TileType.Normal) return startPos;
+
+        HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+        Queue<Vector2Int> queue = new Queue<Vector2Int>();
+
+        visited.Add(startPos);
+        queue.Enqueue(startPos);
+
+        while (queue.Count > 0)
+        {
+            Vector2Int curPos = queue.Dequeue();
+
+            foreach (Vector2Int dir in GridDirections.Direction)
+            {
+                Vector2Int nextPos = curPos + dir;
+
+                bool inBounds = nextPos.x < Width && nextPos.x >= 0 && nextPos.y < Height && nextPos.y >= 0;
+                if (!inBounds) continue;
+                if (visited.Contains(nextPos)) continue;
+
+                if (GetTile(nextPos) == TileType.Normal)
+                {
+                    return nextPos;
+                }
+
+                visited.Add(nextPos);
+                queue.Enqueue(nextPos);
+            }
+
+        }
+
+        throw new InvalidOperationException("방 안에 Normal 타일이 존재하지 않습니다.");
+    }
 }

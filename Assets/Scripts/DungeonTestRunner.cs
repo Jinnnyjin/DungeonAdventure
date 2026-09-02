@@ -48,7 +48,7 @@ public class DungeonTestRunner : MonoBehaviour
         }
 
         // 시작방 센터 좌표
-        Vector3 startPoint = dungeonRenderer.GetRoomCenterWorldPos(startRoom);
+        Vector3 startPoint = dungeonRenderer.GetPlayerSpawnWorldPos(startRoom);
         player.transform.position = startPoint;
         currentRoom = startRoom; 
 

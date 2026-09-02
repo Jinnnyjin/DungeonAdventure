@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -162,6 +163,21 @@ public class DungeonRenderer : MonoBehaviour
 
         return tilemap.CellToWorld(centerPos);
     }
+
+    // 노멀칸
+    public Vector3 GetPlayerSpawnWorldPos(Room room)
+    {
+        DungeonGridConverter gridconverter = new DungeonGridConverter();
+        Vector2Int offset = gridconverter.GetRoomOffset(room, tileWidth, tileHeight);
+
+        Vector2Int localCenterPos = new Vector2Int(tileWidth / 2, tileHeight / 2);
+        Vector2Int localSpawnPos = GetRoomRuntimeData(room.Id).tileGrid.FindNearestNormalTile(localCenterPos);
+
+        Vector3Int worldCenterPos = new Vector3Int(localSpawnPos.x + offset.x, localSpawnPos.y +  offset.y, 0);
+        Debug.Log($"중앙: {localCenterPos}, 보정된 스폰: {localSpawnPos}, 타일타입: {GetRoomRuntimeData(room.Id).tileGrid.GetTile(localSpawnPos)}");
+        return tilemap.GetCellCenterWorld(worldCenterPos); 
+    }
+
 
     public RoomRuntimeData GetRoomRuntimeData(int roomId)
     {
