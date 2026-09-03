@@ -20,7 +20,7 @@ public class MonsterSpawner : MonoBehaviour
 
     public List<Vector2Int> GetSpawnPositions(RoomTileGrid tileGrid, int count)
     {
-        MonsterSpawnPositionCalclulator calclulator = new MonsterSpawnPositionCalclulator();
-        return calclulator.CalculateSpawnPositions(tileGrid, count, minDistance);
+        MonsterSpawnPositionCalculator calculator = new MonsterSpawnPositionCalculator();
+        return calculator.CalculateSpawnPositions(tileGrid, count, minDistance);
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterSpawnPositionCalclulator
+public class MonsterSpawnPositionCalculator
 {
     public List<Vector2Int> CalculateSpawnPositions(RoomTileGrid tileGrid, int count, int minDistance)
     {
