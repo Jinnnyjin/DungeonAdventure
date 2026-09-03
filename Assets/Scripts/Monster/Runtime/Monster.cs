@@ -2,28 +2,72 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour, IDamageable
 {
+    private enum MonsterState { Idle, Chase, Attack }
+
     [SerializeField] private MonsterData monsterData;
     public RoomRuntimeData runtimeData;
     public DungeonRenderer dungeonRenderer;
     public MonsterSpawner spawner;
     public GameObject sourcePrefab;
     public Transform playerTransform;
-    private Rigidbody2D rb;
 
+    private Rigidbody2D rb;
     private int curHp;
     private float lastAttackTime;
+    private MonsterState curState;
 
     private void OnEnable()
     {
         curHp = monsterData.Health;
         rb = GetComponent<Rigidbody2D>();
+        curState = MonsterState.Idle;
     }
 
 
     private void FixedUpdate()
     {
-        TryAttack();
+        // 상태 판단
+        float distance = Vector3.Distance(playerTransform.position, rb.position);
+        if (distance > monsterData.DetectionRange)
+        {
+            curState = MonsterState.Idle;
+        }
+        else if (distance > monsterData.AttackBehavior.AttackRange)
+        {
+            curState = MonsterState.Chase;
+        }
+        else { curState = MonsterState.Attack; }
 
+        // 상태 별 행동 분기
+
+        switch (curState)
+        {
+            case MonsterState.Idle:
+                rb.linearVelocity = Vector2.zero;
+                return;
+
+            case MonsterState.Attack:
+                rb.linearVelocity = Vector2.zero;
+                TryAttack();
+                return;
+
+            case MonsterState.Chase:
+                Chase();
+                return;
+        }
+    }
+
+    private void TryAttack()
+    {
+        if (Time.time - lastAttackTime >= monsterData.AttackBehavior.Cooldown)
+        {
+            monsterData.AttackBehavior.Attack(transform, playerTransform);
+            lastAttackTime = Time.time;
+        }
+    }
+
+    private void Chase()
+    {
         if (runtimeData == null || runtimeData.distanceField == null) return;
 
         Vector2Int localPos = dungeonRenderer.GetLocalPos(runtimeData.room, transform.position);
@@ -34,7 +78,7 @@ public class Monster : MonoBehaviour, IDamageable
         Vector2Int bestDir = Vector2Int.zero;
         int bestDist = runtimeData.distanceField[localPos.x, localPos.y];
 
-        foreach(Vector2Int dir in GridDirections.Direction)
+        foreach (Vector2Int dir in GridDirections.Direction)
         {
             Vector2Int nextPos = localPos + dir;
 
@@ -53,21 +97,6 @@ public class Monster : MonoBehaviour, IDamageable
 
         Vector2 velocity = new Vector2(bestDir.x, bestDir.y).normalized * monsterData.MoveSpeed;
         rb.linearVelocity = velocity;
-    }
-
-    private void TryAttack()
-    {
-        float distance = Vector3.Distance(transform.position, playerTransform.position);
-
-        if(distance <= monsterData.AttackBehavior.AttackRange)
-        {
-            if(Time.time - lastAttackTime >= monsterData.AttackBehavior.Cooldown)
-            {
-                monsterData.AttackBehavior.Attack(transform, playerTransform);
-                lastAttackTime = Time.time;
-            }
-        }
-
     }
 
     public void TakeDamage(int amount)
