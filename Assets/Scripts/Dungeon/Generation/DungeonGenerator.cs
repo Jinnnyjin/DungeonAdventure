@@ -8,9 +8,11 @@ public class DungeonGenerator
     private readonly int maxRooms;
     private readonly int maxAttempts;
 
+    private const int MIN_ROOMS_FLOOR = 2;  // Normal방 최소 확보를 위한 하한선
+
     public DungeonGenerator(int minRooms, int maxRooms, int maxAttempts, bool useFixedSeed, int seed)
     {
-        this.minRooms = minRooms;
+        this.minRooms = Mathf.Max(minRooms, MIN_ROOMS_FLOOR);
         this.maxRooms = maxRooms;
         this.maxAttempts = maxAttempts;
         if (useFixedSeed) Random.InitState(seed);
