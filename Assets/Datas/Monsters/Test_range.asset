@@ -15,5 +15,5 @@ MonoBehaviour:
   MonsterName: "\uC6D0\uAC70\uB9AC"
   Health: 10
   MoveSpeed: 3
-  DetectionRange: 2
+  DetectionRange: 3
   AttackBehavior: {fileID: 11400000, guid: 6adb58885ad3802448968ce26d38d899, type: 2}

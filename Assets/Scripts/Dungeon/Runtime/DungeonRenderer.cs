@@ -53,6 +53,7 @@ public class DungeonRenderer : MonoBehaviour
 
             // 방 콜라이더
             GameObject roomMap = new GameObject("Room_" + room.Id);
+            roomMap.layer = LayerMask.NameToLayer("RoomBounds");
             roomMap.transform.position = GetRoomCenterWorldPos(room);
 
             BoxCollider2D roomcollider = roomMap.AddComponent<BoxCollider2D>();
