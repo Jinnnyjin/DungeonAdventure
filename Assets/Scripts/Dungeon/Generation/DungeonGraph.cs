@@ -11,6 +11,13 @@ public class DungeonGraph
 
     public Room GetRoom(int Id)
     {
+        bool found = rooms.TryGetValue(Id, out Room room);
+
+        if (!found)
+        {
+            throw new ArgumentException($"{Id} 번호를 가진 방은 없음");
+        }
+
         return rooms[Id];
     }
 
