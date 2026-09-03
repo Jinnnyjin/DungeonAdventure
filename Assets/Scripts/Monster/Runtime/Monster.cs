@@ -26,14 +26,6 @@ public class Monster : MonoBehaviour, IDamageable
 
         if (runtimeData == null || runtimeData.distanceField == null) return;
 
-        Vector2Int playerLocalPos = dungeonRenderer.GetLocalPos(runtimeData.room, playerTransform.position);
-        bool playerInBounds = playerLocalPos.x >= 0 && playerLocalPos.y >= 0
-        && playerLocalPos.x < runtimeData.tileGrid.Width && playerLocalPos.y < runtimeData.tileGrid.Height;
-        if (playerInBounds)
-        {
-            runtimeData.distanceField = runtimeData.tileGrid.ComputeDistanceField(playerLocalPos);
-        }
-
         Vector2Int localPos = dungeonRenderer.GetLocalPos(runtimeData.room, transform.position);
         bool selfInBounds = localPos.x >= 0 && localPos.y >= 0
         && localPos.x < runtimeData.tileGrid.Width && localPos.y < runtimeData.tileGrid.Height;
