@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public enum TileType { Normal, Wall, Rough }
@@ -79,7 +78,7 @@ public class RoomTileGrid
 
     public Vector2Int FindNearestNormalTile(Vector2Int startPos)
     {
-        if (GetTile(startPos) == TileType.Normal) return startPos;
+        if (IsSpawnable(startPos)) return startPos;
 
         HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
         Queue<Vector2Int> queue = new Queue<Vector2Int>();
@@ -99,7 +98,7 @@ public class RoomTileGrid
                 if (!inBounds) continue;
                 if (visited.Contains(nextPos)) continue;
 
-                if (GetTile(nextPos) == TileType.Normal)
+                if (IsSpawnable(nextPos))
                 {
                     return nextPos;
                 }
@@ -166,5 +165,10 @@ public class RoomTileGrid
         }
 
         return distances;
+    }
+
+    public bool IsSpawnable(Vector2Int pos)
+    {
+        return GetTile(pos) == TileType.Normal;
     }
 }

@@ -13,7 +13,7 @@ public class MonsterSpawnPositionCalculator
             for (int y = 0; y < tileGrid.Height; y++)
             {
                 Vector2Int pos = new Vector2Int(x, y);
-                if (tileGrid.GetTile(pos) == TileType.Normal)
+                if (tileGrid.IsSpawnable(pos))
                 {
                     normalTiles.Add(pos);
                 }
