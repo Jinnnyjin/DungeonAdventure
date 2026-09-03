@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74c7fc20de15de4da7a633463a79f46, type: 3}
   m_Name: '[Ranged]A'
   m_EditorClassIdentifier: Assembly-CSharp::RangedAttackSO
-  AttackRange: 2
+  AttackRange: 5
   Damage: 1
-  Cooldown: 3
-  ProjectilePrefab: {fileID: 0}
-  ProjectileSpeed: 0
+  Cooldown: 1
+  ProjectilePrefab: {fileID: 3834872148925956820, guid: 853ad0ab45ee1644aa98c5aea71b87e9, type: 3}
+  ProjectileSpeed: 2

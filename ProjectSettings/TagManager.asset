@@ -8,13 +8,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Monster
   - MonsterProjectile
   - PlayerProjectile
-  - 
+  - RoomBounds
   - 
   - 
   - 
@@ -40,6 +40,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 1918475221
+    locked: 0
+  - name: Actors
+    uniqueID: 423928701
     locked: 0
   m_RenderingLayers:
   - Default

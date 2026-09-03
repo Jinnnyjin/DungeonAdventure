@@ -80,9 +80,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: 423928701
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 931736202, guid: d59e01867a680c646875e5cac073a7d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -108,6 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Monster
   monsterData: {fileID: 11400000, guid: 4b3560df0ed9fa843acd3ec7d66bce46, type: 2}
   dungeonRenderer: {fileID: 0}
+  spawner: {fileID: 0}
+  sourcePrefab: {fileID: 0}
   playerTransform: {fileID: 0}
 --- !u!50 &-6641002103517345696
 Rigidbody2D:
