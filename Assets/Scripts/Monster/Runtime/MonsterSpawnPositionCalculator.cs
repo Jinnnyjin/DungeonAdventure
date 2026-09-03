@@ -23,7 +23,7 @@ public class MonsterSpawnPositionCalculator
         // Fisher-Yates 셔플
         for (int i = normalTiles.Count - 1; i > 0; i --)
         {
-            int randomIndex = Random.Range(0, i);
+            int randomIndex = Random.Range(0, i+1);
 
             Vector2Int tmp = normalTiles[randomIndex];
             normalTiles[randomIndex] = normalTiles[i];

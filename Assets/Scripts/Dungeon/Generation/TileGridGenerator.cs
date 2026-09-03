@@ -60,7 +60,7 @@ public class TileGridGenerator
             // 2. 리스트 랜덤으로 섞기 (Fisher-Yates 셔플)
             for (int i = innerTiles.Count -1 ; i > 0; i--)
             {
-                int randomIndex = UnityEngine.Random.Range(0, i);
+                int randomIndex = UnityEngine.Random.Range(0, i+1);
 
                 Vector2Int tmp = innerTiles[randomIndex];
                 innerTiles[randomIndex] = innerTiles[i];
