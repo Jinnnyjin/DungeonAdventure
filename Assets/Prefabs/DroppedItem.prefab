@@ -142,4 +142,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroppedItem
   SourcePrefab: {fileID: 0}
-  item: {fileID: 0}

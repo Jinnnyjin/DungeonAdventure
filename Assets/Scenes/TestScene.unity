@@ -635,7 +635,7 @@ MonoBehaviour:
   minRooms: 5
   maxRooms: 10
   maxAttempts: 100
-  useFixedSeed: 1
+  useFixedSeed: 0
   seed: 10
   dungeonRenderer: {fileID: 1457122736}
   player: {fileID: 1756469330}
@@ -798,6 +798,8 @@ GameObject:
   - component: {fileID: 1756469331}
   - component: {fileID: 1756469336}
   - component: {fileID: 1756469337}
+  - component: {fileID: 1756469338}
+  - component: {fileID: 1756469339}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -987,6 +989,32 @@ MonoBehaviour:
   attackRangeTransform: {fileID: 487720990}
   attackRangeDistance: 0.7
   bodyHeightOffset: 0.5
+--- !u!114 &1756469338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756469330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 917991c317a19c04a96b6ed5251a2949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  inventorySize: 15
+--- !u!114 &1756469339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756469330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c233c46f5cd86c04b9a523f8ac5dd236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerItemPickUp
+  pickUpRange: 1
 --- !u!1 &2006679428
 GameObject:
   m_ObjectHideFlags: 0

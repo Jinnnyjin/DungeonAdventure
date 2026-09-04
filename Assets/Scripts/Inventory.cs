@@ -31,6 +31,19 @@ public class Inventory : MonoBehaviour
         slots = new ItemData[inventorySize];
     }
 
+
+    // 빈칸 조회
+    public bool HasEmptySlot()
+    {
+        foreach (var slot in slots)
+        {
+            if (slot == null) return true;
+        }
+
+        return false;
+    }
+
+
     // 아이템 습득
     public bool TryAddItem(ItemData item)
     {
@@ -152,4 +165,13 @@ public class Inventory : MonoBehaviour
         RemoveItemAt(index);
     }
 
+    // 임시 디버그용 인벤토리 확인 메서드
+    public void LogInventoryState()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            string itemName = slots[i] == null ? "비어있음" : slots[i].ItemName;
+            Debug.Log($"슬롯 {i}: {itemName}");
+        }
+    }
 }
