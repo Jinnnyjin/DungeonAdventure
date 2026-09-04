@@ -4,12 +4,14 @@ using System.Collections.Generic;
 public class MonsterSpawner : MonoBehaviour
 {
     [SerializeField] private int minDistance;
+    [SerializeField] private OnMonsterKilledChannel onMonsterKilledChannel;
 
 
     public Monster SpawnMonster(GameObject monsterPrefab, Vector3 worldPos)
     {
         Monster monster = ObjectPoolManager.Instance.Get<Monster>(monsterPrefab);
         monster.transform.position = worldPos;
+        monster.onMonsterKilledChannel = onMonsterKilledChannel;
         return monster;
     }
 

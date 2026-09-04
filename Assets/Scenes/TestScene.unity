@@ -472,6 +472,52 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!1 &601046277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 601046279}
+  - component: {fileID: 601046278}
+  m_Layer: 0
+  m_Name: DropSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &601046278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601046277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ca5d72e761e54499a0b7b83964cdd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropSpawner
+  prefab: {fileID: 7319538542190985282, guid: 3448c3b36e6fe3c40837d77799387979, type: 3}
+  onMonsterKilledChannel: {fileID: 11400000, guid: b800cf3309299404eb5fb7a29d6ff995, type: 2}
+--- !u!4 &601046279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601046277}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.59779, y: 1.34488, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,6 +767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterSpawner
   minDistance: 2
+  onMonsterKilledChannel: {fileID: 11400000, guid: b800cf3309299404eb5fb7a29d6ff995, type: 2}
 --- !u!4 &1554110242
 Transform:
   m_ObjectHideFlags: 0
@@ -1079,30 +1126,30 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: -4.368408
+      e00: -888307700
       e01: 0
-      e02: 47115970
-      e03: -5.0006485
-      e10: 4.5916e-41
+      e02: 30557.375
+      e03: 1.7180099e+10
+      e10: 4.5911e-41
       e11: 0
-      e12: 4.5e-44
-      e13: 4.85e-43
-      e20: -14.243317
+      e12: 1.12e-43
+      e13: 7.3e-43
+      e20: -2.883887e+9
       e21: 0
-      e22: 1.2746286e+18
-      e23: 1.2556974e-18
-      e30: 4.5916e-41
+      e22: 2.586105e-29
+      e23: -3.0289505e-28
+      e30: 4.5911e-41
       e31: 0
-      e32: 4.9e-43
-      e33: 4.86e-43
+      e32: 7.34e-43
+      e33: 7.3e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 47114944, g: 47114944, b: 47114944, a: 47114944}
+    m_Data: {r: 8.0821e-41, g: 8.0821e-41, b: 8.0821e-41, a: 8.0821e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: 0, y: -1, z: 0}
-  m_Size: {x: 7, y: 3, z: 1}
+  m_Origin: {x: 0, y: -3, z: 0}
+  m_Size: {x: 7, y: 5, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -1291,3 +1338,4 @@ SceneRoots:
   - {fileID: 1554110242}
   - {fileID: 1486406866}
   - {fileID: 2089944325}
+  - {fileID: 601046279}

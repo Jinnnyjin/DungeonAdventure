@@ -10,6 +10,7 @@ public class Monster : MonoBehaviour, IDamageable
     public MonsterSpawner spawner;
     public GameObject sourcePrefab;
     public Transform playerTransform;
+    public OnMonsterKilledChannel onMonsterKilledChannel;
 
     private Rigidbody2D rb;
     private int curHp;
@@ -114,6 +115,8 @@ public class Monster : MonoBehaviour, IDamageable
     {
         // 방의 spawnedMonsters에서 자신 제거
         runtimeData.spawnedMonsters.Remove(this);
+
+        onMonsterKilledChannel.Raise(new MonsterDeathInfo { MonsterData = monsterData, Position = transform.position });
 
         // 제거 후 리스트가 비었으면 → 방 클리어 이벤트 발행
         if (runtimeData.spawnedMonsters.Count == 0)

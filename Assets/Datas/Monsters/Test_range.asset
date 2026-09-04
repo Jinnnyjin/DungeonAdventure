@@ -17,3 +17,6 @@ MonoBehaviour:
   MoveSpeed: 3
   DetectionRange: 7
   AttackBehavior: {fileID: 11400000, guid: 6adb58885ad3802448968ce26d38d899, type: 2}
+  DropTable:
+  - Item: {fileID: 11400000, guid: 25be804b5a4586642ba06c83b02c2e07, type: 2}
+    DropWeight: 1
