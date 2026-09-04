@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerInputHub : MonoBehaviour
+public class PlayerActionManager : MonoBehaviour
 {
-    public static PlayerInputHub Instance { get; private set; }
+    public static PlayerActionManager Instance { get; private set; }
     public PlayerInputActions Actions = new PlayerInputActions();
 
     private void Awake()

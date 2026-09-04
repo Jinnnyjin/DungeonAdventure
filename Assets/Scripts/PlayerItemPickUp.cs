@@ -13,7 +13,7 @@ public class PlayerItemPickUp : MonoBehaviour
     private void Start()
     {
         inventory = GetComponent<Inventory>();
-        playerInput = PlayerInputHub.Instance.Actions;
+        playerInput = PlayerActionManager.Instance.Actions;
     }
 
     private void Update()

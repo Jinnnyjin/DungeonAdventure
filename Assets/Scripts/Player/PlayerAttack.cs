@@ -13,7 +13,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
-        playerInput = PlayerInputHub.Instance.Actions;
+        playerInput = PlayerActionManager.Instance.Actions;
     }
 
     private void Update()

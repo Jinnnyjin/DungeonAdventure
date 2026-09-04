@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        playerInput = PlayerInputHub.Instance.Actions;
+        playerInput = PlayerActionManager.Instance.Actions;
     }
 
     void FixedUpdate()
