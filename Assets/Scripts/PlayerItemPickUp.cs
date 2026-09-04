@@ -9,20 +9,11 @@ public class PlayerItemPickUp : MonoBehaviour
     private Collider2D[] hitBuffer = new Collider2D[10];
     private PlayerInputActions playerInput;
 
-    private void Awake()
+
+    private void Start()
     {
-        playerInput = new PlayerInputActions();
         inventory = GetComponent<Inventory>();
-    }
-
-    private void OnEnable()
-    {
-        playerInput.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerInput.Disable();
+        playerInput = PlayerInputHub.Instance.Actions;
     }
 
     private void Update()

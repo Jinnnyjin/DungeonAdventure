@@ -13,17 +13,11 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
-        playerInput = new PlayerInputActions();
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        playerInput.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerInput.Disable();
+        playerInput = PlayerInputHub.Instance.Actions;
     }
 
     void FixedUpdate()
