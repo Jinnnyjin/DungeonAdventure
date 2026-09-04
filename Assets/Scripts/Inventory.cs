@@ -17,6 +17,7 @@ public class Inventory : MonoBehaviour
     private ItemData equippedAccessory;
 
 
+    public int InventorySize => inventorySize;
     public ItemData GetEquippedWeapon() => equippedWeapon;
     public ItemData GetEquippedArmor() => equippedArmor;
     public ItemData GetEquippedAccessory() => equippedAccessory;
