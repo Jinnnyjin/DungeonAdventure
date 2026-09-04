@@ -1025,6 +1025,7 @@ GameObject:
   - component: {fileID: 1516634808}
   - component: {fileID: 1516634807}
   - component: {fileID: 1516634812}
+  - component: {fileID: 1516634813}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1143,6 +1144,24 @@ MonoBehaviour:
   inventory: {fileID: 1756469338}
   slotPrefab: {fileID: 6984524811947134254, guid: 086b37a0423837c488c3120c7afbd85d, type: 3}
   slotContainer: {fileID: 1039219718}
+--- !u!114 &1516634813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516634806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5f7b05803c8f341bb7b7c01faf9bea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventorySlotRefresher
+  inventory: {fileID: 1756469338}
+  slotSpawner: {fileID: 1516634812}
+  onItemAcquiredChannel: {fileID: 11400000, guid: 5226b181b46601a4aa8ebd8b4b541a6f, type: 2}
+  onItemEquippedChannel: {fileID: 11400000, guid: cac1a0ce497f9a049932f3b9c73cb24d, type: 2}
+  onItemUnequippedChannel: {fileID: 11400000, guid: 37422dd34d43119408571acded81a7b6, type: 2}
+  onItemDiscardChannel: {fileID: 11400000, guid: 78f1c6d82d4d27c4a8526da3f7126466, type: 2}
 --- !u!1 &1554110240
 GameObject:
   m_ObjectHideFlags: 0

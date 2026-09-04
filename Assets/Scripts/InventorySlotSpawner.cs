@@ -8,6 +8,8 @@ public class InventorySlotSpawner : MonoBehaviour
     [SerializeField] private Transform slotContainer;
     private List<InventorySlotUI> slots = new List<InventorySlotUI>();
 
+    public IEnumerable<InventorySlotUI> AllSlots => slots;
+
     private void Start()
     {
         for (int i = 0; i < inventory.InventorySize; i++)
