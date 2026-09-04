@@ -8,7 +8,7 @@ public enum EquipmentSlotType { Weapon, Armor, Accessory }
 public struct StatModifier
 {
     public StatType Type;
-    public float Value;
+    public int Value;
 }
 
 [CreateAssetMenu(menuName ="Data/ItemData")]

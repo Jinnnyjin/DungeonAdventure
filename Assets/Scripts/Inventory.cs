@@ -4,6 +4,9 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private int inventorySize = 15;
+    [SerializeField] private VoidEventChannel onItemEquippedChannel;
+    [SerializeField] private VoidEventChannel onItemUnequippedChannel;
+    
 
     private ItemData[] slots;
 
@@ -106,6 +109,8 @@ public class Inventory : MonoBehaviour
                 equippedAccessory = item;
                 break;
         }
+
+        onItemEquippedChannel.Raise();
     }
 
     // 아이템 착용 해제
@@ -124,6 +129,7 @@ public class Inventory : MonoBehaviour
                 }
                 
                 equippedWeapon = null;
+                onItemUnequippedChannel.Raise();
                 return true;
 
             case EquipmentSlotType.Armor:
@@ -138,6 +144,7 @@ public class Inventory : MonoBehaviour
                 }
 
                 equippedArmor = null;
+                onItemUnequippedChannel.Raise();
                 return true;
 
             case EquipmentSlotType.Accessory:
@@ -152,11 +159,12 @@ public class Inventory : MonoBehaviour
                 }
 
                 equippedAccessory = null;
+                onItemUnequippedChannel.Raise();
                 return true;
 
             default:
                 throw new ArgumentException($"알 수 없는 슬롯 타입: {slotType}");
-        }    
+        }
     }
 
     // 아이템 버리기
@@ -174,4 +182,29 @@ public class Inventory : MonoBehaviour
             Debug.Log($"슬롯 {i}: {itemName}");
         }
     }
+
+    // 스탯 재계산
+    public float SumModifiers(StatType type)
+    {
+        // 합계
+        float total = 0;
+
+        ItemData[] equippedItems = { equippedWeapon, equippedArmor, equippedAccessory };
+
+        foreach (ItemData item in equippedItems)
+        {
+            if (item == null) continue;
+
+            foreach (StatModifier modifier in item.StatModifiers)
+            {
+                if (modifier.Type == type)
+                {
+                    total += modifier.Value;
+                }
+            }
+        }
+        return total;
+    }
+
+
 }
