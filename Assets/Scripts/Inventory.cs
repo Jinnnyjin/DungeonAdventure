@@ -6,6 +6,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private int inventorySize = 15;
     [SerializeField] private VoidEventChannel onItemEquippedChannel;
     [SerializeField] private VoidEventChannel onItemUnequippedChannel;
+    [SerializeField] private ItemEventChannel onItemAcquiredChannel;
+    [SerializeField] private ItemEventChannel onItemDiscardChannel;
     
 
     private ItemData[] slots;
@@ -55,6 +57,7 @@ public class Inventory : MonoBehaviour
             if(slots[i] == null)
             {
                 slots[i] = item;
+                onItemAcquiredChannel.Raise(item);
                 return true;
             }
         }
@@ -170,7 +173,9 @@ public class Inventory : MonoBehaviour
     // 아이템 버리기
     public void DiscardItemAt(int index)
     {
+        ItemData item = slots[index];
         RemoveItemAt(index);
+        onItemDiscardChannel.Raise(item);
     }
 
     // 임시 디버그용 인벤토리 확인 메서드
