@@ -355,7 +355,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeaponSlot
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6953037518866872598, guid: 086b37a0423837c488c3120c7afbd85d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -456,7 +457,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: AccessorySlot
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6953037518866872598, guid: 086b37a0423837c488c3120c7afbd85d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1817,7 +1819,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArmorSlot
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6953037518866872598, guid: 086b37a0423837c488c3120c7afbd85d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

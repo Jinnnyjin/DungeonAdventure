@@ -16,8 +16,13 @@ public class InventorySlotSpawner : MonoBehaviour
         {
             GameObject slotObj = Instantiate(slotPrefab,slotContainer);
             InventorySlotUI slot = slotObj.GetComponent<InventorySlotUI>();
+            
+            slot.SetIndex(i);
 
             slots.Add(slot);
+
+            InventoryClickHandler handler = slotObj.AddComponent<InventoryClickHandler>();
+            handler.SetInventory(inventory);
         }
     }
 

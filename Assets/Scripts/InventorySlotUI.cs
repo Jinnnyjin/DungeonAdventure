@@ -1,10 +1,18 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InventorySlotUI : MonoBehaviour
-{
+{ 
+    public int SlotIndex { get; private set; }
+
     [SerializeField] private Image iconImage;
+
+
+    public void SetIndex(int index)
+    {
+        SlotIndex = index;
+    }
+
 
     public void SetItem(ItemData item)
     {
