@@ -16,6 +16,15 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private Inventory inventory;
     [SerializeField] private VoidEventChannel onItemEquippedChannel;
     [SerializeField] private VoidEventChannel onItemUnequippedChannel;
+    [SerializeField] private VoidEventChannel onPlayerStatChangedChannel;
+
+    public float CurHp => curHp;
+    public float MaxHealth => maxHealth;
+    public float Attack => attack;
+    public float Defense => defense;
+    public float MoveSpeed => moveSpeed;
+
+
 
     private void Awake()
     {
@@ -58,12 +67,14 @@ public class PlayerStats : MonoBehaviour, IDamageable
         moveSpeed = baseMoveSpeed * ( 1 + inventory.SumModifiers(StatType.Speed) ) ;
 
         Debug.Log($"체력: {curHp}/{maxHealth}, 공격력: {attack}, 방어력: {defense}, 이동속도: {moveSpeed}");
+        onPlayerStatChangedChannel.Raise();
     }
 
     public void TakeDamage(int amount)
     {
         curHp -= amount;
         Debug.Log($"플레이어 데미지 받음: {amount}, 남은 체력{curHp}");
+        onPlayerStatChangedChannel.Raise();
 
         if (curHp <= 0)
         {
