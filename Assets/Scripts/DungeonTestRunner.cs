@@ -12,12 +12,15 @@ public class DungeonTestRunner : MonoBehaviour
     [SerializeField] private int seed;
     [SerializeField] private DungeonRenderer dungeonRenderer;
 
-    [Header("현재 상황")]
+    [Header("몬스터 스폰")]
     [SerializeField] private GameObject player;
-    private Room currentRoom;
     [SerializeField] private GameObject meleePrefab;
     [SerializeField] private GameObject rangedPrefab;
+    [SerializeField] private GameObject bossPrefab;
+    [SerializeField] private RoomRatio normalRoomRatio;
+    [SerializeField] private RoomRatio bossRoomRatio;
 
+    private Room currentRoom;
     [Header("이벤트")]
     public RoomEventChannel roomEnteredChannel;
     public RoomEventChannel roomClearedChannel;
@@ -34,7 +37,7 @@ public class DungeonTestRunner : MonoBehaviour
 
         dungeonRenderer.RenderDungeon(graph);
 
-        MonsterSpawnAssigner spawnAssigner = new MonsterSpawnAssigner(meleePrefab, rangedPrefab);
+        MonsterSpawnAssigner spawnAssigner = new MonsterSpawnAssigner(meleePrefab, rangedPrefab, bossPrefab, normalRoomRatio, bossRoomRatio);
         spawnAssigner.AssignMonsters(graph, dungeonRenderer);
 
         Room startRoom = null;
