@@ -26,7 +26,7 @@ public class StatHUD : MonoBehaviour
 
     private void RefreshStatText()
     {
-        hpText.text = $"HP : {playerStats.CurHp} / {playerStats.MaxHealth}";
+        hpText.text = $"HP : {Mathf.CeilToInt(playerStats.CurHp)} / {Mathf.RoundToInt(playerStats.MaxHealth)}";
         attackText.text = $"ATK : {playerStats.Attack}";
         defenseText.text = $"DEF : {playerStats.Defense}";
         speedText.text = $"SPD : {playerStats.MoveSpeed}";
