@@ -70,10 +70,18 @@ public class PlayerStats : MonoBehaviour, IDamageable
         onPlayerStatChangedChannel.Raise();
     }
 
+    private float CalculateDamage(int rawDamage)
+    {
+        float cal = 100 / (100 + defense);
+
+        return rawDamage * cal;
+    }
+
     public void TakeDamage(int amount)
     {
-        curHp -= amount;
-        Debug.Log($"플레이어 데미지 받음: {amount}, 남은 체력{curHp}");
+        float realDamage = CalculateDamage(amount);
+        curHp -= realDamage;
+        Debug.Log($"플레이어 데미지 받음: {realDamage}, 남은 체력{curHp}");
         onPlayerStatChangedChannel.Raise();
 
         if (curHp <= 0)
