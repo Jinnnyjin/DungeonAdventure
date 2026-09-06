@@ -34,7 +34,6 @@ public class DungeonRenderer : MonoBehaviour
     public void RenderDungeon(DungeonGraph graph)
     {
         RoomDoorCalculator doorCalculator = new RoomDoorCalculator();
-        TileGridGenerator gridGenerator = new TileGridGenerator(tileWidth, tileHeight, maxAttempts, wallRatio, roughRatio);
         DungeonGridConverter converter = new DungeonGridConverter();
         WallDirectionCalculator directionCalculator = new WallDirectionCalculator();
 
@@ -44,6 +43,10 @@ public class DungeonRenderer : MonoBehaviour
             // 문 위치 계산
             List<Vector2Int> doorPositions = doorCalculator.ComputeDoorPositions(room, graph, tileWidth, tileHeight);
 
+            float thisRoomWallRatio = room.Type == RoomType.Boss ? 0f : wallRatio;
+            float thisRoomRoughRatio = room.Type == RoomType.Boss ? 0f : roughRatio;
+            TileGridGenerator gridGenerator = new TileGridGenerator(tileWidth, tileHeight, maxAttempts, thisRoomWallRatio, thisRoomRoughRatio);
+            
             // 타일 그리드 생성
             RoomTileGrid roomTile = gridGenerator.Generate(doorPositions);
 
