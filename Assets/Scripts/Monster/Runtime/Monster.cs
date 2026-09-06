@@ -113,10 +113,12 @@ public class Monster : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        // 미리 저장
+        MonsterData data = monsterData;
+        Vector3 pos = transform.position;
+
         // 방의 spawnedMonsters에서 자신 제거
         runtimeData.spawnedMonsters.Remove(this);
-
-        onMonsterKilledChannel.Raise(new MonsterDeathInfo { MonsterData = monsterData, Position = transform.position });
 
         // 제거 후 리스트가 비었으면 → 방 클리어 이벤트 발행
         if (runtimeData.spawnedMonsters.Count == 0)
@@ -126,5 +128,8 @@ public class Monster : MonoBehaviour, IDamageable
 
         // 오브젝트 풀에 반납 (SetActive(false) + spawner.ReleaseMonster)
         spawner.ReleaseMonster(sourcePrefab, this);
+        
+        // 이벤트 발행
+        onMonsterKilledChannel.Raise(new MonsterDeathInfo { MonsterData = data, Position = pos });
     }
 }
