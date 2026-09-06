@@ -1475,6 +1475,7 @@ GameObject:
   - component: {fileID: 1457122735}
   - component: {fileID: 1457122734}
   - component: {fileID: 1457122736}
+  - component: {fileID: 1457122737}
   m_Layer: 0
   m_Name: TestRunner
   m_TagString: Untagged
@@ -1494,26 +1495,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cceae96e4d67d45a8008606d6fb3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonTestRunner
-  minRooms: 5
-  maxRooms: 10
-  maxAttempts: 100
-  useFixedSeed: 0
-  seed: 10
   dungeonRenderer: {fileID: 1457122736}
-  player: {fileID: 1756469330}
-  meleePrefab: {fileID: 6994163755847079111, guid: d22a0fd91399dbc49815841bce203adf, type: 3}
-  rangedPrefab: {fileID: 5856303156211705400, guid: e130f9b92c40725498d1c469ad6b3009, type: 3}
-  bossPrefab: {fileID: 5811518709749356713, guid: 4867d214ab95c1148b4ed663db56cdfc, type: 3}
-  normalRoomRatio:
-    MinCount: 4
-    MaxCount: 8
-    MeleeRatio: 0.6
-  bossRoomRatio:
-    MinCount: 4
-    MaxCount: 8
-    MeleeRatio: 0.2
   roomEnteredChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
-  roomClearedChannel: {fileID: 11400000, guid: 9cabf6c80dda3ca4cbf144a905576cff, type: 2}
 --- !u!4 &1457122735
 Transform:
   m_ObjectHideFlags: 0
@@ -1561,6 +1544,37 @@ MonoBehaviour:
   roomEnterChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
   roomClearChannel: {fileID: 11400000, guid: 9cabf6c80dda3ca4cbf144a905576cff, type: 2}
   monsterSpawner: {fileID: 1554110241}
+--- !u!114 &1457122737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457122733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d6ccfbe7f8418148b9dfc2ef85baece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonRunManager
+  minRooms: 5
+  maxRooms: 8
+  maxAttempts: 100
+  useFixedSeed: 0
+  seed: 0
+  dungeonRenderer: {fileID: 1457122736}
+  player: {fileID: 1756469330}
+  meleePrefab: {fileID: 6994163755847079111, guid: d22a0fd91399dbc49815841bce203adf, type: 3}
+  rangedPrefab: {fileID: 5856303156211705400, guid: e130f9b92c40725498d1c469ad6b3009, type: 3}
+  bossPrefab: {fileID: 5811518709749356713, guid: 4867d214ab95c1148b4ed663db56cdfc, type: 3}
+  normalRoomRatio:
+    MinCount: 5
+    MaxCount: 8
+    MeleeRatio: 0.6
+  bossRoomRatio:
+    MinCount: 3
+    MaxCount: 8
+    MeleeRatio: 0.4
+  roomEnteredChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
 --- !u!1 &1486406864
 GameObject:
   m_ObjectHideFlags: 0
