@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class PlayerStats : MonoBehaviour, IDamageable
 {
@@ -12,11 +13,13 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private float attack;
     private float defense;
     private float moveSpeed;
+    private bool isDead;
 
     private Inventory inventory;
     [SerializeField] private VoidEventChannel onItemEquippedChannel;
     [SerializeField] private VoidEventChannel onItemUnequippedChannel;
     [SerializeField] private VoidEventChannel onPlayerStatChangedChannel;
+    [SerializeField] private VoidEventChannel onPlayerDeadChannel;
 
     public float CurHp => curHp;
     public float MaxHealth => maxHealth;
@@ -79,6 +82,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount)
     {
+        if (isDead) return;
+
         float realDamage = CalculateDamage(amount);
         curHp -= realDamage;
         Debug.Log($"플레이어 데미지 받음: {realDamage}, 남은 체력{curHp}");
@@ -86,7 +91,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         if (curHp <= 0)
         {
-            Debug.Log("Die");
+            isDead = true;
+            onPlayerDeadChannel.Raise();
         }
     }
 }
