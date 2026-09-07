@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -9,6 +10,8 @@ public class Projectile : MonoBehaviour
     public Transform Attacker;
     [SerializeField] private float maintainTime;
 
+    public static readonly List<Projectile> Active = new List<Projectile>();
+
     private float spawnedTime;
     private Rigidbody2D rb;
     private bool isReturned;
@@ -19,6 +22,12 @@ public class Projectile : MonoBehaviour
         spawnedTime = Time.time;
         rb = GetComponent<Rigidbody2D>();
         isReturned = false;
+        Active.Add(this);
+    }
+
+    private void OnDisable()          
+    {
+        Active.Remove(this);
     }
 
     private void FixedUpdate()

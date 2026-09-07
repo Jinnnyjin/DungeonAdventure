@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -240,8 +241,26 @@ public class DungeonRenderer : MonoBehaviour
 
     private void ClearDungeon()
     {
-        foreach(RoomRuntimeData data in runData.Values)
+        // 드랍된 아이템 전부 제거
+        foreach (var item in new List<DroppedItem>(DroppedItem.Active))
         {
+            ObjectPoolManager.Instance.Release<DroppedItem>(item.SourcePrefab, item);
+        }
+
+        // 활성화된 아이템 제거
+        foreach (var projectile in new List<Projectile>(Projectile.Active))
+        {
+            ObjectPoolManager.Instance.Release<Projectile>(projectile.SourcePrefab, projectile);
+        }
+
+        foreach (RoomRuntimeData data in runData.Values)
+        {
+            // 몬스터 제거
+            foreach (Monster monster in data.spawnedMonsters)
+            {
+                monster.spawner.ReleaseMonster(monster.sourcePrefab, monster);
+            }
+
             // 방 콜라이더 제거
             Destroy(data.roomObject);
 

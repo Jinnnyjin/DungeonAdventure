@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DroppedItem : MonoBehaviour
@@ -9,6 +10,8 @@ public class DroppedItem : MonoBehaviour
     private bool isReturned;
     private SpriteRenderer spriteRenderer;
 
+    public static readonly List<DroppedItem> Active = new List<DroppedItem>();
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -17,6 +20,12 @@ public class DroppedItem : MonoBehaviour
     private void OnEnable()
     {
         isReturned = false;
+        Active.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        Active.Remove(this);
     }
 
     public ItemData PickUp()
