@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db84aef4ccc21bc4f8b168e63adc4bce, type: 3}
-  m_Name: '[Armor] newbie'
+  m_Name: '[Weapon] Arrow_WeaponB'
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  ItemName: "\uAE30\uBCF8 \uAC11\uC637"
-  Icon: {fileID: 21300000, guid: 039671cba51ea7a4680e4b451a8c3d0a, type: 3}
-  SlotType: 1
-  RequiredJob: 0
+  ItemName: "\uD2BC\uD2BC\uD55C \uD654\uC0B4"
+  Icon: {fileID: 21300000, guid: e5b1c96ca2313e94c82dce4a15b0c4af, type: 3}
+  SlotType: 0
+  RequiredJob: 2
   StatModifiers:
-  - Type: 3
-    Value: 5
+  - Type: 0
+    Value: 10
+  WeaponBehavior: {fileID: 11400000, guid: df2f7d9b151718247bd68e3b6acc0e8d, type: 2}
