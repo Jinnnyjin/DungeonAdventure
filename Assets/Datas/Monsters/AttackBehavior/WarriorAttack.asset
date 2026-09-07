@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: WarriorAttack
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackSO
   AttackRange: 0.5
-  Damage: 1
+  Damage: 0
   Cooldown: 1

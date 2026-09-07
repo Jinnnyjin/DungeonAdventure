@@ -21,7 +21,7 @@ public class RangedAttackSO : AttackBehaviorSO
 
         projectile.SourcePrefab = ProjectilePrefab;
         projectile.MoveSpeed = ProjectileSpeed;
-        projectile.Damage = Damage;
+        projectile.Damage = GetFinalDamage(attacker);
         projectile.Attacker = attacker;
 
         projectile.gameObject.layer = attacker.CompareTag("Player") ? LayerMask.NameToLayer("PlayerProjectile") : LayerMask.NameToLayer("MonsterProjectile");

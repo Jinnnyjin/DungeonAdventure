@@ -9,7 +9,7 @@ public class MeleeAttackSO : AttackBehaviorSO
 
         if (damageable != null)
         {
-            damageable.TakeDamage((int)Damage);
+            damageable.TakeDamage((int)GetFinalDamage(attacker));
         }
     }
 }

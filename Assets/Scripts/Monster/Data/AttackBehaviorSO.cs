@@ -6,4 +6,14 @@ public abstract class AttackBehaviorSO : ScriptableObject
     public float Damage;
     public float Cooldown;
     public abstract void Attack(Transform attacker, Transform target);
+
+    protected float GetFinalDamage(Transform attacker)
+    {
+        PlayerStats stats = attacker.GetComponent<PlayerStats>();
+        if (stats != null)
+        {
+            return Damage + stats.Attack;
+        }
+        else return Damage;
+    }
 }
