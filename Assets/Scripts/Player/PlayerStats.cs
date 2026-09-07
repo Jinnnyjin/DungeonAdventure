@@ -95,4 +95,12 @@ public class PlayerStats : MonoBehaviour, IDamageable
             onPlayerDeadChannel.Raise();
         }
     }
+
+    public void ResetStats()
+    {
+        isDead = false;
+        RecalculateStats();
+        curHp = maxHealth;
+        onPlayerStatChangedChannel.Raise();
+    }
 }

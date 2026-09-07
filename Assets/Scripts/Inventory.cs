@@ -212,5 +212,12 @@ public class Inventory : MonoBehaviour
         return total;
     }
 
-
+    // 인벤토리 초기화
+    public void ResetInventory()
+    {
+        slots = new ItemData[inventorySize];
+        equippedWeapon = null;
+        equippedArmor = null;
+        equippedAccessory = null;
+    }
 }

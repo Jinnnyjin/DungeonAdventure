@@ -33,6 +33,10 @@ public class DungeonRenderer : MonoBehaviour
 
     public void RenderDungeon(DungeonGraph graph)
     {
+
+        // 초기화
+        ClearDungeon();
+
         RoomDoorCalculator doorCalculator = new RoomDoorCalculator();
         DungeonGridConverter converter = new DungeonGridConverter();
         WallDirectionCalculator directionCalculator = new WallDirectionCalculator();
@@ -77,6 +81,7 @@ public class DungeonRenderer : MonoBehaviour
             roomRuntimeData.monsterPrefabs = new List<GameObject>();
             roomRuntimeData.tileGrid = roomTile;
             roomRuntimeData.spawnedMonsters = new List<Monster>();
+            roomRuntimeData.roomObject = roomMap;
             runData[room.Id] = roomRuntimeData;
 
             // RuntimeData -> doors
@@ -207,5 +212,26 @@ public class DungeonRenderer : MonoBehaviour
     public RoomRuntimeData GetRoomRuntimeData(int roomId)
     {
         return runData[roomId];
+    }
+
+    private void ClearDungeon()
+    {
+        foreach(RoomRuntimeData data in runData.Values)
+        {
+            // 방 콜라이더 제거
+            Destroy(data.roomObject);
+
+            // 문 각각 제거
+            foreach(var door  in data.doors)
+            {
+                Destroy(door);
+            }
+        }
+
+        // 타일맵 제거
+        tilemap.ClearAllTiles();
+
+        // RunData 제거
+        runData.Clear();
     }
 }

@@ -26,6 +26,8 @@ public class DungeonRunManager : MonoBehaviour
         RunDungeon();
     }
 
+
+    [ContextMenu("던전 재생성 테스트")]
     public void RunDungeon()
     {
         // 던전 생성기

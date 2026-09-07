@@ -6,7 +6,7 @@ public class TitleUIController : MonoBehaviour
 
     public void LoadStageScene()
     {
-        SceneManager.LoadScene("Stage Scene");
+        SceneManager.LoadScene(SceneNames.Stage);
     }
    
 }
