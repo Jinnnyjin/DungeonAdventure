@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterSpawnPositionCalculator
+// 몬스터 포지션용 -> 범용으로 수정
+public class RoomPositionSelector
 {
     public List<Vector2Int> CalculateSpawnPositions(RoomTileGrid tileGrid, int count, int minDistance)
     {

@@ -30,6 +30,7 @@ public class DungeonRenderer : MonoBehaviour
     public RoomEventChannel roomClearChannel;
     private Dictionary<int, RoomRuntimeData> runData = new Dictionary<int, RoomRuntimeData>();
     [SerializeField] private MonsterSpawner monsterSpawner;
+    [SerializeField] private TreasureSpawner treasureSpawner;
 
     public void RenderDungeon(DungeonGraph graph)
     {
@@ -47,8 +48,8 @@ public class DungeonRenderer : MonoBehaviour
             // 문 위치 계산
             List<Vector2Int> doorPositions = doorCalculator.ComputeDoorPositions(room, graph, tileWidth, tileHeight);
 
-            float thisRoomWallRatio = room.Type == RoomType.Boss ? 0f : wallRatio;
-            float thisRoomRoughRatio = room.Type == RoomType.Boss ? 0f : roughRatio;
+            float thisRoomWallRatio = (room.Type == RoomType.Boss || room.Type == RoomType.Treasure) ? 0f : wallRatio;
+            float thisRoomRoughRatio = (room.Type == RoomType.Boss || room.Type == RoomType.Treasure) ? 0f : roughRatio;
             TileGridGenerator gridGenerator = new TileGridGenerator(tileWidth, tileHeight, maxAttempts, thisRoomWallRatio, thisRoomRoughRatio);
             
             // 타일 그리드 생성
@@ -72,7 +73,8 @@ public class DungeonRenderer : MonoBehaviour
             roomTrigger.EnteringRoom = room;
             roomTrigger.roomEventChannel = roomEnterChannel;
             roomTrigger.dungeonRenderer = this;
-            roomTrigger.spawner = monsterSpawner;
+            roomTrigger.monsterSpawner = monsterSpawner;
+            roomTrigger.treasureSpawner = treasureSpawner;
 
             // 방 RuntimeData 설정
             RoomRuntimeData roomRuntimeData = new RoomRuntimeData();

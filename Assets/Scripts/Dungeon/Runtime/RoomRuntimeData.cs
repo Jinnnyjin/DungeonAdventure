@@ -12,6 +12,7 @@ public class RoomRuntimeData
     public List<GameObject> monsterPrefabs;
     public RoomTileGrid tileGrid;
     public bool isSpawned = false;
+    public bool isLooted = false;
     public bool isCleared = false;
     public int[,] distanceField;
     public List<Monster> spawnedMonsters;

@@ -2089,6 +2089,7 @@ MonoBehaviour:
   roomEnterChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
   roomClearChannel: {fileID: 11400000, guid: 9cabf6c80dda3ca4cbf144a905576cff, type: 2}
   monsterSpawner: {fileID: 1554110241}
+  treasureSpawner: {fileID: 1554110243}
 --- !u!114 &1457122737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2349,6 +2350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1554110242}
   - component: {fileID: 1554110241}
+  - component: {fileID: 1554110243}
   m_Layer: 0
   m_Name: Test_Spawner
   m_TagString: Untagged
@@ -2385,6 +2387,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1554110243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554110240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf19de7bdf922b4a884b7b1b4dd4bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreasureSpawner
+  dropItemPrefab: {fileID: 7319538542190985282, guid: 3448c3b36e6fe3c40837d77799387979, type: 3}
+  dropTable:
+  - Item: {fileID: 11400000, guid: 25be804b5a4586642ba06c83b02c2e07, type: 2}
+    DropWeight: 2
+  - Item: {fileID: 11400000, guid: 09c0eccf823b7114e9c96f426df25d21, type: 2}
+    DropWeight: 1
+  minCount: 1
+  maxCount: 3
+  minDistance: 2
 --- !u!1 &1557008544
 GameObject:
   m_ObjectHideFlags: 0
@@ -3456,7 +3479,7 @@ TilemapRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.71875, y: 0.6874999, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
