@@ -14,4 +14,13 @@ public class PlayerActionManager : MonoBehaviour
             Actions.Enable();
         }
     }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Actions.Disable();
+            Actions.Dispose();
+        }
+    }
 }
