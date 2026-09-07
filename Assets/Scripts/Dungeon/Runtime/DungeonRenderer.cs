@@ -25,6 +25,13 @@ public class DungeonRenderer : MonoBehaviour
     [SerializeField] private float wallRatio;
     [SerializeField] private float roughRatio;
 
+    [Header("데코")]
+    [SerializeField] private List<GameObject> decorationPrefab;
+    [SerializeField] private float density;
+    [SerializeField] private int minCount;
+    [SerializeField] private int maxCount;
+    [SerializeField] private int minDistance;
+
     [Header("그 외")]
     public RoomEventChannel roomEnterChannel;
     public RoomEventChannel roomClearChannel;
@@ -84,6 +91,7 @@ public class DungeonRenderer : MonoBehaviour
             roomRuntimeData.tileGrid = roomTile;
             roomRuntimeData.spawnedMonsters = new List<Monster>();
             roomRuntimeData.roomObject = roomMap;
+            roomRuntimeData.decorations = new List<GameObject>();
             runData[room.Id] = roomRuntimeData;
 
             // RuntimeData -> doors
@@ -155,6 +163,19 @@ public class DungeonRenderer : MonoBehaviour
                     tilemap.SetTile(new Vector3Int(worldPos.x, worldPos.y, 0), tile);
                 }
             }
+
+            if(room.Type == RoomType.Treasure)
+            {
+                RoomDecorationPlacer placer = new RoomDecorationPlacer(decorationPrefab, density, minCount, maxCount, minDistance);
+                List<(Vector2Int pos, GameObject prefab)> decorations = placer.GetDecorations(roomTile);
+
+                foreach (var deco in decorations)
+                {
+                    Vector3 worldPos = GetWorldPos(room, deco.pos);
+                    GameObject decoObj = Instantiate(deco.prefab, worldPos, Quaternion.identity);
+                    roomRuntimeData.decorations.Add(decoObj);
+                }
+            }
         }
     }
 
@@ -216,6 +237,7 @@ public class DungeonRenderer : MonoBehaviour
         return runData[roomId];
     }
 
+
     private void ClearDungeon()
     {
         foreach(RoomRuntimeData data in runData.Values)
@@ -227,6 +249,11 @@ public class DungeonRenderer : MonoBehaviour
             foreach(var door  in data.doors)
             {
                 Destroy(door);
+            }
+
+            foreach(var decoration in data.decorations)
+            {
+                Destroy(decoration);
             }
         }
 
