@@ -2132,6 +2132,9 @@ MonoBehaviour:
     MaxCount: 8
     MeleeRatio: 0.4
   roomEnteredChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
+  playerInventory: {fileID: 1756469338}
+  warriorStartWeapon: {fileID: 11400000, guid: f6b449fcc8c56d347ab5c528c01f1cd1, type: 2}
+  archerStartWeapon: {fileID: 11400000, guid: 531936b80db93de41a7326d93d1c58cc, type: 2}
 --- !u!1 &1486406864
 GameObject:
   m_ObjectHideFlags: 0
@@ -2746,7 +2749,7 @@ GameObject:
   - component: {fileID: 1756469338}
   - component: {fileID: 1756469339}
   - component: {fileID: 1756469340}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2942,6 +2945,9 @@ MonoBehaviour:
   attackRangeTransform: {fileID: 487720990}
   attackRangeDistance: 0.7
   bodyHeightOffset: 0.5
+  inventory: {fileID: 1756469338}
+  onItemEquippedChannel: {fileID: 11400000, guid: cac1a0ce497f9a049932f3b9c73cb24d, type: 2}
+  onItemUnequippedChannel: {fileID: 11400000, guid: 37422dd34d43119408571acded81a7b6, type: 2}
 --- !u!114 &1756469338
 MonoBehaviour:
   m_ObjectHideFlags: 0

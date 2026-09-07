@@ -8,12 +8,30 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackRangeDistance = 0.7f;
     [SerializeField] private float bodyHeightOffset = 0.5f;
 
+    [SerializeField] private Inventory inventory;
+    [SerializeField] private VoidEventChannel onItemEquippedChannel;
+    [SerializeField] private VoidEventChannel onItemUnequippedChannel;
+
+
+
     private Collider2D[] hitBuffer = new Collider2D[10];
     private PlayerInputActions playerInput;
 
     private void Start()
     {
         playerInput = PlayerActionManager.Instance.Actions;
+    }
+
+    private void OnEnable()
+    {
+        onItemEquippedChannel.OnEventRaised += RefreshAttackBehavior;
+        onItemUnequippedChannel.OnEventRaised += RefreshAttackBehavior;
+    }
+
+    private void OnDisable()
+    {
+        onItemEquippedChannel.OnEventRaised -= RefreshAttackBehavior;
+        onItemUnequippedChannel.OnEventRaised -= RefreshAttackBehavior;
     }
 
     private void Update()
@@ -26,8 +44,17 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    private void RefreshAttackBehavior()
+    {
+        ItemData weapon = inventory.GetEquippedWeapon();
+        attackBehavior = weapon != null ? weapon.WeaponBehavior : null;
+    }
+
     private void TryAttack()
     {
+        // 무기 해제 상태 시 공격하지 않음
+        if (attackBehavior == null) return; 
+
         ContactFilter2D contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
 

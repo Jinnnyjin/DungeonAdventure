@@ -19,4 +19,5 @@ public class ItemData : ScriptableObject
     public EquipmentSlotType SlotType;
     public JobType RequiredJob;
     public List<StatModifier> StatModifiers;
+    public AttackBehaviorSO WeaponBehavior;
 }

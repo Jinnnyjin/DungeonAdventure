@@ -220,4 +220,10 @@ public class Inventory : MonoBehaviour
         equippedArmor = null;
         equippedAccessory = null;
     }
+
+    public void EquipStartingWeapon(ItemData weapon)
+    {
+        equippedWeapon = weapon;
+        onItemEquippedChannel.Raise();
+    }    
 }

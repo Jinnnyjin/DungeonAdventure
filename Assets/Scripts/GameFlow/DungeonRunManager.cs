@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class DungeonRunManager : MonoBehaviour
@@ -20,6 +21,13 @@ public class DungeonRunManager : MonoBehaviour
 
     [Header("이벤트 채널")]
     [SerializeField] private RoomEventChannel roomEnteredChannel;
+
+    [Header("플레이어")]
+    [SerializeField] private Inventory playerInventory;
+    [SerializeField] private ItemData warriorStartWeapon;
+    [SerializeField] private ItemData archerStartWeapon;
+
+    
 
     private void Start()
     {
@@ -62,6 +70,11 @@ public class DungeonRunManager : MonoBehaviour
         // 시작 하는 장소
         Vector3 startPoint = dungeonRenderer.GetPlayerSpawnWorldPos(startRoom);
         player.transform.position = startPoint;
+
+        // 스타팅 무기 장착
+        ItemData startWeapon = GameSession.SelectedJob == JobType.Warrior ? warriorStartWeapon : archerStartWeapon;
+        playerInventory.EquipStartingWeapon(startWeapon);
+
         roomEnteredChannel.Raise(startRoom);
 
     }
