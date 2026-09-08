@@ -79,14 +79,16 @@ public class Inventory : MonoBehaviour
 
 
     // 아이템 착용
-    public void EquipItem(int index)
+    public bool TryEquipItem(int index)
     {
         ItemData item = slots[index];
-        if (item == null) return;
-
+        if (item == null) return false;
+        
         switch(item.SlotType)
         {
+
             case EquipmentSlotType.Weapon:
+                if (item.RequiredJob != JobType.None && item.RequiredJob != GameSession.SelectedJob) return false;
                 RemoveItemAt(index);
                 if(equippedWeapon != null)
                 {
@@ -115,6 +117,7 @@ public class Inventory : MonoBehaviour
         }
 
         onItemEquippedChannel.Raise();
+        return true;
     }
 
     // 아이템 착용 해제
