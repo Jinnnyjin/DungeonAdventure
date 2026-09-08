@@ -20,6 +20,7 @@ public class Monster : MonoBehaviour, IDamageable
     private float lastAttackTime;
     private MonsterState curState;
     private Animator monsterAnimator;
+    private SpriteRenderer spriteRenderer;
 
     private void OnEnable()
     {
@@ -32,7 +33,19 @@ public class Monster : MonoBehaviour, IDamageable
         monsterAnimator.SetBool("Died", false);
         monsterAnimator.Play("Idle", 0, 0f);
 
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = Color.white;
+
         curState = MonsterState.Idle;
+
+    }
+
+    private void LateUpdate()
+    {
+        if (!isDead)
+        {
+            spriteRenderer.color = Color.white;
+        }
     }
 
 
