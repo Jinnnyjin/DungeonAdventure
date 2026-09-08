@@ -6,6 +6,8 @@ public class RoomRuntimeData
     // 기존 방 콜라이더 담을 오브젝트
     public GameObject roomObject;
 
+    public bool isVisited;
+    public GameObject darknessOverlay;
 
     public Room room;
     public List<GameObject> doors;

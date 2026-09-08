@@ -47,5 +47,8 @@ TagManager:
   - name: Actors
     uniqueID: 423928701
     locked: 0
+  - name: RoomDarkness
+    uniqueID: 3613767063
+    locked: 0
   m_RenderingLayers:
   - Default

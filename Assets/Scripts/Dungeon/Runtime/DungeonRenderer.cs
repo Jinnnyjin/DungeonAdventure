@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -32,6 +31,7 @@ public class DungeonRenderer : MonoBehaviour
     [SerializeField] private int minCount;
     [SerializeField] private int maxCount;
     [SerializeField] private int minDistance;
+    [SerializeField] private GameObject darknessOverlayPrefab;
 
     [Header("그 외")]
     public RoomEventChannel roomEnterChannel;
@@ -75,7 +75,12 @@ public class DungeonRenderer : MonoBehaviour
             BoxCollider2D roomcollider = roomMap.AddComponent<BoxCollider2D>();
             roomcollider.isTrigger = true;
             roomcollider.size = new Vector2(tileWidth - 3, tileHeight - 3);
-            
+
+            // DarkOverlay설정
+            GameObject darknessOverlay = Instantiate(darknessOverlayPrefab, roomMap.transform);
+            darknessOverlay.transform.localPosition = Vector3.zero;
+            darknessOverlay.transform.localScale = new Vector3(tileWidth, tileHeight, 1f);
+
             // 방 트리거
             RoomTrigger roomTrigger = roomMap.AddComponent<RoomTrigger>();
             roomTrigger.EnteringRoom = room;
@@ -93,6 +98,7 @@ public class DungeonRenderer : MonoBehaviour
             roomRuntimeData.spawnedMonsters = new List<Monster>();
             roomRuntimeData.roomObject = roomMap;
             roomRuntimeData.decorations = new List<GameObject>();
+            roomRuntimeData.darknessOverlay = darknessOverlay;
             runData[room.Id] = roomRuntimeData;
 
             // RuntimeData -> doors

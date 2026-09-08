@@ -23,6 +23,15 @@ public class PlayerRoomTracker : MonoBehaviour
     private void OnRoomEntered(Room room)
     {
         curRuntimeData = dungeonRenderer.GetRoomRuntimeData(room.Id);
+
+        if(!curRuntimeData.isVisited)
+        {
+            curRuntimeData.isVisited = true;
+            if(curRuntimeData.darknessOverlay != null)
+            {
+                curRuntimeData.darknessOverlay.SetActive(false);
+            }
+        }
     }
 
     private void FixedUpdate()
