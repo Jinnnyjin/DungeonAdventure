@@ -48,6 +48,13 @@ public class Monster : MonoBehaviour, IDamageable
         }
     }
 
+    private void UpdateFacing()
+    {
+        float dx = playerTransform.position.x - transform.position.x;
+        if (dx > 0) spriteRenderer.flipX = false;
+        else if (dx < 0) spriteRenderer.flipX = true;
+    }
+
 
     private void FixedUpdate()
     {
@@ -77,11 +84,13 @@ public class Monster : MonoBehaviour, IDamageable
             case MonsterState.Attack:
                 rb.linearVelocity = Vector2.zero;
                 monsterAnimator.SetBool("Move", false);
+                UpdateFacing();
                 TryAttack();
                 return;
 
             case MonsterState.Chase:
                 monsterAnimator.SetBool("Move", true);
+                UpdateFacing();
                 Chase();
                 return;
         }
