@@ -2149,7 +2149,7 @@ GameObject:
   - component: {fileID: 1486406866}
   - component: {fileID: 1486406865}
   m_Layer: 0
-  m_Name: RoomDistanceFieldManager
+  m_Name: PlayerRoomTracker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2164,10 +2164,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1486406864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc92ff046edd604409e88ada83892449, type: 3}
+  m_Script: {fileID: 11500000, guid: 8891dd260a4273947b276fe1eecadd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomDistanceFieldManager
-  <CurrentPlayerTile>k__BackingField: 0
   dungeonRenderer: {fileID: 1457122736}
   roomEnteredChannel: {fileID: 11400000, guid: e067ac41ece32234abc525e0a502a1ea, type: 2}
   playerTransform: {fileID: 1756469335}
