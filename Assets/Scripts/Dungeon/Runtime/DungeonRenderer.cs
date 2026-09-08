@@ -42,143 +42,159 @@ public class DungeonRenderer : MonoBehaviour
 
     public void RenderDungeon(DungeonGraph graph)
     {
-
         // 초기화
         ClearDungeon();
 
         // 그래프 내 각 방 순회
         foreach (Room room in graph.AllRooms)
         {
-            // 문 위치 계산
             List<Vector2Int> doorPositions = DungeonGeometry.ComputeDoorPositions(room, graph, tileWidth, tileHeight);
-
-            float thisRoomWallRatio = (room.Type == RoomType.Boss || room.Type == RoomType.Treasure) ? 0f : wallRatio;
-            float thisRoomRoughRatio = (room.Type == RoomType.Boss || room.Type == RoomType.Treasure) ? 0f : roughRatio;
-            TileGridGenerator gridGenerator = new TileGridGenerator(tileWidth, tileHeight, maxAttempts, thisRoomWallRatio, thisRoomRoughRatio);
-            
-            // 타일 그리드 생성
-            RoomTileGrid roomTile = gridGenerator.Generate(doorPositions);
-
-            // 오프셋 계산
+            RoomTileGrid roomTile = GenerateRoomTileGrid(room, doorPositions);
             Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
-            Debug.Log($"Room {room.Id} offset: {offset}");
 
-            // 방 콜라이더
-            GameObject roomMap = new GameObject("Room_" + room.Id);
-            roomMap.layer = LayerMask.NameToLayer("RoomBounds");
-            roomMap.transform.position = GetRoomCenterWorldPos(room);
+            RoomRuntimeData roomRuntimeData = CreateRoomRuntimeData(room, roomTile);
+            CreateRoomGameObjects(room, roomRuntimeData, doorPositions, offset);
+            PaintRoomTiles(roomTile, offset);
+            PlaceTreasureDecorationsIfNeeded(room, roomTile, roomRuntimeData);
+        }
+    }
 
-            BoxCollider2D roomcollider = roomMap.AddComponent<BoxCollider2D>();
-            roomcollider.isTrigger = true;
-            roomcollider.size = new Vector2(tileWidth - 3, tileHeight - 3);
+    private RoomTileGrid GenerateRoomTileGrid(Room room, List<Vector2Int> doorPositions)
+    {
+        bool isDecoratedRoom = room.Type == RoomType.Boss || room.Type == RoomType.Treasure;
+        float thisRoomWallRatio = isDecoratedRoom ? 0f : wallRatio;
+        float thisRoomRoughRatio = isDecoratedRoom ? 0f : roughRatio;
+        TileGridGenerator gridGenerator = new TileGridGenerator(tileWidth, tileHeight, maxAttempts, thisRoomWallRatio, thisRoomRoughRatio);
 
-            // DarkOverlay설정
-            GameObject darknessOverlay = Instantiate(darknessOverlayPrefab, roomMap.transform);
-            darknessOverlay.transform.localPosition = Vector3.zero;
-            darknessOverlay.transform.localScale = new Vector3(tileWidth, tileHeight, 1f);
+        return gridGenerator.Generate(doorPositions);
+    }
 
-            // 방 트리거
-            RoomTrigger roomTrigger = roomMap.AddComponent<RoomTrigger>();
-            roomTrigger.EnteringRoom = room;
-            roomTrigger.roomEventChannel = roomEnterChannel;
-            roomTrigger.dungeonRenderer = this;
-            roomTrigger.monsterSpawner = monsterSpawner;
-            roomTrigger.treasureSpawner = treasureSpawner;
+    // 방 콜라이더 / 다크니스 오버레이 / 트리거 / 문 GameObject 생성
+    private void CreateRoomGameObjects(Room room, RoomRuntimeData roomRuntimeData, List<Vector2Int> doorPositions, Vector2Int offset)
+    {
+        // 방 콜라이더
+        GameObject roomMap = new GameObject("Room_" + room.Id);
+        roomMap.layer = LayerMask.NameToLayer("RoomBounds");
+        roomMap.transform.position = GetRoomCenterWorldPos(room);
 
-            // 방 RuntimeData 설정
-            RoomRuntimeData roomRuntimeData = new RoomRuntimeData();
-            roomRuntimeData.room = room;
-            roomRuntimeData.doors = new List<GameObject>();
-            roomRuntimeData.monsterPrefabs = new List<GameObject>();
-            roomRuntimeData.tileGrid = roomTile;
-            roomRuntimeData.spawnedMonsters = new List<Monster>();
-            roomRuntimeData.roomObject = roomMap;
-            roomRuntimeData.decorations = new List<GameObject>();
-            roomRuntimeData.darknessOverlay = darknessOverlay;
-            runData[room.Id] = roomRuntimeData;
+        BoxCollider2D roomcollider = roomMap.AddComponent<BoxCollider2D>();
+        roomcollider.isTrigger = true;
+        roomcollider.size = new Vector2(tileWidth - 3, tileHeight - 3);
 
-            // RuntimeData -> doors
-            foreach(Vector2Int doorLocalPos in doorPositions)
+        // DarkOverlay설정
+        GameObject darknessOverlay = Instantiate(darknessOverlayPrefab, roomMap.transform);
+        darknessOverlay.transform.localPosition = Vector3.zero;
+        darknessOverlay.transform.localScale = new Vector3(tileWidth, tileHeight, 1f);
+
+        // 방 트리거
+        RoomTrigger roomTrigger = roomMap.AddComponent<RoomTrigger>();
+        roomTrigger.EnteringRoom = room;
+        roomTrigger.roomEventChannel = roomEnterChannel;
+        roomTrigger.dungeonRenderer = this;
+        roomTrigger.monsterSpawner = monsterSpawner;
+        roomTrigger.treasureSpawner = treasureSpawner;
+
+        roomRuntimeData.roomObject = roomMap;
+        roomRuntimeData.darknessOverlay = darknessOverlay;
+
+        // 문 GameObject들
+        foreach (Vector2Int doorLocalPos in doorPositions)
+        {
+            Vector2Int worldPos = offset + doorLocalPos;
+            GameObject door = new GameObject();
+            door.transform.position = tilemap.GetCellCenterWorld(new Vector3Int(worldPos.x, worldPos.y, 0));
+
+            BoxCollider2D boxCollider = door.AddComponent<BoxCollider2D>();
+            boxCollider.isTrigger = false;
+            // 데이터 추가
+            roomRuntimeData.doors.Add(door);
+
+            // 문 이벤트 채널 연결
+            DoorGate doorGate = door.AddComponent<DoorGate>();
+            doorGate.room = room;
+            doorGate.dungeonRenderer = this;
+            doorGate.roomClearChannel = roomClearChannel;
+            doorGate.roomEnterChannel = roomEnterChannel;
+        }
+    }
+
+    private RoomRuntimeData CreateRoomRuntimeData(Room room, RoomTileGrid roomTile)
+    {
+        RoomRuntimeData roomRuntimeData = new RoomRuntimeData();
+        roomRuntimeData.room = room;
+        roomRuntimeData.doors = new List<GameObject>();
+        roomRuntimeData.monsterPrefabs = new List<GameObject>();
+        roomRuntimeData.tileGrid = roomTile;
+        roomRuntimeData.spawnedMonsters = new List<Monster>();
+        roomRuntimeData.decorations = new List<GameObject>();
+        runData[room.Id] = roomRuntimeData;
+
+        return roomRuntimeData;
+    }
+
+    private void PaintRoomTiles(RoomTileGrid roomTile, Vector2Int offset)
+    {
+        for (int x = 0; x < tileWidth; x++)
+        {
+            for (int y = 0; y < tileHeight; y++)
             {
-                Vector2Int worldPos = offset + doorLocalPos;
-                GameObject door = new GameObject();
-                door.transform.position = tilemap.GetCellCenterWorld(new Vector3Int(worldPos.x, worldPos.y, 0));
+                Vector2Int localPos = new Vector2Int(x, y);
+                bool isBorder = localPos.x == 0 || localPos.x == tileWidth - 1
+                    || localPos.y == 0 || localPos.y == tileHeight - 1;
+                TileType curType = roomTile.GetTile(localPos);
 
-                BoxCollider2D boxCollider = door.AddComponent<BoxCollider2D>();
-                boxCollider.isTrigger = false;
-                // 데이터 추가
-                roomRuntimeData.doors.Add(door);
+                TileBase tile = null;
 
-                // 문 이벤트 채널 연결
-                DoorGate doorGate = door.AddComponent<DoorGate>();
-                doorGate.room = room;
-                doorGate.dungeonRenderer = this;
-                doorGate.roomClearChannel = roomClearChannel;
-                doorGate.roomEnterChannel = roomEnterChannel;
-            }
-
-            // 방 칸 순회
-            for (int x = 0; x < tileWidth; x++)
-            {
-                for (int y = 0; y < tileHeight; y++)
+                if (curType == TileType.Normal)
                 {
-                    Vector2Int localPos = new Vector2Int(x, y);
-                    bool isBorder = localPos.x == 0 || localPos.x == tileWidth - 1
-                        || localPos.y == 0 || localPos.y == tileHeight - 1;
-                    TileType curType = roomTile.GetTile(localPos);
-
-                    TileBase tile = null;
-
-                    if (curType == TileType.Normal)
-                    {
-                        tile = floorTile;
-                    }
-                    else if (curType == TileType.Rough)
-                    {
-                        tile = roughTile;
-                    }
-                    else if (curType == TileType.Wall)
-                    {
-
-                        if (isBorder)
-                        {
-                            WallDirection dir = DungeonGeometry.GetWallDirection(localPos, tileWidth, tileHeight);
-                            switch (dir)
-                            {
-                                case WallDirection.Up: tile = wallUp; break;
-                                case WallDirection.Down: tile = wallDown; break;
-                                case WallDirection.Left: tile = wallLeft; break;
-                                case WallDirection.Right: tile = wallRight; break;
-                                case WallDirection.UpRight: tile = wallUpRight; break;
-                                case WallDirection.UpLeft: tile = wallUpLeft; break;
-                                case WallDirection.DownRight: tile = wallDownRight; break;
-                                case WallDirection.DownLeft: tile = wallDownLeft; break;
-                            }
-                        }
-                        else
-                        {
-                            tile = barrierTile;
-                        }
-                    }
-
-                    //분기 종료
-                    Vector2Int worldPos = offset + localPos;
-                    tilemap.SetTile(new Vector3Int(worldPos.x, worldPos.y, 0), tile);
+                    tile = floorTile;
                 }
-            }
-
-            if(room.Type == RoomType.Treasure)
-            {
-                RoomDecorationPlacer placer = new RoomDecorationPlacer(decorationPrefab, density, minCount, maxCount, minDistance);
-                List<(Vector2Int pos, GameObject prefab)> decorations = placer.GetDecorations(roomTile);
-
-                foreach (var deco in decorations)
+                else if (curType == TileType.Rough)
                 {
-                    Vector3 worldPos = GetWorldPos(room, deco.pos);
-                    GameObject decoObj = Instantiate(deco.prefab, worldPos, Quaternion.identity);
-                    roomRuntimeData.decorations.Add(decoObj);
+                    tile = roughTile;
                 }
+                else if (curType == TileType.Wall)
+                {
+                    if (isBorder)
+                    {
+                        WallDirection dir = DungeonGeometry.GetWallDirection(localPos, tileWidth, tileHeight);
+                        switch (dir)
+                        {
+                            case WallDirection.Up: tile = wallUp; break;
+                            case WallDirection.Down: tile = wallDown; break;
+                            case WallDirection.Left: tile = wallLeft; break;
+                            case WallDirection.Right: tile = wallRight; break;
+                            case WallDirection.UpRight: tile = wallUpRight; break;
+                            case WallDirection.UpLeft: tile = wallUpLeft; break;
+                            case WallDirection.DownRight: tile = wallDownRight; break;
+                            case WallDirection.DownLeft: tile = wallDownLeft; break;
+                        }
+                    }
+                    else
+                    {
+                        tile = barrierTile;
+                    }
+                }
+
+                //분기 종료
+                Vector2Int worldPos = offset + localPos;
+                tilemap.SetTile(new Vector3Int(worldPos.x, worldPos.y, 0), tile);
             }
+        }
+    }
+
+    private void PlaceTreasureDecorationsIfNeeded(Room room, RoomTileGrid roomTile, RoomRuntimeData roomRuntimeData)
+    {
+        if (room.Type != RoomType.Treasure) return;
+
+        RoomDecorationPlacer placer = new RoomDecorationPlacer(decorationPrefab, density, minCount, maxCount, minDistance);
+        List<(Vector2Int pos, GameObject prefab)> decorations = placer.GetDecorations(roomTile);
+
+        foreach (var deco in decorations)
+        {
+            Vector3 worldPos = GetWorldPos(room, deco.pos);
+            GameObject decoObj = Instantiate(deco.prefab, worldPos, Quaternion.identity);
+            roomRuntimeData.decorations.Add(decoObj);
         }
     }
 
