@@ -10,11 +10,13 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D playerRb;
     private PlayerInputActions playerInput;
     private Animator playerAnimator;
+    private SpriteRenderer playerSpriteRenderer;
 
     void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -25,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 moveInput = playerInput.Player.Move.ReadValue<Vector2>();
+
+        if (moveInput.x > 0) playerSpriteRenderer.flipX = false;
+        else if (moveInput.x < 0) playerSpriteRenderer.flipX = true;
 
         Vector2 velocity = moveInput * moveSpeed ;
 
