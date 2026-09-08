@@ -46,15 +46,11 @@ public class DungeonRenderer : MonoBehaviour
         // 초기화
         ClearDungeon();
 
-        RoomDoorCalculator doorCalculator = new RoomDoorCalculator();
-        DungeonGridConverter converter = new DungeonGridConverter();
-        WallDirectionCalculator directionCalculator = new WallDirectionCalculator();
-
         // 그래프 내 각 방 순회
         foreach (Room room in graph.AllRooms)
         {
             // 문 위치 계산
-            List<Vector2Int> doorPositions = doorCalculator.ComputeDoorPositions(room, graph, tileWidth, tileHeight);
+            List<Vector2Int> doorPositions = DungeonGeometry.ComputeDoorPositions(room, graph, tileWidth, tileHeight);
 
             float thisRoomWallRatio = (room.Type == RoomType.Boss || room.Type == RoomType.Treasure) ? 0f : wallRatio;
             float thisRoomRoughRatio = (room.Type == RoomType.Boss || room.Type == RoomType.Treasure) ? 0f : roughRatio;
@@ -64,7 +60,7 @@ public class DungeonRenderer : MonoBehaviour
             RoomTileGrid roomTile = gridGenerator.Generate(doorPositions);
 
             // 오프셋 계산
-            Vector2Int offset = converter.GetRoomOffset(room, tileWidth, tileHeight);
+            Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
             Debug.Log($"Room {room.Id} offset: {offset}");
 
             // 방 콜라이더
@@ -146,7 +142,7 @@ public class DungeonRenderer : MonoBehaviour
 
                         if (isBorder)
                         {
-                            WallDirection dir = directionCalculator.GetWallDirection(localPos, tileWidth, tileHeight);
+                            WallDirection dir = DungeonGeometry.GetWallDirection(localPos, tileWidth, tileHeight);
                             switch (dir)
                             {
                                 case WallDirection.Up: tile = wallUp; break;
@@ -190,8 +186,7 @@ public class DungeonRenderer : MonoBehaviour
     // 방의 중심 월드 좌표 구하는 함수(offset => 방 내 중앙 칸 => 월드좌표)
     public Vector3 GetRoomCenterWorldPos(Room room)
     {
-        DungeonGridConverter gridconverter = new DungeonGridConverter();
-        Vector2Int offset = gridconverter.GetRoomOffset(room, tileWidth, tileHeight);
+        Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
 
         int x = offset.x + (tileWidth / 2);
         int y = offset.y + (tileHeight / 2);
@@ -204,8 +199,7 @@ public class DungeonRenderer : MonoBehaviour
     // 노멀칸
     public Vector3 GetPlayerSpawnWorldPos(Room room)
     {
-        DungeonGridConverter gridconverter = new DungeonGridConverter();
-        Vector2Int offset = gridconverter.GetRoomOffset(room, tileWidth, tileHeight);
+        Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
 
         Vector2Int localCenterPos = new Vector2Int(tileWidth / 2, tileHeight / 2);
         Vector2Int localSpawnPos = GetRoomRuntimeData(room.Id).tileGrid.FindNearestNormalTile(localCenterPos);
@@ -217,8 +211,7 @@ public class DungeonRenderer : MonoBehaviour
 
     public Vector3 GetWorldPos(Room room, Vector2Int localPos)
     {
-        DungeonGridConverter converter = new DungeonGridConverter();
-        Vector2Int offset = converter.GetRoomOffset(room, tileWidth, tileHeight);
+        Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
 
         Vector3Int worldPos = new Vector3Int(localPos.x + offset.x, localPos.y + offset.y, 0);
 
@@ -230,8 +223,7 @@ public class DungeonRenderer : MonoBehaviour
     {
         Vector3Int pos = tilemap.WorldToCell(worldPos);
 
-        DungeonGridConverter converter = new DungeonGridConverter();
-        Vector2Int offset = converter.GetRoomOffset(room, tileWidth, tileHeight);
+        Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
 
         Vector2Int localPos = new Vector2Int(pos.x - offset.x, pos.y - offset.y);
 
