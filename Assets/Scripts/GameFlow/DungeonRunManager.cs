@@ -57,7 +57,7 @@ public class DungeonRunManager : MonoBehaviour
 
         // 방마다 몬스터 할당
         MonsterSpawnAssigner spawnAssigner = new MonsterSpawnAssigner(meleePrefab, rangedPrefab, bossPrefab, normalRoomRatio, bossRoomRatio);
-        spawnAssigner.AssignMonsters(graph, dungeonRenderer);
+        spawnAssigner.AssignMonsters(graph, dungeonRenderer.RoomRegistry);
 
         // 시작 방
         Room startRoom = null;

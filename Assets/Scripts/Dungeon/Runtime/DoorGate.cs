@@ -7,7 +7,7 @@ public class DoorGate : MonoBehaviour
     public RoomEventChannel roomClearChannel;
 
     private BoxCollider2D boxCollider;
-    public DungeonRenderer dungeonRenderer;
+    public RoomRuntimeRegistry roomRegistry;
 
 
     private void Awake()
@@ -30,7 +30,7 @@ public class DoorGate : MonoBehaviour
 
     private void OnRoomEntered(Room enteredRoom)
     {
-        if(enteredRoom == this.room && !dungeonRenderer.GetRoomRuntimeData(enteredRoom.Id).isCleared)
+        if(enteredRoom == this.room && !roomRegistry.Get(enteredRoom.Id).isCleared)
         {
             boxCollider.enabled = true;
         }
@@ -41,7 +41,7 @@ public class DoorGate : MonoBehaviour
         if(clearedRoom == this.room)
         {
             boxCollider.enabled = false;
-            dungeonRenderer.GetRoomRuntimeData(clearedRoom.Id).isCleared = true;
+            roomRegistry.Get(clearedRoom.Id).isCleared = true;
         }
     }
 }

@@ -9,7 +9,8 @@ public class Monster : MonoBehaviour, IDamageable
     [SerializeField] private float hitFlashDuration = 0.15f;
     [SerializeField] private MonsterData monsterData;
     public RoomRuntimeData runtimeData;
-    public DungeonRenderer dungeonRenderer;
+    public DungeonCoordinateConverter coordinateConverter;
+    public RoomEventChannel roomClearChannel;
     public MonsterSpawner spawner;
     public GameObject sourcePrefab;
     public Transform playerTransform;
@@ -104,7 +105,7 @@ public class Monster : MonoBehaviour, IDamageable
     {
         if (runtimeData == null || runtimeData.distanceField == null) return;
 
-        Vector2Int localPos = dungeonRenderer.GetLocalPos(runtimeData.room, transform.position);
+        Vector2Int localPos = coordinateConverter.GetLocalPos(runtimeData.room, transform.position);
         bool selfInBounds = localPos.x >= 0 && localPos.y >= 0
         && localPos.x < runtimeData.tileGrid.Width && localPos.y < runtimeData.tileGrid.Height;
         if (!selfInBounds) return;
@@ -189,7 +190,7 @@ public class Monster : MonoBehaviour, IDamageable
         // 제거 후 리스트가 비었으면 → 방 클리어 이벤트 발행
         if (runtimeData.spawnedMonsters.Count == 0)
         {
-            dungeonRenderer.roomClearChannel.Raise(runtimeData.room);
+            roomClearChannel.Raise(runtimeData.room);
         }
 
         StartCoroutine(ReleaseAfterDeathAnim(data, pos));

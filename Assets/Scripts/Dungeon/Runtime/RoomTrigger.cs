@@ -4,10 +4,12 @@ using UnityEngine;
 public class RoomTrigger : MonoBehaviour
 {
     public RoomEventChannel roomEventChannel;
+    public RoomEventChannel roomClearChannel;
     public Room EnteringRoom;
     public MonsterSpawner monsterSpawner;
     public TreasureSpawner treasureSpawner;
-    public DungeonRenderer dungeonRenderer;
+    public RoomRuntimeRegistry roomRegistry;
+    public DungeonCoordinateConverter coordinateConverter;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,9 +18,9 @@ public class RoomTrigger : MonoBehaviour
             roomEventChannel.Raise(EnteringRoom);
             Debug.Log($"방 입장: {EnteringRoom.Id}");
 
-            RoomRuntimeData runtimeData = dungeonRenderer.GetRoomRuntimeData(EnteringRoom.Id);
+            RoomRuntimeData runtimeData = roomRegistry.Get(EnteringRoom.Id);
 
-            Vector2Int playerLocalPos = dungeonRenderer.GetLocalPos(EnteringRoom, collision.transform.position);
+            Vector2Int playerLocalPos = coordinateConverter.GetLocalPos(EnteringRoom, collision.transform.position);
             runtimeData.distanceField = runtimeData.tileGrid.ComputeDistanceField(playerLocalPos);
 
             // 몬스터 스폰
@@ -28,10 +30,11 @@ public class RoomTrigger : MonoBehaviour
 
                 for (int i = 0; i < runtimeData.monsterPrefabs.Count; i++)
                 {
-                    Vector3 spawnPos = dungeonRenderer.GetWorldPos(EnteringRoom, spawnPositions[i]);
+                    Vector3 spawnPos = coordinateConverter.GetWorldPos(EnteringRoom, spawnPositions[i]);
                     Monster monster = monsterSpawner.SpawnMonster(runtimeData.monsterPrefabs[i], spawnPos);
                     monster.runtimeData = runtimeData;
-                    monster.dungeonRenderer = dungeonRenderer;
+                    monster.coordinateConverter = coordinateConverter;
+                    monster.roomClearChannel = roomClearChannel;
                     monster.playerTransform = collision.transform;
                     monster.spawner = monsterSpawner;
                     monster.sourcePrefab = runtimeData.monsterPrefabs[i];
@@ -43,13 +46,13 @@ public class RoomTrigger : MonoBehaviour
             // 보물 스폰
             if(EnteringRoom.Type == RoomType.Treasure && !runtimeData.isLooted)
             {
-                // 최소 
+                // 최소
                 int treasureCount = treasureSpawner.GetDropCount();
                 List<Vector2Int> positions = treasureSpawner.GetSpawnPositions(runtimeData.tileGrid, treasureCount);
 
                 for (int i = 0; i < treasureCount; i++)
                 {
-                    Vector3 spawnPos = dungeonRenderer.GetWorldPos(EnteringRoom, positions[i]);
+                    Vector3 spawnPos = coordinateConverter.GetWorldPos(EnteringRoom, positions[i]);
                     treasureSpawner.SpawnTreasure(spawnPos);
                 }
                 runtimeData.isLooted = true;

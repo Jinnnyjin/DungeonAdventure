@@ -36,9 +36,15 @@ public class DungeonRenderer : MonoBehaviour
     [Header("그 외")]
     public RoomEventChannel roomEnterChannel;
     public RoomEventChannel roomClearChannel;
-    private Dictionary<int, RoomRuntimeData> runData = new Dictionary<int, RoomRuntimeData>();
+    private readonly RoomRuntimeRegistry roomRegistry = new RoomRuntimeRegistry();
     [SerializeField] private MonsterSpawner monsterSpawner;
     [SerializeField] private TreasureSpawner treasureSpawner;
+
+    private DungeonCoordinateConverter coordinateConverter;
+    public DungeonCoordinateConverter CoordinateConverter
+        => coordinateConverter ??= new DungeonCoordinateConverter(tilemap, tileWidth, tileHeight);
+
+    public RoomRuntimeRegistry RoomRegistry => roomRegistry;
 
     public void RenderDungeon(DungeonGraph graph)
     {
@@ -90,7 +96,9 @@ public class DungeonRenderer : MonoBehaviour
         RoomTrigger roomTrigger = roomMap.AddComponent<RoomTrigger>();
         roomTrigger.EnteringRoom = room;
         roomTrigger.roomEventChannel = roomEnterChannel;
-        roomTrigger.dungeonRenderer = this;
+        roomTrigger.roomClearChannel = roomClearChannel;
+        roomTrigger.roomRegistry = roomRegistry;
+        roomTrigger.coordinateConverter = CoordinateConverter;
         roomTrigger.monsterSpawner = monsterSpawner;
         roomTrigger.treasureSpawner = treasureSpawner;
 
@@ -112,7 +120,7 @@ public class DungeonRenderer : MonoBehaviour
             // 문 이벤트 채널 연결
             DoorGate doorGate = door.AddComponent<DoorGate>();
             doorGate.room = room;
-            doorGate.dungeonRenderer = this;
+            doorGate.roomRegistry = roomRegistry;
             doorGate.roomClearChannel = roomClearChannel;
             doorGate.roomEnterChannel = roomEnterChannel;
         }
@@ -127,7 +135,7 @@ public class DungeonRenderer : MonoBehaviour
         roomRuntimeData.tileGrid = roomTile;
         roomRuntimeData.spawnedMonsters = new List<Monster>();
         roomRuntimeData.decorations = new List<GameObject>();
-        runData[room.Id] = roomRuntimeData;
+        roomRegistry.Register(room.Id, roomRuntimeData);
 
         return roomRuntimeData;
     }
@@ -199,57 +207,34 @@ public class DungeonRenderer : MonoBehaviour
     }
 
     // TODO : 장애물 / ROUGH 타일 위 스폰 방지 필요(RoomTileGrid 저장 구조 만들 때 같이 처리)
-    // 방의 중심 월드 좌표 구하는 함수(offset => 방 내 중앙 칸 => 월드좌표)
     public Vector3 GetRoomCenterWorldPos(Room room)
     {
-        Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
-
-        int x = offset.x + (tileWidth / 2);
-        int y = offset.y + (tileHeight / 2);
-
-        Vector3Int centerPos = new Vector3Int(x, y, 0);
-
-        return tilemap.CellToWorld(centerPos);
+        return CoordinateConverter.GetRoomCenterWorldPos(room);
     }
 
     // 노멀칸
     public Vector3 GetPlayerSpawnWorldPos(Room room)
     {
-        Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
-
         Vector2Int localCenterPos = new Vector2Int(tileWidth / 2, tileHeight / 2);
         Vector2Int localSpawnPos = GetRoomRuntimeData(room.Id).tileGrid.FindNearestNormalTile(localCenterPos);
 
-        Vector3Int worldCenterPos = new Vector3Int(localSpawnPos.x + offset.x, localSpawnPos.y +  offset.y, 0);
-        Debug.Log($"중앙: {localCenterPos}, 보정된 스폰: {localSpawnPos}, 타일타입: {GetRoomRuntimeData(room.Id).tileGrid.GetTile(localSpawnPos)}");
-        return tilemap.GetCellCenterWorld(worldCenterPos); 
+        return CoordinateConverter.GetWorldPos(room, localSpawnPos);
     }
 
     public Vector3 GetWorldPos(Room room, Vector2Int localPos)
     {
-        Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
-
-        Vector3Int worldPos = new Vector3Int(localPos.x + offset.x, localPos.y + offset.y, 0);
-
-        return tilemap.GetCellCenterWorld(worldPos);
+        return CoordinateConverter.GetWorldPos(room, localPos);
     }
-    
-    // worldPos - offset = localPos
+
     public Vector2Int GetLocalPos(Room room, Vector3 worldPos)
     {
-        Vector3Int pos = tilemap.WorldToCell(worldPos);
-
-        Vector2Int offset = DungeonGeometry.GetRoomOffset(room, tileWidth, tileHeight);
-
-        Vector2Int localPos = new Vector2Int(pos.x - offset.x, pos.y - offset.y);
-
-        return localPos;
+        return CoordinateConverter.GetLocalPos(room, worldPos);
     }
 
 
     public RoomRuntimeData GetRoomRuntimeData(int roomId)
     {
-        return runData[roomId];
+        return roomRegistry.Get(roomId);
     }
 
 
@@ -267,7 +252,7 @@ public class DungeonRenderer : MonoBehaviour
             ObjectPoolManager.Instance.Release<Projectile>(projectile.SourcePrefab, projectile);
         }
 
-        foreach (RoomRuntimeData data in runData.Values)
+        foreach (RoomRuntimeData data in roomRegistry.AllData)
         {
             // 몬스터 제거
             foreach (Monster monster in data.spawnedMonsters)
@@ -294,6 +279,6 @@ public class DungeonRenderer : MonoBehaviour
         tilemap.ClearAllTiles();
 
         // RunData 제거
-        runData.Clear();
+        roomRegistry.Clear();
     }
 }
