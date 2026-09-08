@@ -1,8 +1,8 @@
 using UnityEngine;
-using UnityEngine.Splines;
 
 public class PlayerStats : MonoBehaviour, IDamageable
 {
+    private static readonly int PlayerDeathHash = Animator.StringToHash("PlayerDeath");
     [SerializeField] private float baseMaxHealth = 100;
     [SerializeField] private float baseAttack;
     [SerializeField] private float baseDefense;
@@ -14,6 +14,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private float defense;
     private float moveSpeed;
     private bool isDead;
+    private Animator playerAnimator;
 
     private Inventory inventory;
     [SerializeField] private VoidEventChannel onItemEquippedChannel;
@@ -32,6 +33,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private void Awake()
     {
         inventory = GetComponent<Inventory>();
+        playerAnimator = GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -92,6 +94,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
         if (curHp <= 0)
         {
             isDead = true;
+            playerAnimator.SetTrigger(PlayerDeathHash);
             onPlayerDeadChannel.Raise();
         }
     }

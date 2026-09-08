@@ -2135,6 +2135,9 @@ MonoBehaviour:
   playerInventory: {fileID: 1756469338}
   warriorStartWeapon: {fileID: 11400000, guid: f6b449fcc8c56d347ab5c528c01f1cd1, type: 2}
   archerStartWeapon: {fileID: 11400000, guid: 531936b80db93de41a7326d93d1c58cc, type: 2}
+  playerAnimator: {fileID: 1756469341}
+  warriorController: {fileID: 9100000, guid: 946944b07aa583441b4ab93b6729fafc, type: 2}
+  archerController: {fileID: 9100000, guid: db2339b84d67f404f888eb4e2cc67f01, type: 2}
 --- !u!1 &1486406864
 GameObject:
   m_ObjectHideFlags: 0
@@ -2749,6 +2752,7 @@ GameObject:
   - component: {fileID: 1756469338}
   - component: {fileID: 1756469339}
   - component: {fileID: 1756469340}
+  - component: {fileID: 1756469341}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -2996,6 +3000,28 @@ MonoBehaviour:
   attackText: {fileID: 2005166170}
   defenseText: {fileID: 1557008546}
   speedText: {fileID: 1050510445}
+--- !u!95 &1756469341
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756469330}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1821454318
 GameObject:
   m_ObjectHideFlags: 0

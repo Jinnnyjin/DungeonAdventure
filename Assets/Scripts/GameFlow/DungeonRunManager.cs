@@ -26,8 +26,11 @@ public class DungeonRunManager : MonoBehaviour
     [SerializeField] private Inventory playerInventory;
     [SerializeField] private ItemData warriorStartWeapon;
     [SerializeField] private ItemData archerStartWeapon;
+    [SerializeField] private Animator playerAnimator;
+    [SerializeField] private RuntimeAnimatorController warriorController;
+    [SerializeField] private RuntimeAnimatorController archerController;
 
-    
+
 
     private void Start()
     {
@@ -74,6 +77,9 @@ public class DungeonRunManager : MonoBehaviour
         // 스타팅 무기 장착
         ItemData startWeapon = GameSession.SelectedJob == JobType.Warrior ? warriorStartWeapon : archerStartWeapon;
         playerInventory.EquipStartingWeapon(startWeapon);
+
+        // 직업에 맞게 컨트롤러 설정
+        playerAnimator.runtimeAnimatorController = GameSession.SelectedJob == JobType.Warrior ? warriorController : archerController;
 
         roomEnteredChannel.Raise(startRoom);
 

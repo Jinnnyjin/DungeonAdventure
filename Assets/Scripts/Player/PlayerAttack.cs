@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    private static readonly int PlayerAttackHash = Animator.StringToHash("PlayerAttack");
+
     public AttackBehaviorSO attackBehavior;
     public PlayerMovement playerMovement;
     public Transform attackRangeTransform;
@@ -12,10 +14,16 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private VoidEventChannel onItemEquippedChannel;
     [SerializeField] private VoidEventChannel onItemUnequippedChannel;
 
+    private Animator playerAnimator;
 
 
     private Collider2D[] hitBuffer = new Collider2D[10];
     private PlayerInputActions playerInput;
+
+    private void Awake()
+    {
+        playerAnimator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
@@ -53,43 +61,71 @@ public class PlayerAttack : MonoBehaviour
     private void TryAttack()
     {
         // 무기 해제 상태 시 공격하지 않음
-        if (attackBehavior == null) return; 
+        if (attackBehavior == null) return;
 
-        ContactFilter2D contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
-        
-        int hitCount = Physics2D.OverlapCircle(attackRangeTransform.position, attackBehavior.AttackRange, contactFilter, hitBuffer);
+        playerAnimator.SetTrigger(PlayerAttackHash);
 
         // 싱글타겟 공격
         if(attackBehavior.IsSingleTarget)
         {
-            float closestDist = float.MaxValue;
-            Collider2D closestTarget = null;
-
-            for(int i = 0; i < hitCount; i++)
-            {
-                float dist = (hitBuffer[i].transform.position - attackRangeTransform.position).sqrMagnitude;
-
-                if (dist < closestDist)
-                {
-                    closestDist = dist;
-                    closestTarget = hitBuffer[i];
-                }
-
-            }
-            if (closestTarget == null) return;
-
-            attackBehavior.Attack(transform, closestTarget.transform);
+            PerformSingleTargetAttack();
         }
-        // 광역 공격
-        else
+        
+    }
+
+    // 단일 공격
+    private void PerformSingleTargetAttack()
+    {
+        int hitCount = GetMonstersInRange();
+
+        float closestDist = float.MaxValue;
+        Collider2D closestTarget = null;
+
+        for (int i = 0; i < hitCount; i++)
         {
-            for (int i = 0; i < hitCount; i++)
+            float dist = (hitBuffer[i].transform.position - attackRangeTransform.position).sqrMagnitude;
+
+            if (dist < closestDist)
             {
-                    attackBehavior.Attack(transform, hitBuffer[i].transform);
+                closestDist = dist;
+                closestTarget = hitBuffer[i];
             }
+
+        }
+        if (closestTarget == null) return;
+
+        attackBehavior.Attack(transform, closestTarget.transform);
+    }
+
+    // 광역 공격
+    private void PerformMultiTargetAttack()
+    {
+        int hitCount = GetMonstersInRange();
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            attackBehavior.Attack(transform, hitBuffer[i].transform);
         }
     }
+
+    public void TriggerAttAnimTurnOn()
+    {
+        if (attackBehavior == null || attackBehavior.IsSingleTarget) return;
+        PerformMultiTargetAttack();
+    }
+
+    public void TriggerAttAnimTurnOff()
+    {
+        // 지금은 처리 없음
+    }
+
+    private int GetMonstersInRange()
+    {
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
+
+        return Physics2D.OverlapCircle(attackRangeTransform.position, attackBehavior.AttackRange, contactFilter, hitBuffer);
+    }    
 
     private void OnDrawGizmos()
     {
