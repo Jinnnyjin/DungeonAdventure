@@ -30,7 +30,7 @@ public class Monster : MonoBehaviour, IDamageable
         monsterAnimator.SetFloat("ChasingSpeed", monsterData.MoveSpeed);
 
         isDead = false;
-        monsterAnimator.SetBool("Died", false);
+        monsterAnimator.ResetTrigger("Died");
         monsterAnimator.Play("Idle", 0, 0f);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -141,9 +141,8 @@ public class Monster : MonoBehaviour, IDamageable
         {
             isDead = true;
             rb.linearVelocity = Vector2.zero;
-            monsterAnimator.SetBool("Died", true);
+            monsterAnimator.SetTrigger("Died");
         }
-        monsterAnimator.SetTrigger("TakeDamage");
 
         if (curHp <= 0)
         {
