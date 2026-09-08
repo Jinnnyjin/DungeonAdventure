@@ -13,7 +13,16 @@ public class RangedAttackSO : AttackBehaviorSO
         Projectile projectile = ObjectPoolManager.Instance.Get<Projectile>(ProjectilePrefab);
         projectile.transform.position = attacker.position;
 
-        Vector2 dir = (target.position - attacker.position).normalized;
+        // 콜라이더 기준으로
+        Vector3 aimPoint = target.position;
+        Collider2D targetCollider = target.GetComponent<Collider2D>();
+        if (targetCollider != null)
+        {
+            aimPoint = targetCollider.bounds.center;
+        }
+
+        Vector2 dir = (aimPoint - attacker.position).normalized;
+
         projectile.MoveDir = dir;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
