@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class Monster : MonoBehaviour, IDamageable
 {
     private enum MonsterState { Idle, Chase, Attack }
 
+    [SerializeField] private float deathAnimationDuration = 1f;
     [SerializeField] private MonsterData monsterData;
     public RoomRuntimeData runtimeData;
     public DungeonRenderer dungeonRenderer;
@@ -14,19 +16,30 @@ public class Monster : MonoBehaviour, IDamageable
 
     private Rigidbody2D rb;
     private int curHp;
+    private bool isDead;
     private float lastAttackTime;
     private MonsterState curState;
+    private Animator monsterAnimator;
 
     private void OnEnable()
     {
         curHp = monsterData.Health;
         rb = GetComponent<Rigidbody2D>();
+        monsterAnimator = GetComponent<Animator>();
+        monsterAnimator.SetFloat("ChasingSpeed", monsterData.MoveSpeed);
+
+        isDead = false;
+        monsterAnimator.SetBool("Died", false);
+        monsterAnimator.Play("Idle", 0, 0f);
+
         curState = MonsterState.Idle;
     }
 
 
     private void FixedUpdate()
     {
+        if (isDead) return;
+
         // 상태 판단
         float distance = Vector3.Distance(playerTransform.position, rb.position);
         if (distance > monsterData.DetectionRange)
@@ -45,14 +58,17 @@ public class Monster : MonoBehaviour, IDamageable
         {
             case MonsterState.Idle:
                 rb.linearVelocity = Vector2.zero;
+                monsterAnimator.SetBool("Move", false);
                 return;
 
             case MonsterState.Attack:
                 rb.linearVelocity = Vector2.zero;
+                monsterAnimator.SetBool("Move", false);
                 TryAttack();
                 return;
 
             case MonsterState.Chase:
+                monsterAnimator.SetBool("Move", true);
                 Chase();
                 return;
         }
@@ -63,6 +79,7 @@ public class Monster : MonoBehaviour, IDamageable
         if (Time.time - lastAttackTime >= monsterData.AttackBehavior.Cooldown)
         {
             monsterData.AttackBehavior.Attack(transform, playerTransform);
+            monsterAnimator.SetTrigger("EnemyAttack");
             lastAttackTime = Time.time;
         }
     }
@@ -102,8 +119,18 @@ public class Monster : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount)
     {
+        if (isDead) return;
+
         curHp -= amount;
         Debug.Log($"플레이어 -> 몬스터 공격, 남은 HP: {curHp}");
+
+        if (curHp <= 0)
+        {
+            isDead = true;
+            rb.linearVelocity = Vector2.zero;
+            monsterAnimator.SetBool("Died", true);
+        }
+        monsterAnimator.SetTrigger("TakeDamage");
 
         if (curHp <= 0)
         {
@@ -126,9 +153,16 @@ public class Monster : MonoBehaviour, IDamageable
             dungeonRenderer.roomClearChannel.Raise(runtimeData.room);
         }
 
+        StartCoroutine(ReleaseAfterDeathAnim(data, pos));
+    }
+
+    private IEnumerator ReleaseAfterDeathAnim(MonsterData data, Vector3 pos)
+    {
+        yield return new WaitForSeconds(deathAnimationDuration);
+
         // 오브젝트 풀에 반납 (SetActive(false) + spawner.ReleaseMonster)
         spawner.ReleaseMonster(sourcePrefab, this);
-        
+
         // 이벤트 발행
         onMonsterKilledChannel.Raise(new MonsterDeathInfo { MonsterData = data, Position = pos });
     }

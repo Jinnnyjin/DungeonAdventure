@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7943823011329833913}
   - component: {fileID: 5748093232816207297}
   - component: {fileID: 3634590903141216879}
+  - component: {fileID: 1922386719797863033}
   m_Layer: 6
   m_Name: '[Boss] A'
   m_TagString: Untagged
@@ -106,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021a426cdd63acf4fb289caaff2bac26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
+  deathAnimationDuration: 1
   monsterData: {fileID: 11400000, guid: 5f1816c7c8fbd8c448da014e5a881656, type: 2}
   dungeonRenderer: {fileID: 0}
   spawner: {fileID: 0}
@@ -175,3 +177,25 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.08506179, y: 1.5456443}
   m_Radius: 0.893749
+--- !u!95 &1922386719797863033
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5811518709749356713}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d389308bd5adc584d837af375457b9f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

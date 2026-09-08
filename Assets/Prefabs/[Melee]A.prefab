@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5352534609986002680}
   - component: {fileID: 2538319195454212100}
   - component: {fileID: 1127494598535836363}
+  - component: {fileID: 8448444144471121682}
   m_Layer: 6
   m_Name: '[Melee]A'
   m_TagString: Untagged
@@ -106,11 +107,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021a426cdd63acf4fb289caaff2bac26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
+  deathAnimationDuration: 1
   monsterData: {fileID: 11400000, guid: 615d69384eb265c49949bc88143a4f22, type: 2}
   dungeonRenderer: {fileID: 0}
   spawner: {fileID: 0}
   sourcePrefab: {fileID: 0}
   playerTransform: {fileID: 0}
+  onMonsterKilledChannel: {fileID: 0}
 --- !u!50 &2538319195454212100
 Rigidbody2D:
   serializedVersion: 5
@@ -175,3 +178,25 @@ CapsuleCollider2D:
   m_Offset: {x: -0.016581535, y: 0.53999996}
   m_Size: {x: 0.8392391, y: 0.8}
   m_Direction: 0
+--- !u!95 &8448444144471121682
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6994163755847079111}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f493903870fbe88428799c56b99f30ef, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
