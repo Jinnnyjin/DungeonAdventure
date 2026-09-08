@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class RoomDistanceFieldManager : MonoBehaviour
+public class PlayerRoomTracker : MonoBehaviour
 {
+    public TileType CurrentPlayerTile { get; private set; } = TileType.Normal;
+
     [SerializeField] private DungeonRenderer dungeonRenderer;
     [SerializeField] private RoomEventChannel roomEnteredChannel;
     [SerializeField] private Transform playerTransform;
@@ -33,6 +35,7 @@ public class RoomDistanceFieldManager : MonoBehaviour
 
         if(playerInBounds)
         {
+            CurrentPlayerTile = curRuntimeData.tileGrid.GetTile(playerLocalPos);
             curRuntimeData.distanceField = curRuntimeData.tileGrid.ComputeDistanceField(playerLocalPos);
         }
     }

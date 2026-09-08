@@ -129,7 +129,11 @@ public class Monster : MonoBehaviour, IDamageable
             }
         }
 
-        Vector2 velocity = new Vector2(bestDir.x, bestDir.y).normalized * monsterData.MoveSpeed;
+        float speedMultiplier = runtimeData.tileGrid.GetTile(localPos) == TileType.Rough
+                                ? RoomTileGrid.ROUGH_SPEED_MULTIPLIER : 1f;
+
+        Vector2 velocity = new Vector2(bestDir.x, bestDir.y).normalized * monsterData.MoveSpeed * speedMultiplier;
+
         rb.linearVelocity = velocity;
     }
 

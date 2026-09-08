@@ -12,6 +12,7 @@ public class RoomTileGrid
 
     private const int NORMAL_COST = 1;
     private const int ROUGH_COST = 3;
+    public const float ROUGH_SPEED_MULTIPLIER = 0.5f;
 
 
     public RoomTileGrid(int width, int height)
