@@ -57,12 +57,37 @@ public class PlayerAttack : MonoBehaviour
 
         ContactFilter2D contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
-
+        
         int hitCount = Physics2D.OverlapCircle(attackRangeTransform.position, attackBehavior.AttackRange, contactFilter, hitBuffer);
 
-        for (int i = 0; i < hitCount; i++)
+        // 싱글타겟 공격
+        if(attackBehavior.IsSingleTarget)
         {
-                attackBehavior.Attack(transform, hitBuffer[i].transform);
+            float closestDist = float.MaxValue;
+            Collider2D closestTarget = null;
+
+            for(int i = 0; i < hitCount; i++)
+            {
+                float dist = (hitBuffer[i].transform.position - attackRangeTransform.position).sqrMagnitude;
+
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closestTarget = hitBuffer[i];
+                }
+
+            }
+            if (closestTarget == null) return;
+
+            attackBehavior.Attack(transform, closestTarget.transform);
+        }
+        // 광역 공격
+        else
+        {
+            for (int i = 0; i < hitCount; i++)
+            {
+                    attackBehavior.Attack(transform, hitBuffer[i].transform);
+            }
         }
     }
 
