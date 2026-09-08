@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomDecorationPlacer : MonoBehaviour
+public class RoomDecorationPlacer
 {
     private readonly List<GameObject> decorationPrefabs;
     private readonly float density;
