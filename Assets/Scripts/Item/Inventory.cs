@@ -83,41 +83,39 @@ public class Inventory : MonoBehaviour
     {
         ItemData item = slots[index];
         if (item == null) return false;
-        
+
         switch(item.SlotType)
         {
-
             case EquipmentSlotType.Weapon:
                 if (item.RequiredJob != JobType.None && item.RequiredJob != GameSession.SelectedJob) return false;
-                RemoveItemAt(index);
-                if(equippedWeapon != null)
-                {
-                    TryAddItem(equippedWeapon);
-                }
-                equippedWeapon = item;
+                EquipSlot(index, item, () => equippedWeapon, v => equippedWeapon = v);
                 break;
 
             case EquipmentSlotType.Armor:
-                RemoveItemAt(index);
-                if (equippedArmor != null)
-                {
-                    TryAddItem(equippedArmor);
-                }
-                equippedArmor = item;
+                EquipSlot(index, item, () => equippedArmor, v => equippedArmor = v);
                 break;
 
             case EquipmentSlotType.Accessory:
-                RemoveItemAt(index);
-                if (equippedAccessory != null)
-                {
-                    TryAddItem(equippedAccessory);
-                }
-                equippedAccessory = item;
+                EquipSlot(index, item, () => equippedAccessory, v => equippedAccessory = v);
                 break;
         }
 
         onItemEquippedChannel.Raise();
         return true;
+    }
+
+    // 기존 장착 아이템을 인벤토리로 되돌리고 새 아이템을 장착
+    private void EquipSlot(int index, ItemData item, Func<ItemData> getEquipped, Action<ItemData> setEquipped)
+    {
+        RemoveItemAt(index);
+
+        ItemData previouslyEquipped = getEquipped();
+        if (previouslyEquipped != null)
+        {
+            TryAddItem(previouslyEquipped);
+        }
+
+        setEquipped(item);
     }
 
     // 아이템 착용 해제
@@ -126,52 +124,35 @@ public class Inventory : MonoBehaviour
         switch(slotType)
         {
             case EquipmentSlotType.Weapon:
-                if (equippedWeapon == null)
-                {
-                    throw new InvalidOperationException($"무기 장비 창에 착용한 장비가 없습니다.");
-                }
-                if(!TryAddItem(equippedWeapon))
-                {
-                    return false;
-                }
-                
-                equippedWeapon = null;
-                onItemUnequippedChannel.Raise();
-                return true;
+                return UnequipSlot(() => equippedWeapon, v => equippedWeapon = v, "무기");
 
             case EquipmentSlotType.Armor:
-                if (equippedArmor == null)
-                {
-                    throw new InvalidOperationException($"방어구 장비 창에 착용한 장비가 없습니다.");
-                }
-
-                if (!TryAddItem(equippedArmor))
-                {
-                    return false;
-                }
-
-                equippedArmor = null;
-                onItemUnequippedChannel.Raise();
-                return true;
+                return UnequipSlot(() => equippedArmor, v => equippedArmor = v, "방어구");
 
             case EquipmentSlotType.Accessory:
-                if (equippedAccessory == null)
-                {
-                    throw new InvalidOperationException($"악세사리 장비 창에 착용한 장비가 없습니다.");
-                }
-
-                if (!TryAddItem(equippedAccessory))
-                {
-                    return false;
-                }
-
-                equippedAccessory = null;
-                onItemUnequippedChannel.Raise();
-                return true;
+                return UnequipSlot(() => equippedAccessory, v => equippedAccessory = v, "악세사리");
 
             default:
                 throw new ArgumentException($"알 수 없는 슬롯 타입: {slotType}");
         }
+    }
+
+    private bool UnequipSlot(Func<ItemData> getEquipped, Action<ItemData> setEquipped, string slotName)
+    {
+        ItemData equipped = getEquipped();
+        if (equipped == null)
+        {
+            throw new InvalidOperationException($"{slotName} 장비 창에 착용한 장비가 없습니다.");
+        }
+
+        if (!TryAddItem(equipped))
+        {
+            return false;
+        }
+
+        setEquipped(null);
+        onItemUnequippedChannel.Raise();
+        return true;
     }
 
     // 아이템 버리기
