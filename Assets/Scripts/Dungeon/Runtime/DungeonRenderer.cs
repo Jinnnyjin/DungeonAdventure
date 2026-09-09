@@ -206,7 +206,6 @@ public class DungeonRenderer : MonoBehaviour
         }
     }
 
-    // TODO : 장애물 / ROUGH 타일 위 스폰 방지 필요(RoomTileGrid 저장 구조 만들 때 같이 처리)
     public Vector3 GetRoomCenterWorldPos(Room room)
     {
         return CoordinateConverter.GetRoomCenterWorldPos(room);
