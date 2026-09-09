@@ -15,6 +15,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private float moveSpeed;
     private bool isDead;
     private Animator playerAnimator;
+    private HitFlashEffect hitFlashEffect;
 
     private Inventory inventory;
     [SerializeField] private VoidEventChannel onItemEquippedChannel;
@@ -34,6 +35,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
     {
         inventory = GetComponent<Inventory>();
         playerAnimator = GetComponent<Animator>();
+        hitFlashEffect = GetComponent<HitFlashEffect>();
     }
 
     private void OnEnable()
@@ -86,6 +88,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        hitFlashEffect.Flash();
+
         float realDamage = CalculateDamage(amount);
         curHp -= realDamage;
         Debug.Log($"플레이어 데미지 받음: {realDamage}, 남은 체력{curHp}");
@@ -102,6 +106,12 @@ public class PlayerStats : MonoBehaviour, IDamageable
     public void ResetStats()
     {
         isDead = false;
+
+        // 사망 애니메이션(PlayerDeath)에 멈춰있는 Animator를 컨트롤러의 기본 상태로 되돌림
+        playerAnimator.ResetTrigger(PlayerDeathHash);
+        playerAnimator.Rebind();
+        playerAnimator.Update(0f);
+
         RecalculateStats();
         curHp = maxHealth;
         onPlayerStatChangedChannel.Raise();

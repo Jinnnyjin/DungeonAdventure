@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2538319195454212100}
   - component: {fileID: 1127494598535836363}
   - component: {fileID: 8448444144471121682}
+  - component: {fileID: -8155924468919447483}
   m_Layer: 6
   m_Name: '[Melee]A'
   m_TagString: Untagged
@@ -109,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Monster
   deathAnimationDuration: 1
   monsterData: {fileID: 11400000, guid: 615d69384eb265c49949bc88143a4f22, type: 2}
-  dungeonRenderer: {fileID: 0}
+  roomClearChannel: {fileID: 0}
   spawner: {fileID: 0}
   sourcePrefab: {fileID: 0}
   playerTransform: {fileID: 0}
@@ -200,3 +201,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-8155924468919447483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6994163755847079111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e002d5fe649e93c4e9821f1b5a6a8b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  duration: 0.15

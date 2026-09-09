@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5748093232816207297}
   - component: {fileID: 3634590903141216879}
   - component: {fileID: 1922386719797863033}
+  - component: {fileID: -2170171954554869468}
   m_Layer: 6
   m_Name: '[Boss] A'
   m_TagString: Untagged
@@ -109,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Monster
   deathAnimationDuration: 1
   monsterData: {fileID: 11400000, guid: 5f1816c7c8fbd8c448da014e5a881656, type: 2}
-  dungeonRenderer: {fileID: 0}
+  roomClearChannel: {fileID: 0}
   spawner: {fileID: 0}
   sourcePrefab: {fileID: 0}
   playerTransform: {fileID: 0}
@@ -199,3 +200,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-2170171954554869468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5811518709749356713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e002d5fe649e93c4e9821f1b5a6a8b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  duration: 0.15

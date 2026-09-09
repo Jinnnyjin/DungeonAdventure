@@ -6,7 +6,6 @@ public class Monster : MonoBehaviour, IDamageable
     private enum MonsterState { Idle, Chase, Attack }
 
     [SerializeField] private float deathAnimationDuration = 1f;
-    [SerializeField] private float hitFlashDuration = 0.15f;
     [SerializeField] private MonsterData monsterData;
     public RoomRuntimeData runtimeData;
     public DungeonCoordinateConverter coordinateConverter;
@@ -23,7 +22,7 @@ public class Monster : MonoBehaviour, IDamageable
     private MonsterState curState;
     private Animator monsterAnimator;
     private SpriteRenderer spriteRenderer;
-    private float hitFlashTimer;
+    private HitFlashEffect hitFlashEffect;
 
     private void OnEnable()
     {
@@ -37,7 +36,8 @@ public class Monster : MonoBehaviour, IDamageable
         monsterAnimator.Play("Idle", 0, 0f);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.color = Color.white;
+        hitFlashEffect = GetComponent<HitFlashEffect>();
+        hitFlashEffect.ResetColor();
 
         curState = MonsterState.Idle;
 
@@ -142,8 +142,7 @@ public class Monster : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
-        spriteRenderer.color = Color.red;
-        hitFlashTimer = hitFlashDuration;
+        hitFlashEffect.Flash();
 
         curHp -= amount;
         Debug.Log($"플레이어 -> 몬스터 공격, 남은 HP: {curHp}");
@@ -159,23 +158,6 @@ public class Monster : MonoBehaviour, IDamageable
         {
             Die();
         }
-    }
-
-    private void LateUpdate()
-    {
-        if (isDead) return;
-
-        if (hitFlashTimer > 0f)
-        {
-            hitFlashTimer -= Time.deltaTime;
-            if (hitFlashTimer <= 0f)
-            {
-                spriteRenderer.color = Color.white;
-            }
-            return;
-        }
-
-        spriteRenderer.color = Color.white;
     }
 
     private void Die()
