@@ -13,6 +13,7 @@ public class MonsterData : ScriptableObject
 {
 
     public string MonsterName;
+    public bool IsBoss;
     public int Health;
     public float MoveSpeed;
     public float DetectionRange;

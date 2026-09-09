@@ -34,6 +34,9 @@ public class DungeonCycleManager : MonoBehaviour
 
     public void RestartGame()
     {
+        // 결과창을 띄우며 멈춘 시간 재개
+        Time.timeScale = 1f;
+
         // 결과창 비활성화
         HideResult();
 
@@ -70,6 +73,9 @@ public class DungeonCycleManager : MonoBehaviour
         PlayerActionManager.Instance.Actions.Player.Disable();
         resultPanel.SetActive(true);
         resultText.text = message;
+
+        // 몬스터 이동/공격, Projectile 등 시간 기반 동작을 모두 정지
+        Time.timeScale = 0f;
     }
 
     private void HideResult()
@@ -79,6 +85,7 @@ public class DungeonCycleManager : MonoBehaviour
 
     public void LoadTitleScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneNames.Title);
     }
 }

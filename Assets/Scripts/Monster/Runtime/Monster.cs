@@ -169,8 +169,8 @@ public class Monster : MonoBehaviour, IDamageable
         // 방의 spawnedMonsters에서 자신 제거
         runtimeData.spawnedMonsters.Remove(this);
 
-        // 제거 후 리스트가 비었으면 → 방 클리어 이벤트 발행
-        if (runtimeData.spawnedMonsters.Count == 0)
+        // 보스를 처치했다면 남은 몬스터와 상관없이 즉시 클리어, 그 외엔 전멸 시 클리어
+        if (data.IsBoss || runtimeData.spawnedMonsters.Count == 0)
         {
             roomClearChannel.Raise(runtimeData.room);
         }
