@@ -4,8 +4,6 @@ public class PlayerRoomTracker : MonoBehaviour
 {
     public TileType CurrentPlayerTile { get; private set; } = TileType.Normal;
 
-    // 씬에 배치된 DungeonRenderer를 통해서만 RoomRegistry/CoordinateConverter에 접근 가능
-    // (플레인 C# 서비스 클래스는 Inspector에 직접 드래그로 연결할 수 없음)
     [SerializeField] private DungeonRenderer dungeonRenderer;
     [SerializeField] private RoomEventChannel roomEnteredChannel;
     [SerializeField] private Transform playerTransform;
@@ -13,6 +11,10 @@ public class PlayerRoomTracker : MonoBehaviour
     private RoomRuntimeRegistry roomRegistry;
     private DungeonCoordinateConverter coordinateConverter;
     private RoomRuntimeData curRuntimeData;
+
+    // 아직 한 번도 계산 안 한 상태를 표시하는 값 (방 진입 시 최초 1회는 무조건 계산되도록)
+    private static readonly Vector2Int Unset = new Vector2Int(int.MinValue, int.MinValue);
+    private Vector2Int lastComputedLocalPos = Unset;
 
     private void OnEnable()
     {
@@ -29,6 +31,7 @@ public class PlayerRoomTracker : MonoBehaviour
     private void OnRoomEntered(Room room)
     {
         curRuntimeData = roomRegistry.Get(room.Id);
+        lastComputedLocalPos = Unset;
 
         if(!curRuntimeData.isVisited)
         {
@@ -51,7 +54,17 @@ public class PlayerRoomTracker : MonoBehaviour
         if(playerInBounds)
         {
             CurrentPlayerTile = curRuntimeData.tileGrid.GetTile(playerLocalPos);
-            curRuntimeData.distanceField = curRuntimeData.tileGrid.ComputeDistanceField(playerLocalPos);
+
+            // 쫓아올 몬스터가 없거나 플레이어가 이전과 같은 타일에 머물러 있으면
+            // 결과가 동일하므로 재계산 건너뜀
+            bool hasChasers = curRuntimeData.spawnedMonsters.Count > 0;
+            bool playerMovedTile = playerLocalPos != lastComputedLocalPos;
+
+            if (hasChasers && playerMovedTile)
+            {
+                curRuntimeData.distanceField = curRuntimeData.tileGrid.ComputeDistanceField(playerLocalPos);
+                lastComputedLocalPos = playerLocalPos;
+            }
         }
     }
 }
