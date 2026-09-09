@@ -14,6 +14,28 @@ public class Projectile : MonoBehaviour
 
     public static readonly List<Projectile> Active = new List<Projectile>();
 
+    // 정적 필드 초기화 시점에는 LayerMask.NameToLayer 되지않아 최초 접근 시점까지 지연 계산
+    private static int playerProjectileLayer = -1;
+    private static int monsterProjectileLayer = -1;
+
+    public static int PlayerProjectileLayer
+    {
+        get
+        {
+            if (playerProjectileLayer == -1) playerProjectileLayer = LayerMask.NameToLayer("PlayerProjectile");
+            return playerProjectileLayer;
+        }
+    }
+
+    public static int MonsterProjectileLayer
+    {
+        get
+        {
+            if (monsterProjectileLayer == -1) monsterProjectileLayer = LayerMask.NameToLayer("MonsterProjectile");
+            return monsterProjectileLayer;
+        }
+    }
+
     private float spawnedTime;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -37,7 +59,7 @@ public class Projectile : MonoBehaviour
     // 몬스터/플레이어 여부에 따라 레이어가 정해진 몬스터 투사체는 구분되는 색으로 표시
     public void ApplyColorByLayer()
     {
-        bool isMonsterProjectile = gameObject.layer == LayerMask.NameToLayer("MonsterProjectile");
+        bool isMonsterProjectile = gameObject.layer == MonsterProjectileLayer;
         spriteRenderer.color = isMonsterProjectile ? monsterProjectileColor : originalColor;
     }
 
@@ -66,9 +88,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        Debug.Log($"투사체가 부딪힌 대상: {collision.gameObject.name}");
-
         IDamageable damageable = collision.GetComponent<IDamageable>();
 
         if (damageable != null)

@@ -8,8 +8,6 @@ public class RangedAttackSO : AttackBehaviorSO
 
     public override void Attack(Transform attacker, Transform target)
     {
-        Debug.Log($"Attack 호출됨, Time: {Time.time}");
-
         Projectile projectile = ObjectPoolManager.Instance.Get<Projectile>(ProjectilePrefab);
         projectile.transform.position = attacker.position;
 
@@ -33,7 +31,7 @@ public class RangedAttackSO : AttackBehaviorSO
         projectile.Damage = GetFinalDamage(attacker);
         projectile.Attacker = attacker;
 
-        projectile.gameObject.layer = attacker.CompareTag("Player") ? LayerMask.NameToLayer("PlayerProjectile") : LayerMask.NameToLayer("MonsterProjectile");
+        projectile.gameObject.layer = attacker.CompareTag("Player") ? Projectile.PlayerProjectileLayer : Projectile.MonsterProjectileLayer;
         projectile.ApplyColorByLayer();
     }
 }

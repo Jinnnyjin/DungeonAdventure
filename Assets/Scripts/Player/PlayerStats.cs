@@ -45,8 +45,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         RecalculateStats();
         curHp = maxHealth;
-
-        Debug.Log($"[초기화 완료] 체력: {curHp}/{maxHealth}");
     }
 
     private void OnDisable()
@@ -73,7 +71,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
         // 이동속도
         moveSpeed = baseMoveSpeed * ( 1 + inventory.SumModifiers(StatType.Speed) ) ;
 
-        Debug.Log($"체력: {curHp}/{maxHealth}, 공격력: {attack}, 방어력: {defense}, 이동속도: {moveSpeed}");
         onPlayerStatChangedChannel.Raise();
     }
 
@@ -92,7 +89,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         float realDamage = CalculateDamage(amount);
         curHp -= realDamage;
-        Debug.Log($"플레이어 데미지 받음: {realDamage}, 남은 체력{curHp}");
         onPlayerStatChangedChannel.Raise();
 
         if (curHp <= 0)
