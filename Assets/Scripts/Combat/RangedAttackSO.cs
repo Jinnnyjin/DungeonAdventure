@@ -34,5 +34,6 @@ public class RangedAttackSO : AttackBehaviorSO
         projectile.Attacker = attacker;
 
         projectile.gameObject.layer = attacker.CompareTag("Player") ? LayerMask.NameToLayer("PlayerProjectile") : LayerMask.NameToLayer("MonsterProjectile");
+        projectile.ApplyColorByLayer();
     }
 }

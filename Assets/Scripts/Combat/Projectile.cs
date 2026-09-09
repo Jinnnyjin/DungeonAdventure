@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class Projectile : MonoBehaviour
 {
     public GameObject SourcePrefab;
@@ -9,13 +10,21 @@ public class Projectile : MonoBehaviour
     public float Damage;
     public Transform Attacker;
     [SerializeField] private float maintainTime;
+    [SerializeField] private Color monsterProjectileColor = Color.red;
 
     public static readonly List<Projectile> Active = new List<Projectile>();
 
     private float spawnedTime;
     private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
     private bool isReturned;
 
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
+    }
 
     private void OnEnable()
     {
@@ -23,6 +32,13 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         isReturned = false;
         Active.Add(this);
+    }
+
+    // 몬스터/플레이어 여부에 따라 레이어가 정해진 몬스터 투사체는 구분되는 색으로 표시
+    public void ApplyColorByLayer()
+    {
+        bool isMonsterProjectile = gameObject.layer == LayerMask.NameToLayer("MonsterProjectile");
+        spriteRenderer.color = isMonsterProjectile ? monsterProjectileColor : originalColor;
     }
 
     private void OnDisable()          
