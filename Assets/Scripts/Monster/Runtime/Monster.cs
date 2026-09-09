@@ -29,7 +29,6 @@ public class Monster : MonoBehaviour, IDamageable
         curHp = monsterData.Health;
         rb = GetComponent<Rigidbody2D>();
         monsterAnimator = GetComponent<Animator>();
-        monsterAnimator.SetFloat("ChasingSpeed", monsterData.MoveSpeed);
 
         isDead = false;
         monsterAnimator.ResetTrigger("Died");
