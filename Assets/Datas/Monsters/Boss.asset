@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Boss
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   MonsterName: "\uBCF4\uC2A4\uBAAC\uC2A4\uD130"
+  IsBoss: 1
   Health: 15
   MoveSpeed: 5
   DetectionRange: 7
