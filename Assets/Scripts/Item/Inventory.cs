@@ -156,11 +156,14 @@ public class Inventory : MonoBehaviour
     }
 
     // 아이템 버리기
-    public void DiscardItemAt(int index)
+    public bool DiscardItemAt(int index)
     {
         ItemData item = slots[index];
+        if (item == null) return false;
+
         RemoveItemAt(index);
         onItemDiscardChannel.Raise(item);
+        return true;
     }
 
     // 임시 디버그용 인벤토리 확인 메서드
