@@ -1,8 +1,8 @@
 using UnityEngine;
-using UnityEngine.Splines;
 
 public class PlayerStats : MonoBehaviour, IDamageable
 {
+    private static readonly int PlayerDeathHash = Animator.StringToHash("PlayerDeath");
     [SerializeField] private float baseMaxHealth = 100;
     [SerializeField] private float baseAttack;
     [SerializeField] private float baseDefense;
@@ -14,6 +14,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private float defense;
     private float moveSpeed;
     private bool isDead;
+    private Animator playerAnimator;
+    private HitFlashEffect hitFlashEffect;
 
     private Inventory inventory;
     [SerializeField] private VoidEventChannel onItemEquippedChannel;
@@ -32,6 +34,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private void Awake()
     {
         inventory = GetComponent<Inventory>();
+        playerAnimator = GetComponent<Animator>();
+        hitFlashEffect = GetComponent<HitFlashEffect>();
     }
 
     private void OnEnable()
@@ -41,8 +45,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         RecalculateStats();
         curHp = maxHealth;
-
-        Debug.Log($"[초기화 완료] 체력: {curHp}/{maxHealth}");
     }
 
     private void OnDisable()
@@ -69,7 +71,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
         // 이동속도
         moveSpeed = baseMoveSpeed * ( 1 + inventory.SumModifiers(StatType.Speed) ) ;
 
-        Debug.Log($"체력: {curHp}/{maxHealth}, 공격력: {attack}, 방어력: {defense}, 이동속도: {moveSpeed}");
         onPlayerStatChangedChannel.Raise();
     }
 
@@ -84,14 +85,16 @@ public class PlayerStats : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        hitFlashEffect.Flash();
+
         float realDamage = CalculateDamage(amount);
         curHp -= realDamage;
-        Debug.Log($"플레이어 데미지 받음: {realDamage}, 남은 체력{curHp}");
         onPlayerStatChangedChannel.Raise();
 
         if (curHp <= 0)
         {
             isDead = true;
+            playerAnimator.SetTrigger(PlayerDeathHash);
             onPlayerDeadChannel.Raise();
         }
     }
@@ -99,6 +102,12 @@ public class PlayerStats : MonoBehaviour, IDamageable
     public void ResetStats()
     {
         isDead = false;
+
+        // 사망 애니메이션(PlayerDeath)에 멈춰있는 Animator를 컨트롤러의 기본 상태로 되돌림
+        playerAnimator.ResetTrigger(PlayerDeathHash);
+        playerAnimator.Rebind();
+        playerAnimator.Update(0f);
+
         RecalculateStats();
         curHp = maxHealth;
         onPlayerStatChangedChannel.Raise();

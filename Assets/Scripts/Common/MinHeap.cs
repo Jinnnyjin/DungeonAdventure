@@ -13,6 +13,12 @@ public class MinHeap<T>
 
     public int Count => heap.Count;
 
+    // 힙을 재사용할 때 내부 리스트만 비움 (백킹 배열의 Capacity는 유지되어 재할당 없이 재사용 가능)
+    public void Clear()
+    {
+        heap.Clear();
+    }
+
     public void Enqueue(T item, int priority)
     {
         HeapNode node = new HeapNode { Item = item, Priority = priority  };

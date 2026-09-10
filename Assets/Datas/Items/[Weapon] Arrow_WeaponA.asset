@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db84aef4ccc21bc4f8b168e63adc4bce, type: 3}
+  m_Name: '[Weapon] Arrow_WeaponA'
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  ItemName: "\uC77C\uBC18 \uD654\uC0B4"
+  Icon: {fileID: 21300000, guid: f767ef571cfb81c4a9d7099f2b9b8b98, type: 3}
+  SlotType: 0
+  RequiredJob: 2
+  StatModifiers:
+  - Type: 0
+    Value: 8
+  WeaponBehavior: {fileID: 11400000, guid: df2f7d9b151718247bd68e3b6acc0e8d, type: 2}

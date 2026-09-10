@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7493125597445848837}
   - component: {fileID: -6641002103517345696}
   - component: {fileID: -5529334370754349131}
+  - component: {fileID: 8018121919027136813}
+  - component: {fileID: -3290413585181930951}
   m_Layer: 6
   m_Name: '[Ranged]A'
   m_TagString: Untagged
@@ -106,11 +108,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021a426cdd63acf4fb289caaff2bac26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
+  deathAnimationDuration: 1
   monsterData: {fileID: 11400000, guid: 4b3560df0ed9fa843acd3ec7d66bce46, type: 2}
-  dungeonRenderer: {fileID: 0}
+  roomClearChannel: {fileID: 0}
   spawner: {fileID: 0}
   sourcePrefab: {fileID: 0}
   playerTransform: {fileID: 0}
+  onMonsterKilledChannel: {fileID: 0}
 --- !u!50 &-6641002103517345696
 Rigidbody2D:
   serializedVersion: 5
@@ -136,7 +140,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &-5529334370754349131
 CapsuleCollider2D:
@@ -175,3 +179,39 @@ CapsuleCollider2D:
   m_Offset: {x: -0.016581535, y: 0.4}
   m_Size: {x: 0.8392391, y: 0.8}
   m_Direction: 0
+--- !u!95 &8018121919027136813
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5856303156211705400}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 95e3a352ab2ac1b4493bf0b9087bc8c1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3290413585181930951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5856303156211705400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e002d5fe649e93c4e9821f1b5a6a8b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  duration: 0.15

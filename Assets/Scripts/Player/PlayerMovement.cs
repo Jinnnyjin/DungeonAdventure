@@ -2,17 +2,23 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private PlayerRoomTracker roomDistanceFieldManager;
 
-    // TODO : 추후 플레이어 스탯과 연동 예정
-    [SerializeField] private float moveSpeed;
+    private static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
     public Vector2 LastMoveDir {  get; private set; }
 
+    private PlayerStats playerStats;
     private Rigidbody2D playerRb;
     private PlayerInputActions playerInput;
+    private Animator playerAnimator;
+    private SpriteRenderer playerSpriteRenderer;
 
     void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        playerAnimator = GetComponent<Animator>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
+        playerStats = GetComponent<PlayerStats>();
     }
 
     private void Start()
@@ -24,7 +30,15 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 moveInput = playerInput.Player.Move.ReadValue<Vector2>();
 
-        Vector2 velocity = moveInput * moveSpeed ;
+        if (moveInput.x > 0) playerSpriteRenderer.flipX = false;
+        else if (moveInput.x < 0) playerSpriteRenderer.flipX = true;
+
+        float speedMultiplier = roomDistanceFieldManager.CurrentPlayerTile == TileType.Rough
+                                ? RoomTileGrid.ROUGH_SPEED_MULTIPLIER : 1f;
+
+        Vector2 velocity = moveInput * playerStats.MoveSpeed * speedMultiplier;
+
+        playerAnimator.SetBool(IsRunningHash, velocity != Vector2.zero);
 
         playerRb.linearVelocity = velocity;
 

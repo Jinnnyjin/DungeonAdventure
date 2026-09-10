@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd510006d872eeb4c8e580066644e945, type: 3}
+  m_Name: RangeMonsterB
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  MonsterName: "\uC6D0\uAC70\uB9AC"
+  IsBoss: 0
+  Health: 10
+  MoveSpeed: 3
+  DetectionRange: 4
+  AttackBehavior: {fileID: 11400000, guid: 6adb58885ad3802448968ce26d38d899, type: 2}
+  DropTable:
+  - Item: {fileID: 11400000, guid: ec901a3e66d387143ba3e1db71d5efc1, type: 2}
+    DropWeight: 1
+  - Item: {fileID: 11400000, guid: cdbc2ba37ed333142aad1f7ccf994948, type: 2}
+    DropWeight: 0.5
+  - Item: {fileID: 11400000, guid: 7ea7eb79673cc5947b9bbb290ea69bb3, type: 2}
+    DropWeight: 1
+  - Item: {fileID: 11400000, guid: 84bc077421b24924bbc928edcabf83cc, type: 2}
+    DropWeight: 0.5
+  - Item: {fileID: 11400000, guid: d5cd5b9c42bc7a14e8eb21e7312b4f0a, type: 2}
+    DropWeight: 1
+  - Item: {fileID: 11400000, guid: 25be804b5a4586642ba06c83b02c2e07, type: 2}
+    DropWeight: 1
+  - Item: {fileID: 11400000, guid: 17a8a112a2167014b91e9a2266d9a36a, type: 2}
+    DropWeight: 1
+  - Item: {fileID: 11400000, guid: c01ba38e45d662a4291c9edc12042d1e, type: 2}
+    DropWeight: 1
+  - Item: {fileID: 11400000, guid: 09c0eccf823b7114e9c96f426df25d21, type: 2}
+    DropWeight: 1
+  - Item: {fileID: 11400000, guid: 0e2ddc0a05b24ca46bc7eb3dc5ece8cc, type: 2}
+    DropWeight: 0.5

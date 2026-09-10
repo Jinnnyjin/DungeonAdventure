@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: Boss
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   MonsterName: "\uBCF4\uC2A4\uBAAC\uC2A4\uD130"
-  Health: 15
-  MoveSpeed: 5
+  IsBoss: 1
+  Health: 80
+  MoveSpeed: 4
   DetectionRange: 7
   AttackBehavior: {fileID: 11400000, guid: 636efae62dab2474c8a87361feeb61a1, type: 2}
   DropTable:
-  - Item: {fileID: 11400000, guid: f6b449fcc8c56d347ab5c528c01f1cd1, type: 2}
+  - Item: {fileID: 11400000, guid: 84bc077421b24924bbc928edcabf83cc, type: 2}
+    DropWeight: 1
+  - Item: {fileID: 11400000, guid: cdbc2ba37ed333142aad1f7ccf994948, type: 2}
+    DropWeight: 1
+  - Item: {fileID: 11400000, guid: 0e2ddc0a05b24ca46bc7eb3dc5ece8cc, type: 2}
     DropWeight: 1

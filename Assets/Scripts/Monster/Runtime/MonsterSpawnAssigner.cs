@@ -28,11 +28,11 @@ public class MonsterSpawnAssigner
         this.bossRoomRatio = bossRoomRatio;
     }
 
-    public void AssignMonsters(DungeonGraph graph, DungeonRenderer renderer)
+    public void AssignMonsters(DungeonGraph graph, RoomRuntimeRegistry roomRegistry)
     {
         foreach(var room in graph.AllRooms)
         {
-            RoomRuntimeData runtimeData = renderer.GetRoomRuntimeData(room.Id);
+            RoomRuntimeData runtimeData = roomRegistry.Get(room.Id);
 
             switch (room.Type)
             {
