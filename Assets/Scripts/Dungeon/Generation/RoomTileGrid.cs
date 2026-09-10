@@ -37,7 +37,7 @@ public class RoomTileGrid
     {
         int nonWallCount = 0; 
         
-        // Wall개수 구하기
+        // 1) "이론적으로 도달해야하는 칸" 개수 정하기 => Wall이 아닌 칸 (Normal + Rough 타일)
         for (int x = 0; x < Width; x++)
         {
             for (int y = 0; y < Height; y++)
@@ -48,24 +48,35 @@ public class RoomTileGrid
         }
 
         // 시작점부터 BFS 돌리기, WALL 제외 모두 닿을 수 있는지
+
+        // 2) BFS 준비
+        // 이미 가본 곳 = visited         가야할 곳 = position
         HashSet<Vector2Int> visited = new HashSet<Vector2Int> ();
         Queue<Vector2Int> position = new Queue<Vector2Int>();
 
+        // 3) 시작점 (문 좌표)을 방문 처리 후 대기열
         visited.Add(startPos);
         position.Enqueue(startPos);
 
+        // 4) 대기열이 전부 빌때까지  => 더이상 가 볼 곳이 없음
         while (position.Count > 0)
         {
+
+            // 5) 대기열에서 꺼냄 => FIFO라 가까운칸 먼저
             Vector2Int curPos = position.Dequeue();
             
+            // 6) 현재 칸 기준 4방향 모두 확인
             foreach (Vector2Int dir in GridDirections.Direction)
             {
                 Vector2Int nextPos = curPos + dir;
-                // 조건 : 그리드 범위 안, wall이 아님, 아직 안가봄 
+                
+                // 7) 이웃하는 칸이 갈수 있는 곳인지 확인
+                // 조건 : 그리드 범위 안, wall이 아님, 아직 안가봄
                 bool condition = nextPos.x < Width && nextPos.x >= 0 && nextPos.y < Height && nextPos.y >= 0
                     && GetTile(nextPos)!= TileType.Wall
                     && !visited.Contains(nextPos);
 
+                // 8) 해당 조건에 통과 => 방문 처리 및 대기열에 추가
                 if(condition)
                 {
                     visited.Add(nextPos);
@@ -74,6 +85,7 @@ public class RoomTileGrid
             }
         }
 
+        // 9) 1에서 구한 칸 수와 방문한 칸수가 같다면 고립 구역 없음 판정
         return visited.Count == nonWallCount;
     }
 
@@ -113,34 +125,43 @@ public class RoomTileGrid
         throw new InvalidOperationException("방 안에 Normal 타일이 존재하지 않습니다.");
     }
 
+    // 재계산마다 새로 할당하지 않고 재사용하는 버퍼 (방 하나당 한 번만 할당됨)
+    private int[,] distancesBuffer;
+    private bool[,] visitedBuffer;
+    private readonly MinHeap<Vector2Int> heapBuffer = new MinHeap<Vector2Int>();
+
     // Dijkstra 알고리즘
     public int[,] ComputeDistanceField(Vector2Int fromPos)
     {
-        int[,] distances = new int[Width, Height];
+        if (distancesBuffer == null)
+        {
+            distancesBuffer = new int[Width, Height];
+            visitedBuffer = new bool[Width, Height];
+        }
 
         // 거리 초기화 -> 무한대로
         for (int x = 0; x < Width; x++)
         {
             for (int y = 0; y < Height; y++)
             {
-                distances[x, y] = int.MaxValue;
+                distancesBuffer[x, y] = int.MaxValue;
             }
         }
-        bool[,] visited = new bool[Width, Height];
-        MinHeap<Vector2Int> heap = new MinHeap<Vector2Int>();
+        Array.Clear(visitedBuffer, 0, visitedBuffer.Length);
+        heapBuffer.Clear();
 
-        distances[fromPos.x, fromPos.y] = 0;
-        heap.Enqueue(fromPos, 0);
+        distancesBuffer[fromPos.x, fromPos.y] = 0;
+        heapBuffer.Enqueue(fromPos, 0);
 
         // 힙이 빌때까지
-        while (heap.Count > 0)
+        while (heapBuffer.Count > 0)
         {
-            Vector2Int curPos = heap.Dequeue();
+            Vector2Int curPos = heapBuffer.Dequeue();
 
             // 이미 방문한 노드인지, 아니라면 이제 방문 체크
-            if (visited[curPos.x, curPos.y]) continue;
-            visited[curPos.x, curPos.y] = true;
-            
+            if (visitedBuffer[curPos.x, curPos.y]) continue;
+            visitedBuffer[curPos.x, curPos.y] = true;
+
             // 4방향으로 이동
             foreach(var dir in GridDirections.Direction)
             {
@@ -154,18 +175,18 @@ public class RoomTileGrid
                     int moveCost = GetTile(nextPos) == TileType.Normal ? NORMAL_COST : ROUGH_COST;
 
                     // new거리 = 현 타일 + 이동비용
-                    int newDist = distances[curPos.x, curPos.y] + moveCost;
-                    if (newDist < distances[nextPos.x, nextPos.y])
+                    int newDist = distancesBuffer[curPos.x, curPos.y] + moveCost;
+                    if (newDist < distancesBuffer[nextPos.x, nextPos.y])
                     {
-                        distances[nextPos.x, nextPos.y] = newDist;
-                        heap.Enqueue(nextPos, newDist);
+                        distancesBuffer[nextPos.x, nextPos.y] = newDist;
+                        heapBuffer.Enqueue(nextPos, newDist);
                     }
-                    
+
                 }
             }
         }
 
-        return distances;
+        return distancesBuffer;
     }
 
     public bool IsSpawnable(Vector2Int pos)
