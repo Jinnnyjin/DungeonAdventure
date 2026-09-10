@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74c7fc20de15de4da7a633463a79f46, type: 3}
   m_Name: ArcherAttack
   m_EditorClassIdentifier: Assembly-CSharp::RangedAttackSO
-  AttackRange: 5
+  AttackRange: 3
   Damage: 0
   Cooldown: 1
   IsSingleTarget: 1

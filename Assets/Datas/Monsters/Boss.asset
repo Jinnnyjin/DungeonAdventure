@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   MonsterName: "\uBCF4\uC2A4\uBAAC\uC2A4\uD130"
   IsBoss: 1
-  Health: 15
-  MoveSpeed: 5
+  Health: 80
+  MoveSpeed: 4
   DetectionRange: 7
   AttackBehavior: {fileID: 11400000, guid: 636efae62dab2474c8a87361feeb61a1, type: 2}
   DropTable:

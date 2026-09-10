@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: RangeMonsterB
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   MonsterName: "\uC6D0\uAC70\uB9AC"
+  IsBoss: 0
   Health: 10
   MoveSpeed: 3
-  DetectionRange: 7
+  DetectionRange: 4
   AttackBehavior: {fileID: 11400000, guid: 6adb58885ad3802448968ce26d38d899, type: 2}
   DropTable:
   - Item: {fileID: 11400000, guid: ec901a3e66d387143ba3e1db71d5efc1, type: 2}

@@ -18,4 +18,5 @@ MonoBehaviour:
   RequiredJob: 0
   StatModifiers:
   - Type: 2
-    Value: 2
+    Value: 1
+  WeaponBehavior: {fileID: 0}
