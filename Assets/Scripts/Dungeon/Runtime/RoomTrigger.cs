@@ -16,7 +16,6 @@ public class RoomTrigger : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             roomEventChannel.Raise(EnteringRoom);
-            Debug.Log($"방 입장: {EnteringRoom.Id}");
 
             RoomRuntimeData runtimeData = roomRegistry.Get(EnteringRoom.Id);
 
