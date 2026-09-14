@@ -124,25 +124,25 @@ public class Inventory : MonoBehaviour
         switch(slotType)
         {
             case EquipmentSlotType.Weapon:
-                return UnequipSlot(() => equippedWeapon, v => equippedWeapon = v, "무기");
+                return UnequipSlot(() => equippedWeapon, v => equippedWeapon = v);
 
             case EquipmentSlotType.Armor:
-                return UnequipSlot(() => equippedArmor, v => equippedArmor = v, "방어구");
+                return UnequipSlot(() => equippedArmor, v => equippedArmor = v);
 
             case EquipmentSlotType.Accessory:
-                return UnequipSlot(() => equippedAccessory, v => equippedAccessory = v, "악세사리");
+                return UnequipSlot(() => equippedAccessory, v => equippedAccessory = v);
 
             default:
                 throw new ArgumentException($"알 수 없는 슬롯 타입: {slotType}");
         }
     }
 
-    private bool UnequipSlot(Func<ItemData> getEquipped, Action<ItemData> setEquipped, string slotName)
+    private bool UnequipSlot(Func<ItemData> getEquipped, Action<ItemData> setEquipped)
     {
         ItemData equipped = getEquipped();
         if (equipped == null)
         {
-            throw new InvalidOperationException($"{slotName} 장비 창에 착용한 장비가 없습니다.");
+            return false;
         }
 
         if (!TryAddItem(equipped))
@@ -164,16 +164,6 @@ public class Inventory : MonoBehaviour
         RemoveItemAt(index);
         onItemDiscardChannel.Raise(item);
         return true;
-    }
-
-    // 임시 디버그용 인벤토리 확인 메서드
-    public void LogInventoryState()
-    {
-        for (int i = 0; i < slots.Length; i++)
-        {
-            string itemName = slots[i] == null ? "비어있음" : slots[i].ItemName;
-            Debug.Log($"슬롯 {i}: {itemName}");
-        }
     }
 
     // 스탯 재계산

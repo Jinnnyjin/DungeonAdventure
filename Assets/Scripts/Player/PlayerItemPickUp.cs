@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerItemPickUp : MonoBehaviour
 {
@@ -22,28 +21,15 @@ public class PlayerItemPickUp : MonoBehaviour
         {
             TryPickUp();
         }
-
-        // 임시 디버그용
-        if (Keyboard.current.iKey.wasPressedThisFrame)
-        {
-            inventory.LogInventoryState();
-        }
     }
 
     private void TryPickUp()
     {
-        Debug.Log("TryPickUp 호출됨");
-
-        int mask = LayerMask.GetMask("Item");
-        Debug.Log($"Item 레이어 마스크 값: {mask}");
-
         ContactFilter2D contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(LayerMask.GetMask("Item"));
         contactFilter.useTriggers = true;
-        Debug.Log($"useLayerMask: {contactFilter.useLayerMask}, layerMask: {contactFilter.layerMask.value}");
 
         int itemCount = Physics2D.OverlapCircle(transform.position, pickUpRange, contactFilter, hitBuffer);
-        Debug.Log($"itemCount: {itemCount}");
 
         if (itemCount == 0) return;
 
