@@ -27,4 +27,9 @@ public class TitleUIController : MonoBehaviour
         selectJobPanel.SetActive(true);
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 }
