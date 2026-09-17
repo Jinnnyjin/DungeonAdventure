@@ -13,6 +13,7 @@ public class DungeonCycleManager : MonoBehaviour
 
     [SerializeField] private VoidEventChannel onPlayerDeadChannel;
     [SerializeField] private RoomEventChannel onRoomClearChannel;
+    [SerializeField] private VoidEventChannel onGameWinChannel;
 
 
     private void Awake()
@@ -64,6 +65,7 @@ public class DungeonCycleManager : MonoBehaviour
         if (room.Type == RoomType.Boss)
         {
             string message = "Win!!";
+            onGameWinChannel.Raise();
             DisplayResult(message);
         }
     }

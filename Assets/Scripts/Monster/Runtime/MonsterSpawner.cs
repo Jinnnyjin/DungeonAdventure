@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class MonsterSpawner : MonoBehaviour
 {
     [SerializeField] private int minDistance;
-    [SerializeField] private OnMonsterKilledChannel onMonsterKilledChannel;
+    [SerializeField] private MonsterDeathInfoEventChannel onMonsterKilledChannel;
 
 
     public Monster SpawnMonster(GameObject monsterPrefab, Vector3 worldPos)

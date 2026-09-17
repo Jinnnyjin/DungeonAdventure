@@ -3,7 +3,7 @@ using UnityEngine;
 public class DropSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject prefab;
-    [SerializeField] private OnMonsterKilledChannel onMonsterKilledChannel;
+    [SerializeField] private MonsterDeathInfoEventChannel onMonsterKilledChannel;
 
     private void OnEnable()
     {

@@ -22,6 +22,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
     [SerializeField] private VoidEventChannel onItemUnequippedChannel;
     [SerializeField] private VoidEventChannel onPlayerStatChangedChannel;
     [SerializeField] private VoidEventChannel onPlayerDeadChannel;
+    [SerializeField] private VoidEventChannel onPlayerHitChannel;
 
     public float CurHp => curHp;
     public float MaxHealth => maxHealth;
@@ -86,6 +87,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
         if (isDead) return;
 
         hitFlashEffect.Flash();
+        onPlayerHitChannel.Raise();
 
         float realDamage = CalculateDamage(amount);
         curHp -= realDamage;

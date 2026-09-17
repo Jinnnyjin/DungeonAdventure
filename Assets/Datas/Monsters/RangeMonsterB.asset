@@ -39,3 +39,6 @@ MonoBehaviour:
     DropWeight: 1
   - Item: {fileID: 11400000, guid: 0e2ddc0a05b24ca46bc7eb3dc5ece8cc, type: 2}
     DropWeight: 0.5
+  AttackClip: {fileID: 8300000, guid: 2ea2686281eec4b41b7e586f14127f4a, type: 3}
+  HitClip: {fileID: 8300000, guid: 2703ac579dfbb3a4f967e2da3e286973, type: 3}
+  DeathClip: {fileID: 8300000, guid: f7c113ed76aaf2747aeafeebb9a8ab2f, type: 3}

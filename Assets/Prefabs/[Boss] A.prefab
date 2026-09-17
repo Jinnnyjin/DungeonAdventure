@@ -114,7 +114,9 @@ MonoBehaviour:
   spawner: {fileID: 0}
   sourcePrefab: {fileID: 0}
   playerTransform: {fileID: 0}
-  onMonsterKilledChannel: {fileID: 0}
+  onMonsterKilledChannel: {fileID: 11400000, guid: b800cf3309299404eb5fb7a29d6ff995, type: 2}
+  onMonsterAttackChannel: {fileID: 11400000, guid: 1351eb48c74cb184c88438cb5e9c7fa7, type: 2}
+  onMonsterHitChannel: {fileID: 11400000, guid: 3ca7a23ec4361194cb9e2ed3d9cbe364, type: 2}
 --- !u!50 &5748093232816207297
 Rigidbody2D:
   serializedVersion: 5

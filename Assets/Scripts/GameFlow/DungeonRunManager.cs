@@ -21,6 +21,7 @@ public class DungeonRunManager : MonoBehaviour
 
     [Header("이벤트 채널")]
     [SerializeField] private RoomEventChannel roomEnteredChannel;
+    [SerializeField] private VoidEventChannel onDungeonStartChannel;
 
     [Header("플레이어")]
     [SerializeField] private Inventory playerInventory;
@@ -82,6 +83,7 @@ public class DungeonRunManager : MonoBehaviour
         playerAnimator.runtimeAnimatorController = GameSession.SelectedJob == JobType.Warrior ? warriorController : archerController;
 
         roomEnteredChannel.Raise(startRoom);
+        onDungeonStartChannel.Raise();
 
     }
 }

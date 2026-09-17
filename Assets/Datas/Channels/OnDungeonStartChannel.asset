@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3f156787b4d67b4a8dba720bd4f9334, type: 3}
-  m_Name: RoomEnteredChannel
-  m_EditorClassIdentifier: Assembly-CSharp::RoomEventChannel
+  m_Script: {fileID: 11500000, guid: 6f900794e4bb3eb49ae7eb686bd01cf8, type: 3}
+  m_Name: OnDungeonStartChannel
+  m_EditorClassIdentifier: Assembly-CSharp::VoidEventChannel

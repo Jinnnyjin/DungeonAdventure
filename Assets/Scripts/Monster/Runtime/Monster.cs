@@ -13,7 +13,9 @@ public class Monster : MonoBehaviour, IDamageable
     public MonsterSpawner spawner;
     public GameObject sourcePrefab;
     public Transform playerTransform;
-    public OnMonsterKilledChannel onMonsterKilledChannel;
+    public MonsterDeathInfoEventChannel onMonsterKilledChannel;
+    public MonsterEventChannel onMonsterAttackChannel;
+    public MonsterEventChannel onMonsterHitChannel;
 
     private Rigidbody2D rb;
     private int curHp;
@@ -96,6 +98,7 @@ public class Monster : MonoBehaviour, IDamageable
         {
             monsterData.AttackBehavior.Attack(transform, playerTransform);
             monsterAnimator.SetTrigger("EnemyAttack");
+            onMonsterAttackChannel.Raise(monsterData);
             lastAttackTime = Time.time;
         }
     }
@@ -142,6 +145,7 @@ public class Monster : MonoBehaviour, IDamageable
         if (isDead) return;
 
         hitFlashEffect.Flash();
+        onMonsterHitChannel.Raise(monsterData);
 
         curHp -= amount;
 

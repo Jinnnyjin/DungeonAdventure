@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MeleeMonsterA
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   MonsterName: "\uADFC\uC811"
+  IsBoss: 0
   Health: 10
   MoveSpeed: 3
   DetectionRange: 2
@@ -38,3 +39,6 @@ MonoBehaviour:
     DropWeight: 1
   - Item: {fileID: 11400000, guid: 0e2ddc0a05b24ca46bc7eb3dc5ece8cc, type: 2}
     DropWeight: 0.5
+  AttackClip: {fileID: 8300000, guid: c27f66fb4fd1f324d9c346f8f13503cc, type: 3}
+  HitClip: {fileID: 8300000, guid: f4dc00a3af9749348ac766bccd8b43fd, type: 3}
+  DeathClip: {fileID: 8300000, guid: 444e6ee651708c24a9687222caf910f2, type: 3}

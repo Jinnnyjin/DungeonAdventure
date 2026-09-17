@@ -13,6 +13,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Inventory inventory;
     [SerializeField] private VoidEventChannel onItemEquippedChannel;
     [SerializeField] private VoidEventChannel onItemUnequippedChannel;
+    [SerializeField] private VoidEventChannel onPlayerAttackChannel;
 
     private Animator playerAnimator;
 
@@ -64,6 +65,7 @@ public class PlayerAttack : MonoBehaviour
         if (attackBehavior == null) return;
 
         playerAnimator.SetTrigger(PlayerAttackHash);
+        onPlayerAttackChannel.Raise();
 
         // 싱글타겟 공격
         if(attackBehavior.IsSingleTarget)

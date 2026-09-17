@@ -21,4 +21,9 @@ public class MonsterData : ScriptableObject
 
     public List<DropEntry> DropTable;
 
+    [Header("사운드")]
+    public AudioClip AttackClip;
+    public AudioClip HitClip;
+    public AudioClip DeathClip;
+
 }

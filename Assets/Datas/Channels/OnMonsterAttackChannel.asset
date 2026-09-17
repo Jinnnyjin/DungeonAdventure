@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3f156787b4d67b4a8dba720bd4f9334, type: 3}
-  m_Name: RoomClearedChannel
-  m_EditorClassIdentifier: Assembly-CSharp::RoomEventChannel
+  m_Script: {fileID: 11500000, guid: 19e4ec175b84dc546bbc6af2a2c8c71b, type: 3}
+  m_Name: OnMonsterAttackChannel
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterEventChannel
