@@ -2422,7 +2422,8 @@ PrefabInstance:
       value: SetSFXVolume
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3919047705758041722, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}

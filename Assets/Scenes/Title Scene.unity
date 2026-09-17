@@ -3600,14 +3600,70 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 653967438}
     m_Modifications:
+    - target: {fileID: 142864361910406976, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 142864361910406976, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 142864361910406976, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2821861404502132475, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
       propertyPath: m_Name
       value: SettingsPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821861404502132475, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246350608474008140, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246350608474008140, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5281131389596180512, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5281131389596180512, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6568532076377925845, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1677584983}
+    - target: {fileID: 6661514176883284007, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661514176883284007, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661514176883284007, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216770443414150216, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216770443414150216, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216770443414150216, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8291439610777592628, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3688,6 +3744,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8486794246487199263, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8486794246487199263, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8956988927815976213, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3697,7 +3761,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1677584983}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3919047705758041722, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 381baaf6ca0db2a4089f9e184f0ec1dc, type: 3}
