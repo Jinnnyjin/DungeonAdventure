@@ -1,7 +1,7 @@
 # DungeonAdventure
 
 
-<img width="1264" height="708" alt="image" src="https://github.com/user-attachments/assets/6e1d46d7-e46e-47a8-bb26-51d29cc74996" />
+<img width="1278" height="721" alt="image" src="https://github.com/user-attachments/assets/58e57475-6793-47c2-935b-9a8e33773532" />
 
 랜덤으로 생성되는 던전을 탐험하고 몬스터를 처치하는 2D 탑다운 로그라이크
 
@@ -14,6 +14,7 @@
 | 이름 | Dungeon Adventure |
 | 장르 | 2D 탑다운 로그라이크 |
 | 개발 기간 | 2026.08.27~2026.09.10 |
+| 1차 수정 기간 | 2026.09.14~2026.09.17 |
 | 개발 인원 | 1인 |
 | 엔진 | Unity 6000.3.6f1 |
 
@@ -27,9 +28,9 @@
 
 | 키 | 동작 |
 |---|---|
-| `W` `A` `S` `D` | 이동 |
-| `J` | 공격 |
-| `K` | 아이템 줍기 |
+| `↑` `↓` `←` `→` | 이동 |
+| `A` | 공격 |
+| `S` | 아이템 줍기 |
 | `I` | 인벤토리 열기/닫기 |
 | 마우스 좌클릭 | 장비 장착/해제 |
 | 마우스 우클릭 | 아이템 버리기 |
